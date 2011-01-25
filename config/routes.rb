@@ -1,5 +1,5 @@
 PersonalLog::Application.routes.draw do
-  get "users/new"
+  resources :users  
 
   root :to => 'pages#home'
   match '/signup',  :to => 'users#new'
