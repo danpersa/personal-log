@@ -12,5 +12,6 @@ end
 
 Factory.define :micropost do |micropost|
   micropost.content "Foo bar"
+  micropost.reminder_date Time.now.tomorrow
   micropost.association :user
 end

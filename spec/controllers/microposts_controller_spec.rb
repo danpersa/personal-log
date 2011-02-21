@@ -43,7 +43,7 @@ describe MicropostsController do
     describe "success" do
         
       before(:each) do
-        @attr = { :content => "Lorem ipsum" }
+        @attr = { :content => "Lorem ipsum", :reminder_date => Time.now.tomorrow }
       end
        
       it "should create a micropost" do

@@ -29,9 +29,11 @@ describe "Microposts" do
 
       it "should make a new micropost" do
         content = "Lorem ipsum dolor sit amet"
+        reminder_date_year = Time.now.year.next
         lambda do
           visit root_path
           fill_in :micropost_content, :with => content
+          fill_in :micropost_reminder_date_1i, :with => reminder_date_year
           click_button
           response.should have_selector("span.content", :content => content)
         end.should change(Micropost, :count).by(1)

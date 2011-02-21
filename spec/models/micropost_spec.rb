@@ -4,11 +4,15 @@ describe Micropost do
 
   before(:each) do
     @user = Factory(:user)
-    @attr = { :content => "value for content" }
+    @attr = { :content => "value for content", :reminder_date => Time.now.tomorrow }
   end
 
   it "should create a new instance given valid attributes" do
     @user.microposts.create!(@attr)
+  end
+  
+  it "should have a reminder date attribute" do
+    Micropost.new(@attr).should respond_to(:reminder_date)
   end
 
   describe "user associations" do
@@ -34,21 +38,34 @@ describe Micropost do
     end
 
     it "should require nonblank content" do
-      @user.microposts.build(:content => "  ").should_not be_valid
+      @user.microposts.build(@attr.merge(:content => "  ")).should_not be_valid
     end
 
     it "should reject long content" do
-      @user.microposts.build(:content => "a" * 141).should_not be_valid
+      @user.microposts.build(@attr.merge(:content => "a" * 141)).should_not be_valid
     end
+    
+    it "should require a reminder date" do
+      @user.microposts.build(@attr.merge(:reminder_date => nil)).should_not be_valid
+    end
+    
+    it "should require reminder date that is not in the past" do
+      @user.microposts.build(@attr.merge(:reminder_date => 2.days.ago)).should_not be_valid
+    end
+    
+    it "should require a future reminder date" do
+      @user.microposts.build(@attr.merge(:reminder_date => Time.now.tomorrow)).should be_valid
+    end
+  
   end
 
   describe "from_users_followed_by" do
     before(:each) do
       @other_user = Factory(:user, :email => Factory.next(:email))
       @third_user = Factory(:user, :email => Factory.next(:email))
-      @user_post = @user.microposts.create!(:content => "foo")
-      @other_post = @other_user.microposts.create!(:content => "bar")
-      @third_post = @third_user.microposts.create!(:content => "baz")
+      @user_post = @user.microposts.create!(@attr.merge(:content => "foo"))
+      @other_post = @other_user.microposts.create!(@attr.merge(:content => "bar"))
+      @third_post = @third_user.microposts.create!(@attr.merge(:content => "baz"))
       @user.follow!(@other_user)
     end
     it "should have a from_users_followed_by class method" do

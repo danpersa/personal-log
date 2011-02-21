@@ -25,19 +25,21 @@ def make_users
     :password => password,
     :password_confirmation => password)
   end
+  
 end
 
 def make_microposts
   User.all(:limit => 6).each do |user|
     50.times do
-      content = Faker::Lorem.sentence(5)
-      user.microposts.create!(:content => content)
+      content = Faker::Lorem.sentence(5).downcase.chomp(".")
+      reminder_date = Time.now.tomorrow
+      user.microposts.create!(:content => content, :reminder_date => reminder_date)
     end
   end
 end
 
 def make_relationships
-  users = User.all
+  users = User.all(:limit => 70)
   user = users.first
   following = users[1..50]
   followers = users[3..40]
