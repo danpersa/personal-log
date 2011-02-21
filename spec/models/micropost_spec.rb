@@ -3,7 +3,8 @@ require 'spec_helper'
 describe Micropost do
 
   before(:each) do
-    @user = Factory(:user)
+    @reminder = Factory(:reminder)
+    @user = @reminder.micropost.user
     @attr = { :content => "value for content" }
   end
 
@@ -24,6 +25,22 @@ describe Micropost do
     it "should have the right associated user" do
       @micropost.user_id.should == @user.id
       @micropost.user.should == @user
+    end
+  end
+
+  describe "reminder associations" do
+
+    before(:each) do
+      @micropost = @user.microposts.create(@attr)
+      @reminder = Reminder.create(:reminder_date => 1.days.ago, :micropost => @micropost)
+    end
+
+    it "should have a reminder attribute" do
+      @micropost.should respond_to(:reminder)
+    end
+
+    it "should have the right associated reminder" do
+      @micropost.reminder.should == @reminder
     end
   end
 

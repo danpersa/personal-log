@@ -1,0 +1,5 @@
+class MicropostWithReminderController < ApplicationController
+  
+  
+  
+end
