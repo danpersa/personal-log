@@ -8,6 +8,7 @@ gem "will_paginate", "3.0.pre2"
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
+gem 'faker'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -32,12 +33,10 @@ gem 'mysql2'
 group :development do
   gem 'rspec-rails'
   gem 'annotate-models'
-  gem 'faker'
 end
 
 group :test do
   gem 'rspec'
   gem 'webrat'
   gem 'factory_girl_rails'
-  gem 'faker'
 end
