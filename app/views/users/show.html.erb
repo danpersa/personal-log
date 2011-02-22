@@ -7,6 +7,7 @@
       </h1>
       <%= render 'follow_form' if signed_in? %>
       <% unless @user.microposts.empty? %>
+        <h3 class="micropost">...wants to remind to...</h3>
         <table class="microposts" summary="User microposts">
           <%= render @microposts %>
         </table>
