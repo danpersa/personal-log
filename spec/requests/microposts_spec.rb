@@ -15,6 +15,7 @@ describe "Microposts" do
     describe "failure" do
 
       it "should not make a new micropost" do
+        create_privacies
         lambda do
           visit root_path
           fill_in :micropost_content, :with => ""
@@ -26,6 +27,11 @@ describe "Microposts" do
     end
 
     describe "success" do
+      
+      before(:each) do
+        Privacy.create(:name => "public")
+        Privacy.create(:name => "private")
+      end
 
       it "should make a new micropost" do
         content = "Lorem ipsum dolor sit amet"
@@ -34,6 +40,7 @@ describe "Microposts" do
           visit root_path
           fill_in :micropost_content, :with => content
           fill_in :micropost_reminder_date_1i, :with => reminder_date_year
+          select "public", :from => "micropost_privacy_id"
           click_button
           response.should have_selector("span.content", :content => content)
         end.should change(Micropost, :count).by(1)

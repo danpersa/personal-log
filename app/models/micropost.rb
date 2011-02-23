@@ -1,11 +1,13 @@
 class Micropost < ActiveRecord::Base
-  attr_accessible :content, :reminder_date
+  attr_accessible :content, :reminder_date, :privacy, :privacy_id
 
   belongs_to :user
+  belongs_to :privacy
 
   validates :content, :presence => true, :length => { :maximum => 140 }
   validates :reminder_date, :presence => true
   validates :user_id, :presence => true
+  validates :privacy_id, :presence => true
   validate :reminder_date_cannot_be_in_the_past
 
   default_scope :order => 'microposts.created_at DESC'
@@ -28,7 +30,8 @@ class Micropost < ActiveRecord::Base
   # We include the user's own id as well.
   def self.followed_by(user)
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
-    where("user_id IN (#{followed_ids}) OR user_id = :user_id", { :user_id => user })
+    public_privacy_id = Privacy.find_by_name("public").id
+    where("(user_id IN (#{followed_ids} AND privacy_id = #{public_privacy_id})) OR user_id = :user_id", { :user_id => user })
   end
 
 end

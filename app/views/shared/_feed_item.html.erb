@@ -12,10 +12,13 @@
     </span>
   </td>
   <% if current_user?(feed_item.user) %>
-  <td>
+  <td class="micropost">
     <%= link_to "delete", feed_item, :method => :delete,
                                      :confirm => "You sure?",
                                      :title => feed_item.content %>
+    <%= feed_item.privacy.name %>
   </td>
+  <% else %>
+  <td class="micropost"></td>
   <% end %>
 </tr>

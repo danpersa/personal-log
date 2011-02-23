@@ -14,4 +14,9 @@ Factory.define :micropost do |micropost|
   micropost.content "Foo bar"
   micropost.reminder_date Time.now.tomorrow
   micropost.association :user
+  micropost.association :privacy
+end
+
+Factory.define :privacy do |privacy|
+  privacy.name "public"
 end

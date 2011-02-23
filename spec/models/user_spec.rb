@@ -144,9 +144,10 @@ describe User do
   describe "micropost associations" do
 
     before(:each) do
+      @privacy = Factory(:privacy)
       @user = User.create(@attr)
-      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
-      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
+      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago, :privacy => @privacy)
+      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago, :privacy => @privacy)
     end
 
     it "should have a microposts attribute" do
@@ -178,12 +179,14 @@ describe User do
         @user.feed.should include(@mp2)
       end
       it "should not include a different user's microposts" do
-        mp3 = Factory(:micropost, :user => Factory(:user, :email => Factory.next(:email)))
+        mp3 = Factory(:micropost, 
+            :user => Factory(:user, :email => Factory.next(:email)),
+            :privacy => @privacy)
         @user.feed.should_not include(mp3)
       end
       it "should include the microposts of followed users" do
         followed = Factory(:user, :email => Factory.next(:email))
-        mp3 = Factory(:micropost, :user => followed)
+        mp3 = Factory(:micropost, :user => followed, :privacy => @privacy)
         @user.follow!(followed)
         @user.feed.should include(mp3)
       end

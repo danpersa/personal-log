@@ -25,12 +25,19 @@ describe MicropostsController do
     describe "failure" do
 
       before(:each) do
-        @attr = { :content => "" }
+        @privacy = Factory(:privacy)
+        @attr = { :content => "", :privacy => @privacy }
       end
 
-      it "should not create a micropost" do
+      it "should not create a micropost without content" do
         lambda do
           post :create, :micropost => @attr
+        end.should_not change(Micropost, :count)
+      end
+      
+      it "should not create a micropost without privacy" do
+        lambda do
+          post :create, :micropost => @attr.merge({:content => "valid content", :privacy => nil})
         end.should_not change(Micropost, :count)
       end
 
@@ -43,7 +50,11 @@ describe MicropostsController do
     describe "success" do
         
       before(:each) do
-        @attr = { :content => "Lorem ipsum", :reminder_date => Time.now.tomorrow }
+        @privacy = Factory(:privacy)
+        @attr = { :content => "Lorem ipsum", 
+          :reminder_date => Time.now.tomorrow,
+          :privacy => @privacy 
+          }
       end
        
       it "should create a micropost" do

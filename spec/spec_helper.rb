@@ -28,4 +28,9 @@ RSpec.configure do |config|
   def test_sign_in(user)
     controller.sign_in(user)
   end
+  
+  def create_privacies
+    Privacy.create!(:name => "public")
+    Privacy.create!(:name => "private")
+  end
 end

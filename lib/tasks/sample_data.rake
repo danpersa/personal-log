@@ -4,6 +4,7 @@ namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
     Rake::Task['db:reset'].invoke
+    make_privacies
     make_users
     make_microposts
     make_relationships
@@ -33,7 +34,9 @@ def make_microposts
     50.times do
       content = Faker::Lorem.sentence(5).downcase.chomp(".")
       reminder_date = Time.now.tomorrow
-      user.microposts.create!(:content => content, :reminder_date => reminder_date)
+      user.microposts.create!(:content => content, 
+          :reminder_date => reminder_date, 
+          :privacy => Privacy.find_by_name("public"))
     end
   end
 end
@@ -45,4 +48,9 @@ def make_relationships
   followers = users[3..40]
   following.each { |followed| user.follow!(followed) }
   followers.each { |follower| follower.follow!(user) }
+end
+
+def make_privacies
+  Privacy.create!(:name => "public")
+  Privacy.create!(:name => "private")
 end
