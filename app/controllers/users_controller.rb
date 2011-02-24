@@ -23,10 +23,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
+      Rails.logger.debug "we create a new user"
+      UserMailer.registration_confirmation(@user).deliver
       sign_in @user
       flash[:success] = "Welcome to the Personal Log!"
       redirect_to @user
     else
+      Rails.logger.debug "not create a nea user"
       @title = "Sign up"
       render 'new'
     end
