@@ -11,8 +11,11 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation
+  include ActiveRecord::Transitions
+
+  attr_accessor :password, :updating_password
+  attr_accessible :name, :email, :password, :password_confirmation, 
+                  :activation_code
 
   has_many :microposts, :dependent => :destroy
   has_many :relationships, :foreign_key => "follower_id",
@@ -35,9 +38,13 @@ class User < ActiveRecord::Base
   # Automatically create the virtual attribute 'password_confirmation'.
   validates :password, :presence     => true,
                        :confirmation => true,
-                       :length       => { :within => 6..40 }
+                       :length       => { :within => 6..40 },
+                       :if           => :should_validate_password?
+  
+  validates_inclusion_of :state, :in => %w(pending active),
+    :message => "%{value} is not a valid state"
 
-  before_save :encrypt_password
+  before_save :encrypt_password, :make_activation_code
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
@@ -70,9 +77,33 @@ class User < ActiveRecord::Base
   def feed
     Micropost.from_users_followed_by(self)
   end
+  
+  def activated?
+    if self.activated_at == nil
+      return false
+    end
+    return true
+  end
+  
+  state_machine do
+    state :pending # first one is initial state
+    state :active
 
+    event :activate do
+      transitions :to => :active, 
+                  :from => [:pending], 
+                  :on_transition => :do_activate
+    end
+  end
+
+  def do_activate
+    self.activated_at = Time.now.utc
+    self.save!
+  end
 
   private
+  
+
 
   def encrypt_password
     self.salt = make_salt if new_record?
@@ -89,5 +120,13 @@ class User < ActiveRecord::Base
 
   def secure_hash(string)
     Digest::SHA2.hexdigest(string)
+  end
+  
+  def make_activation_code
+    self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  end
+  
+  def should_validate_password?
+    updating_password || new_record?
   end
 end

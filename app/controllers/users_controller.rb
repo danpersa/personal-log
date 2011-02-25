@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:show, :new, :create]
+  before_filter :authenticate, :except => [:show, :new, :create, :activate]
+  before_filter :activate_user, :except => [:show, :new, :create, :activate]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
 
@@ -23,13 +24,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      Rails.logger.debug "we create a new user"
-      UserMailer.registration_confirmation(@user).deliver
       sign_in @user
       flash[:success] = "Welcome to the Personal Log!"
       redirect_to @user
     else
-      Rails.logger.debug "not create a nea user"
       @title = "Sign up"
       render 'new'
     end
@@ -41,6 +39,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    @user.updating_password = true
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated."
       redirect_to @user
@@ -69,12 +68,27 @@ class UsersController < ApplicationController
     @users = @user.followers.paginate(:page => params[:page])
     render 'show_follow'
   end
+  
+  def activate
+    if signed_in?
+      if !activated?
+        deny_access("Please activate your account access this page.")
+        return
+      else
+         redirect_to current_user
+      end 
+    end
+    activated_user = User.find_by_activation_code(params[:activation_code])
+    if activated_user != nil && !activated_user.activated?
+      activated_user.activate!
+      sign_in activated_user
+      flash[:success] = "Welcome to the Personal Log!"
+      redirect_to activated_user
+    end  
+  end
 
   private 
 
-  def authenticate
-    deny_access unless signed_in?
-  end
 
   def correct_user
     @user = User.find(params[:id])

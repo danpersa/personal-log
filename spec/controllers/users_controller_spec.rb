@@ -138,6 +138,19 @@ describe UsersController do
         post :create, :user => @attr
         response.should render_template('new')
       end
+      
+      it "should not send any mail" do
+        ActionMailer::Base.deliveries = []
+        post :create, :user => @attr
+        ActionMailer::Base.deliveries.should be_empty
+      end
+      
+      it "should validate the password" do
+        @attr = { :name => "New Name", :email => "user@example.org",
+                  :password => "barbaz", :password_confirmation => "barbaz1" }
+        post :create, :user => @attr
+        response.should render_template('new')
+      end
     end
 
     describe "success" do
@@ -166,7 +179,15 @@ describe UsersController do
       it "should sign the user in" do
         post :create, :user => @attr
         controller.should be_signed_in
-      end   
+      end
+      
+      it "should send registration confirmation any mail" do
+        ActionMailer::Base.deliveries = []
+        post :create, :user => @attr
+        ActionMailer::Base.deliveries.should_not be_empty
+        email = ActionMailer::Base.deliveries.last
+        email.to.should == [@attr[:email]]
+      end
     end
   end
 
@@ -217,6 +238,13 @@ describe UsersController do
       it "should have the right title" do
         put :update, :id => @user, :user => @attr
         response.should have_selector("title", :content => "Edit user")
+      end
+      
+      it "should validate the password" do
+        @attr = { :name => "New Name", :email => "user@example.org",
+                  :password => "barbaz", :password_confirmation => "barbaz1" }
+        put :update, :id => @user, :user => @attr
+        response.should render_template('edit')
       end
     end
 
@@ -389,4 +417,44 @@ describe UsersController do
     end
   end
 
+  describe "GET 'activate'" do
+    
+    before(:each) do
+    @attr = {
+      :name => "Example User",
+      :email => "user@example.com",
+      :password => "foobar",
+      :password_confirmation => "foobar"
+    }
+    @user = User.create!(@attr)
+  end
+    
+    describe "when signed in" do
+      it "should redirect to profile" do
+        test_sign_in(@user)
+        get :activate, :activation_code => ""
+        response.should redirect_to(users_path + "/#{@user.id}")
+      end
+    end
+    
+    describe "when not signed in" do
+      
+      describe "when the user is already activated" do
+      
+        it "should render an already activated user message" do
+          fail
+        end  
+      end
+      
+      describe "when the user not is activated" do
+        
+        it "should activate the user and redirect to the profile" do
+          get :activate, :activation_code => @user.activation_code
+          @user.reload
+          @user.activated?.should be_true
+          response.should redirect_to(users_path + "/#{@user.id}")
+        end
+      end
+    end
+  end
 end

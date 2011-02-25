@@ -3,6 +3,8 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.4'
 gem 'gravatar_image_tag'
 gem "will_paginate", "3.0.pre2"
+gem "transitions", :require => ["transitions", "active_record/transitions"]
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

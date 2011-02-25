@@ -14,7 +14,11 @@ module SessionsHelper
   end
 
   def signed_in?
-    !current_user.nil?
+    !current_user.nil? 
+  end
+  
+  def activated?
+    !current_user.nil? and current_user.activated? 
   end
 
   def sign_out
@@ -25,26 +29,28 @@ module SessionsHelper
   def current_user?(user)
     user == current_user
   end
-
-  def deny_access
-    store_location
-    redirect_to signin_path, :notice => "Please sign in to access this page."
-  end
-
+  
   def redirect_back_or(default)
     redirect_to(session[:return_to] || default)
     clear_return_to
   end
   
   def authenticate
-    deny_access unless signed_in?
+    deny_access("Please sign in to access this page.") unless signed_in?
+  end
+  
+  def activate_user
+    deny_access("Please activate your account access this page.") unless activated?
   end
 
-  def deny_access
+  def deny_access(message)
     store_location
-    redirect_to signin_path, :notice => "Please sign in to access this page."
+    redirect_to_signin_path_with_notice message
   end
-
+  
+  def redirect_to_signin_path_with_notice(notice)
+    redirect_to signin_path, :notice => notice
+  end
 
 private
 

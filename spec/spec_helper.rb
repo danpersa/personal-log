@@ -25,7 +25,14 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  def test_activate_user(user)
+    if !user.activated?
+      user.activate!
+    end
+  end
+
   def test_sign_in(user)
+    test_activate_user(user)
     controller.sign_in(user)
   end
   
