@@ -1,4 +1,5 @@
 PersonalLog::Application.configure do
+  require 'development_mail_interceptor'
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -22,5 +23,17 @@ PersonalLog::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+  
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  #config.action_mailer.register_interceptor(DevelopmentMailInterceptor)
+  
+  config.action_mailer.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :domain               => "wappa.be",
+  :user_name            => "dan.persa@wappa.be",
+  :password             => "Wcrxz70698",
+  :authentication       => "plain",
+#  :enable_starttls_auto => true
+  }
 end
-
