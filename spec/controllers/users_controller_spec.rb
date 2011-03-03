@@ -420,29 +420,47 @@ describe UsersController do
   describe "GET 'activate'" do
     
     before(:each) do
-    @attr = {
-      :name => "Example User",
-      :email => "user@example.com",
-      :password => "foobar",
-      :password_confirmation => "foobar"
-    }
-    @user = User.create!(@attr)
-  end
+      @attr = {
+        :name => "Example User",
+        :email => "user@example.com",
+        :password => "foobar",
+        :password_confirmation => "foobar"
+      }
+      @user = User.create!(@attr)
+    end
     
     describe "when signed in" do
-      it "should redirect to profile" do
+      it "should redirect to profile if correct activation code" do
         test_sign_in(@user)
-        get :activate, :activation_code => ""
+        get :activate, :activation_code => @user.activation_code
+        response.should redirect_to(users_path + "/#{@user.id}")
+      end
+      
+      it "should redirect to profile if incorrect activation code or empty" do
+        test_sign_in(@user)
+        get :activate, :activation_code => 123
         response.should redirect_to(users_path + "/#{@user.id}")
       end
     end
-    
+
     describe "when not signed in" do
       
+      describe "when activation code is empty or not valid" do
+        it "should redirect to signin path" do
+         get :activate, :activation_code => 123
+         response.should redirect_to(signin_path)  
+        end
+      end
+
       describe "when the user is already activated" do
-      
+
         it "should render an already activated user message" do
-          fail
+          test_activate_user(@user)
+          get :activate, :activation_code => @user.activation_code
+          @user.reload
+          @user.activated?.should be_true
+          response.should redirect_to(signin_path)
+          flash[:notice].should =~ /User is alredy activated/i
         end  
       end
       

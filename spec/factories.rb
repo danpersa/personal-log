@@ -6,6 +6,16 @@ Factory.define :user do |user|
   user.password_confirmation "foobar"
 end
 
+Factory.define :activated_user, :class => User  do |user|
+  user.name                  "Michael Jordan"
+  user.email                 "jordan@example.com"
+  user.password              "foobar"
+  user.password_confirmation "foobar"
+  user.state                 "active"
+  user.activated_at          Time.now
+  user.activation_code       "1234567890"
+end
+
 Factory.sequence :email do |n|
   "person-#{n}@example.com"
 end

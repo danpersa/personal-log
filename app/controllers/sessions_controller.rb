@@ -10,6 +10,8 @@ class SessionsController < ApplicationController
       flash.now[:error] = "Invalid email/password combination."
       @title = "Sign in"
       render 'new'
+    elsif (!user.activated?)
+      activate_user
     else
       # Sign the user in and redirect to the user's show page.
       sign_in user

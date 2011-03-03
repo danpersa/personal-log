@@ -38,7 +38,7 @@ describe "LayoutLinks" do
 
     before(:each) do
       create_privacies
-      @user = Factory(:user)
+      @user = Factory(:activated_user)
       visit signin_path
       fill_in :email,    :with => @user.email
       fill_in :password, :with => @user.password

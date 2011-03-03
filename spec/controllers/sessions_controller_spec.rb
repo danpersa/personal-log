@@ -47,7 +47,16 @@ describe SessionsController do
         @attr = { :email => @user.email, :password => @user.password }
       end
 
-      it "should sign the user in" do
+      it "should not sign the user in if the user is not activated" do
+        post :create, :session => @attr
+        # Fill in with tests for a signed-in user.
+        controller.current_user.should == nil
+        controller.should_not be_signed_in
+        response.should redirect_to(signin_path)
+      end
+
+      it "should sign the user in if the user is activated" do
+        test_activate_user @user
         post :create, :session => @attr
         # Fill in with tests for a signed-in user.
         controller.current_user.should == @user
@@ -55,6 +64,7 @@ describe SessionsController do
       end
 
       it "should redirect to the user show page" do
+        test_activate_user @user
         post :create, :session => @attr
         response.should redirect_to(user_path(@user))
       end

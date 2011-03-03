@@ -2,4 +2,9 @@
 
 Thank you for registering!
 
+Activation link:
+
+<%= link_to "link", url_for(:controller => 'users', :action => 'activate', :only_path => false, 
+              :activation_code => @user.activation_code) %>
+
 Edit profile: <%= edit_user_url(@user) %>

@@ -75,7 +75,8 @@ class UsersController < ApplicationController
         deny_access("Please activate your account access this page.")
         return
       else
-         redirect_to current_user
+       redirect_to current_user
+       return
       end 
     end
     activated_user = User.find_by_activation_code(params[:activation_code])
@@ -84,7 +85,13 @@ class UsersController < ApplicationController
       sign_in activated_user
       flash[:success] = "Welcome to the Personal Log!"
       redirect_to activated_user
-    end  
+      return
+    end
+    if activated_user != nil && activated_user.activated?
+      deny_access("User is alredy activated")
+      return
+    end
+    redirect_to signin_path
   end
 
   private 

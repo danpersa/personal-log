@@ -44,7 +44,8 @@ class User < ActiveRecord::Base
   validates_inclusion_of :state, :in => %w(pending active),
     :message => "%{value} is not a valid state"
 
-  before_save :encrypt_password, :make_activation_code
+  before_save :encrypt_password
+  before_create :make_activation_code
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
