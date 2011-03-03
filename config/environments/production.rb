@@ -49,5 +49,15 @@ PersonalLog::Application.configure do
   
   config.serve_static_assets = true
   
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => "remindmetolive.heroku.com" }
+  config.action_mailer.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :domain               => "wappa.be",
+  :user_name            => "dan.persa@wappa.be",
+  :password             => "Wcrxz70698",
+  :authentication       => "plain",
+#  :enable_starttls_auto => true
+  }
 end
