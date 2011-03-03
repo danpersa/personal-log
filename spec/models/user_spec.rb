@@ -274,10 +274,16 @@ describe User do
       @user.state.should == "pending"
     end
 
-    it "should switch to actve state and be activated" do
+    it "should switch to active state and be activated" do
       @user.activate!
       @user.state.should == "active"
       @user.activated?.should == true
     end
+    
+    it "should not change password" do
+      @user.activate!
+      @user.password.should_not be_blank
+    end
+    
   end
 end

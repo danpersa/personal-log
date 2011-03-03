@@ -40,7 +40,7 @@ module SessionsHelper
   end
   
   def activate_user
-    deny_access("Please activate your account access this page.") unless activated?
+    redirect_to_signin_path_with_notice("Please activate your account access this page.") unless activated?
   end
 
   def deny_access(message)

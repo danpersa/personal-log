@@ -20,24 +20,41 @@ describe SessionsController do
 
     describe "invalid signin" do
 
-      before(:each) do
-        @attr = { :email => "email@example.com", :password => "invalid" }
+      describe "invalid email and password" do
+        
+        before(:each) do
+          @attr = { :email => "email@example.com", :password => "invalid" }
+        end
+  
+        it "should re-render the new page" do
+          post :create, :session => @attr
+          response.should render_template('new')
+        end
+  
+        it "should have the right title" do
+          post :create, :session => @attr
+          response.should have_selector("title", :content => "Sign in")
+        end
+  
+        it "should have a flash.now message" do
+          post :create, :session => @attr
+          flash.now[:error].should =~ /invalid/i
+        end
       end
-
-      it "should re-render the new page" do
-        post :create, :session => @attr
-        response.should render_template('new')
+      
+      describe "valid email but invalid password" do
+        
+        before(:each) do
+          @user = Factory(:activated_user)
+          @attr = { :email => @user.email, :password => @user.password }
+        end
+        
+        it "should not be created with a blank password" do
+          post :create, :session => @attr.merge(:password => "")
+          response.should render_template('new')
+        end
       end
-
-      it "should have the right title" do
-        post :create, :session => @attr
-        response.should have_selector("title", :content => "Sign in")
-      end
-
-      it "should have a flash.now message" do
-        post :create, :session => @attr
-        flash.now[:error].should =~ /invalid/i
-      end
+      
     end
 
     describe "with valid email and password" do

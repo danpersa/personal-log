@@ -49,6 +49,9 @@ class User < ActiveRecord::Base
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
+    logger.info "XXXXXXX user.encrypted_password:" + encrypted_password
+    logger.info "XXXXXXX user.submitted_password:" + submitted_password
+    logger.info "XXXXXXX user.enc(password):" + encrypt(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
 
@@ -103,16 +106,14 @@ class User < ActiveRecord::Base
   end
 
   private
-  
-
 
   def encrypt_password
     self.salt = make_salt if new_record?
-    self.encrypted_password = encrypt(password)
+    self.encrypted_password = encrypt(password) if should_validate_password?
   end
 
-  def encrypt(string)
-    secure_hash("#{salt}--#{string}")
+  def encrypt(s)
+    secure_hash("#{salt}--#{s}")
   end
 
   def make_salt
