@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Microposts" do
+describe "Microposts Request" do
 
   before(:each) do
     user = Factory(:activated_user)

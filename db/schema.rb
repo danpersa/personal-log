@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(:version => 20110225130548) do
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
+  create_table "reminders", :force => true do |t|
+    t.date     "reminder_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "micropost_id"
+  end
+
+  add_index "reminders", ["micropost_id"], :name => "index_reminders_on_micropost_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"

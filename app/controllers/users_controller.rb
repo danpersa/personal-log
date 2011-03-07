@@ -24,9 +24,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      sign_in @user
-      flash[:success] = "Welcome to Remind Me To Live!"
-      redirect_to @user
+      flash[:success] = "Please follow the steps from the email we sent you to activate your account!"
+      redirect_to signin_path
     else
       @title = "Sign up"
       render 'new'
@@ -72,7 +71,7 @@ class UsersController < ApplicationController
   def activate
     if signed_in?
       if !activated?
-        deny_access("Please activate your account access this page.")
+        deny_access("Please activate your account before before you sign in!")
         return
       else
        redirect_to current_user
@@ -84,11 +83,11 @@ class UsersController < ApplicationController
       activated_user.activate!
       sign_in activated_user
       flash[:success] = "Welcome to Remind Me To Live!"
-      redirect_to activated_user
+      redirect_to root_path
       return
     end
     if activated_user != nil && activated_user.activated?
-      deny_access("User is alredy activated")
+      deny_access("Your account has already been activated!")
       return
     end
     redirect_to signin_path

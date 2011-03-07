@@ -19,5 +19,9 @@ describe UserMailer do
     it "should have the correct subject" do
       @email.subject.should == "Registered"
     end
+    
+    it "should containt the correct activation code" do
+      @email.encoded.should match(@user.activation_code)
+    end
   end
 end

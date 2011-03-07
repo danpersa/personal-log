@@ -1,10 +1,13 @@
-<%= @user.name %>,
+Dear <%= @user.name %>,
 
 Thank you for registering!
 
-Activation link:
+To activate your account use the following
 
 <%= link_to "link", url_for(:controller => 'users', :action => 'activate', :only_path => false, 
               :activation_code => @user.activation_code) %>
 
 Edit profile: <%= edit_user_url(@user) %>
+
+Regards,
+    Remind Me To Live Team

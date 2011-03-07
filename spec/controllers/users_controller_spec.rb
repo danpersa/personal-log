@@ -166,19 +166,19 @@ describe UsersController do
         end.should change(User, :count).by(1)
       end
 
-      it "should redirect to the user show page" do
+      it "should redirect to the signin page" do
         post :create, :user => @attr
-        response.should redirect_to(user_path(assigns(:user)))
+        response.should redirect_to(signin_path)
       end
 
       it "should have a welcome message" do
         post :create, :user => @attr
-        flash[:success].should =~ /welcome to remind me to live/i
+        flash[:success].should =~ /please follow the steps from the email we sent you to activate your account/i
       end
 
-      it "should sign the user in" do
+      it "should NOT sign the user in" do
         post :create, :user => @attr
-        controller.should be_signed_in
+        controller.should_not be_signed_in
       end
       
       it "should send registration confirmation any mail" do
@@ -460,17 +460,17 @@ describe UsersController do
           @user.reload
           @user.activated?.should be_true
           response.should redirect_to(signin_path)
-          flash[:notice].should =~ /User is alredy activated/i
+          flash[:notice].should =~ /Your account has already been activated!/i
         end  
       end
       
       describe "when the user not is activated" do
         
-        it "should activate the user and redirect to the profile" do
+        it "should activate the user and redirect to home pabe" do
           get :activate, :activation_code => @user.activation_code
           @user.reload
           @user.activated?.should be_true
-          response.should redirect_to(users_path + "/#{@user.id}")
+          response.should redirect_to(root_path)
         end
       end
     end

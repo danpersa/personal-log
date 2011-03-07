@@ -34,8 +34,8 @@ describe "Users Request" do
         fill_in "Password",     :with => @attr[:password]
         fill_in "Confirmation", :with => @attr[:password_confirmation]
         click_button
-        controller.should be_signed_in
-        response.should have_selector("div.flash.success", :content => "Welcome")
+        controller.should_not be_signed_in
+        response.should have_selector("div.flash.success", :content => "email")
         user = User.find_by_email @attr[:email]
         user.should_not be_activated
       end
@@ -96,13 +96,10 @@ describe "Users Request" do
       fill_in "Password",     :with => @attr[:password]
       fill_in "Confirmation", :with => @attr[:password_confirmation]
       click_button
-      controller.should be_signed_in
+      controller.should_not be_signed_in
       
       user = User.find_by_email @attr[:email]
       user.should_not be_activated
-      
-      click_link "Sign out"
-      controller.should_not be_signed_in
       
       # we try to sign in without activation
       visit signin_path
