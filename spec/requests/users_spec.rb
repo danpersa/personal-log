@@ -69,6 +69,7 @@ describe "Users Request" do
     describe "success" do
       it "should sign a user in and out" do
         user = Factory(:activated_user)
+        create_privacies
         visit signin_path
         fill_in :email,    :with => user.email
         fill_in :password, :with => user.password
@@ -88,51 +89,52 @@ describe "Users Request" do
     end
     
     it "success" do
+      create_privacies
       visit signup_path
-        fill_in "Name",         :with => @attr[:name]
-        fill_in "Email",        :with => @attr[:email]
-        fill_in "Password",     :with => @attr[:password]
-        fill_in "Confirmation", :with => @attr[:password_confirmation]
-        click_button
-        controller.should be_signed_in
-        
-        user = User.find_by_email @attr[:email]
-        user.should_not be_activated
-        
-        click_link "Sign out"
-        controller.should_not be_signed_in
-        
-        # we try to sign in without activation
-        visit signin_path
-        fill_in :email,    :with => @attr[:email]
-        fill_in :password, :with => @attr[:password]
-        click_button
-        controller.should_not be_signed_in
-        # we activate the user
-        visit activate_path(:activation_code => user.activation_code)
-        controller.should be_signed_in
-        user = User.find_by_email @attr[:email]
-        user.should be_activated
-        
-        click_link "Sign out"
-        controller.should_not be_signed_in
-        
-        # we try to sign in after activation
-        visit signin_path
-        fill_in :email,    :with => @attr[:email]
-        fill_in :password, :with => @attr[:password]
-        click_button
-        controller.should be_signed_in
-        
-        click_link "Sign out"
-        controller.should_not be_signed_in
-        
-        # we try to sign in with blank password
-        visit signin_path
-        fill_in :email,    :with => @attr[:email]
-        fill_in :password, :with => ""
-        click_button
-        controller.should_not be_signed_in
+      fill_in "Name",         :with => @attr[:name]
+      fill_in "Email",        :with => @attr[:email]
+      fill_in "Password",     :with => @attr[:password]
+      fill_in "Confirmation", :with => @attr[:password_confirmation]
+      click_button
+      controller.should be_signed_in
+      
+      user = User.find_by_email @attr[:email]
+      user.should_not be_activated
+      
+      click_link "Sign out"
+      controller.should_not be_signed_in
+      
+      # we try to sign in without activation
+      visit signin_path
+      fill_in :email,    :with => @attr[:email]
+      fill_in :password, :with => @attr[:password]
+      click_button
+      controller.should_not be_signed_in
+      # we activate the user
+      visit activate_path(:activation_code => user.activation_code)
+      controller.should be_signed_in
+      user = User.find_by_email @attr[:email]
+      user.should be_activated
+      
+      click_link "Sign out"
+      controller.should_not be_signed_in
+      
+      # we try to sign in after activation
+      visit signin_path
+      fill_in :email,    :with => @attr[:email]
+      fill_in :password, :with => @attr[:password]
+      click_button
+      controller.should be_signed_in
+      
+      click_link "Sign out"
+      controller.should_not be_signed_in
+      
+      # we try to sign in with blank password
+      visit signin_path
+      fill_in :email,    :with => @attr[:email]
+      fill_in :password, :with => ""
+      click_button
+      controller.should_not be_signed_in
     end
   end
 end

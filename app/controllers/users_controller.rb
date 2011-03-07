@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to the Personal Log!"
+      flash[:success] = "Welcome to Remind Me To Live!"
       redirect_to @user
     else
       @title = "Sign up"
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
     if activated_user != nil && !activated_user.activated?
       activated_user.activate!
       sign_in activated_user
-      flash[:success] = "Welcome to the Personal Log!"
+      flash[:success] = "Welcome to Remind Me To Live!"
       redirect_to activated_user
       return
     end
