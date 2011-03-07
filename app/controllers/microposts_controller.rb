@@ -15,7 +15,10 @@ class MicropostsController < ApplicationController
 
   def destroy
     @micropost.destroy
-    redirect_back_or root_path
+    respond_to do |format|
+       format.html { redirect_back_or root_path }
+       format.js
+     end
   end
 
   private

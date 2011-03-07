@@ -1,4 +1,4 @@
-<tr>
+<tr id="feed-item-<%=feed_item.id%>">
   <td class="gravatar">
     <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   </td>
@@ -15,7 +15,8 @@
   <td class="micropost">
     <%= link_to "delete", feed_item, :method => :delete,
                                      :confirm => "You sure?",
-                                     :title => feed_item.content %>
+                                     :title => feed_item.content, 
+                                     :remote => true %>
     <%= feed_item.privacy.name %>
   </td>
   <% else %>
