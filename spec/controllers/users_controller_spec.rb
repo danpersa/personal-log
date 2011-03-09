@@ -24,11 +24,7 @@ describe UsersController do
         @user = test_sign_in(Factory(:user))
         second = Factory(:user, :email => "another@example.com")
         third  = Factory(:user, :email => "another@example.net")
-
         @users = [@user, second, third]
-        30.times do
-          @users << Factory(:user, :email => Factory.next(:email))
-        end
       end
 
       it "should be successful" do
@@ -49,6 +45,9 @@ describe UsersController do
       end
 
       it "should paginate users" do
+        30.times do
+          @users << Factory(:user, :email => Factory.next(:email))
+        end
         get :index
         response.should have_selector("div.pagination")
         response.should have_selector("span.disabled", :content => "Previous")
@@ -420,13 +419,7 @@ describe UsersController do
   describe "GET 'activate'" do
     
     before(:each) do
-      @attr = {
-        :name => "Example User",
-        :email => "user@example.com",
-        :password => "foobar",
-        :password_confirmation => "foobar"
-      }
-      @user = User.create!(@attr)
+      @user = Factory(:user) 
     end
     
     describe "when signed in" do
@@ -472,6 +465,60 @@ describe UsersController do
           @user.activated?.should be_true
           response.should redirect_to(root_path)
         end
+      end
+    end
+  end
+  
+  describe "GET 'reset_password'" do
+    
+    before(:each) do
+      @base_title = "Personal Log"
+    end
+    
+    it "should be successful" do
+      get :reset_password
+      response.should be_successful
+    end
+    
+    it "should have the correct title" do
+      get :reset_password
+      response.should have_selector("title", :content => @base_title + " | Reset Password")
+    end
+    
+    it "should have an email field" do
+      fail
+    end
+  end
+
+  describe "POST 'reset_password'" do
+    
+    before(:each) do
+      @attr = {
+        :name => "Example User",
+        :email => "user@example.com",
+        :password => "foobar",
+        :password_confirmation => "foobar"
+      }
+      @user = User.create!(@attr)
+    end
+    
+    describe "success" do
+      it "should send an email containing the reset password token" do
+        fail
+      end
+      
+      it "should set the reset_password_mail_sent_at field" do
+        fail
+      end
+    end
+    
+    describe "fail" do
+      it "should notice the user that the email is not valid" do
+        fail
+      end
+      
+      it "should notice the user that the email does not exist in the database" do
+        fail
       end
     end
   end

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:show, :new, :create, :activate]
-  before_filter :activate_user, :except => [:show, :new, :create, :activate]
+  before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password]
+  before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
 
@@ -91,6 +91,11 @@ class UsersController < ApplicationController
       return
     end
     redirect_to signin_path
+  end
+  
+  def reset_password
+    @title = "Reset Password"
+    
   end
 
   private 

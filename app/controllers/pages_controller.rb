@@ -18,4 +18,8 @@ class PagesController < ApplicationController
   def help
     @title = 'Help'
   end
+  
+  def reset_password_mail_sent
+    @title = 'Reset Password Mail Sent'
+  end
 end

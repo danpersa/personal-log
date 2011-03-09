@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110225130548) do
+ActiveRecord::Schema.define(:version => 20110308162953) do
 
   create_table "microposts", :force => true do |t|
     t.string   "content"
@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(:version => 20110225130548) do
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
+  create_table "reminders", :force => true do |t|
+    t.date     "reminder_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "micropost_id"
+  end
+
+  add_index "reminders", ["micropost_id"], :name => "index_reminders_on_micropost_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
@@ -46,11 +55,12 @@ ActiveRecord::Schema.define(:version => 20110225130548) do
     t.datetime "updated_at"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.boolean  "admin",                             :default => false
-    t.string   "state",                             :default => "pending"
-    t.string   "activation_code",     :limit => 40
+    t.boolean  "admin",                                     :default => false
+    t.string   "state",                                     :default => "pending"
+    t.string   "activation_code",             :limit => 40
     t.datetime "activated_at"
-    t.string   "password_reset_code", :limit => 40
+    t.string   "password_reset_code",         :limit => 40
+    t.datetime "reset_password_mail_sent_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

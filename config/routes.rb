@@ -11,15 +11,17 @@ PersonalLog::Application.routes.draw do
   resources :relationships, :only => [:create, :destroy]
 
   root :to => 'pages#home'
-  match '/signup',  :to => 'users#new'
-  match '/activate',:to => 'users#activate'
+  match '/signup',                      :to => 'users#new'
+  match '/activate',                    :to => 'users#activate'
+  match '/reset-password',              :to => 'users#reset_password'
   
-  match '/signin',  :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  match '/signin',                      :to => 'sessions#new'
+  match '/signout',                     :to => 'sessions#destroy'
 
-  match '/contact', :to => 'pages#contact'
-  match '/about',   :to => 'pages#about'
-  match '/help',    :to => 'pages#help'
+  match '/contact',                     :to => 'pages#contact'
+  match '/about',                       :to => 'pages#about'
+  match '/help',                        :to => 'pages#help'
+  match '/reset-password-mail-sent',    :to => 'pages#reset_password_mail_sent'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

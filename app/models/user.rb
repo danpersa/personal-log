@@ -9,9 +9,11 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+require 'validators/email_format_validator'
 
 class User < ActiveRecord::Base
   include ActiveRecord::Transitions
+  
 
   attr_accessor :password, :updating_password
   attr_accessible :name, :email, :password, :password_confirmation, 
@@ -27,14 +29,11 @@ class User < ActiveRecord::Base
     :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
 
-
-  email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-
-  validates :name,  :presence   => true,
-                    :length     => { :maximum => 50 } 
-  validates :email, :presence   => true,
-                    :format     => { :with => email_regex },
-                    :uniqueness => { :case_sensitive => false }
+  validates :name,  :presence     => true,
+                    :length       => { :maximum => 50 } 
+  validates :email, :presence     => true,
+                    :email_format => true,
+                    :uniqueness   => { :case_sensitive => false }
   # Automatically create the virtual attribute 'password_confirmation'.
   validates :password, :presence     => true,
                        :confirmation => true,
