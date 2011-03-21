@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
+  <meta charset="utf-8">
+
   <title><%= title %></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS: implied media="all" -->
   <%= render 'layouts/stylesheets' %>
-  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" %>
-  <%= javascript_include_tag "jquery.rails" %>
+
+  <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+  <%= javascript_include_tag "modernizr-1.7.min" %>
 </head>
 <body>
   <div class="container">
@@ -18,5 +32,7 @@
     <%= render 'layouts/footer' %>
     <%= debug(params) if Rails.env.development? %>
   </div>
+  <!-- JavaScript at the bottom for fast page loading -->
+  <%= render 'layouts/javascripts' %>
 </body>
 </html>
