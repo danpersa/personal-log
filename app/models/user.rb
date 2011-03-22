@@ -85,6 +85,14 @@ class User < ActiveRecord::Base
     return true
   end
   
+  def reset_password
+    self.password_reset_code = generate_token
+    self.reset_password_mail_sent_at = Time.now.utc
+    self.save!
+    # we send the reset password mail
+    UserMailer.reset_password(self).deliver
+  end
+  
   state_machine do
     state :pending # first one is initial state
     state :active
@@ -121,10 +129,14 @@ class User < ActiveRecord::Base
   end
   
   def make_activation_code
-    self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    self.activation_code = generate_token
   end
   
   def should_validate_password?
     updating_password || new_record?
+  end
+  
+  def generate_token
+    Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
   end
 end

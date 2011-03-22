@@ -7,6 +7,16 @@ describe ResetPassword do
       :email => "user@example.com"
     }
   end
+  
+  it "should have an email attribute" do
+    reset_password = ResetPassword.new
+    reset_password.should respond_to :email
+  end
+  
+  it "should have an persisted method" do
+    reset_password = ResetPassword.new
+    reset_password.should respond_to :persisted?
+  end
 
   it "should require an email" do
     no_name_user = ResetPassword.new(@attr.merge(:email => ""))

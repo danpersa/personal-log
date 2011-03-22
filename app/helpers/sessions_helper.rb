@@ -39,6 +39,10 @@ module SessionsHelper
     deny_access("Please sign in to access this page.") unless signed_in?
   end
   
+  def not_authenticate
+    redirect_to_root_path_with_notice("You must not be signed in in order to do this action!") if signed_in?
+  end
+  
   def activate_user
     redirect_to_signin_path_with_notice("Please activate your account before before you sign in!") unless activated?
   end
@@ -50,6 +54,10 @@ module SessionsHelper
   
   def redirect_to_signin_path_with_notice(notice)
     redirect_to signin_path, :notice => notice
+  end
+  
+  def redirect_to_root_path_with_notice(notice)
+    redirect_to root_path, :notice => notice
   end
 
 private

@@ -9,11 +9,16 @@ PersonalLog::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
   resources :microposts, :only => [:create, :destroy]
   resources :relationships, :only => [:create, :destroy]
-
-  root :to => 'pages#home'
+  resources :reset_passwords,
+            :path => 'reset-password',
+            :only => [:new, :create],
+            # the new path is the same as the create path
+            :path_names => {:new => ''}
+      
+  root                                  :to => 'pages#home'
   match '/signup',                      :to => 'users#new'
   match '/activate',                    :to => 'users#activate'
-  match '/reset-password',              :to => 'users#reset_password'
+  match '/change-password',             :to => 'users#change_password'
   
   match '/signin',                      :to => 'sessions#new'
   match '/signout',                     :to => 'sessions#destroy'

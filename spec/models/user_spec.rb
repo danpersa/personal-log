@@ -284,6 +284,36 @@ describe User do
       @user.activate!
       @user.password.should_not be_blank
     end
+  end
+  
+  describe "reset password" do
+    
+    before(:each) do
+      @user = Factory(:activated_user)
+    end
+    
+    it "should have a reset password method" do
+      @user.should respond_to(:reset_password)
+    end
+    
+    it "should generate a password reset code" do
+      @user.reset_password
+      @user.password_reset_code.should_not be_nil
+    end
+    
+    it "should change the previous password reset code" do
+      @user.reset_password
+      last_reset_password = @user.password_reset_code
+      @user.reset_password
+      last_reset_password.should_not == @user.password_reset_code
+    end
+    
+    it "should change the previous reset password mail sent at" do
+      @user.reset_password
+      last_reset_password_mail_sent_at = @user.reset_password_mail_sent_at
+      @user.reset_password
+      last_reset_password_mail_sent_at.should_not == @user.reset_password_mail_sent_at
+    end
     
   end
 end

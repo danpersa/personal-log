@@ -93,10 +93,11 @@ class UsersController < ApplicationController
     redirect_to signin_path
   end
   
-  def reset_password
-    @title = "Reset Password"
+  def change_password
     
   end
+  
+
 
   private 
 
