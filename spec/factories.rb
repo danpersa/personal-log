@@ -8,7 +8,7 @@ end
 
 Factory.define :activated_user, :class => User  do |user|
   user.name                  "Michael Jordan"
-  user.email                 "jordan@example.com"
+  user.email                 "jordan.activated@example.com"
   user.password              "foobar"
   user.password_confirmation "foobar"
   user.state                 "active"

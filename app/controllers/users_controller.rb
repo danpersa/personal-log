@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password]
-  before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password]
+  before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_password]
+  before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_password]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
+  before_filter :not_authenticate, :only => [:change_password]
+  
 
 
   def index
@@ -92,11 +94,6 @@ class UsersController < ApplicationController
     end
     redirect_to signin_path
   end
-  
-  def change_password
-    
-  end
-  
 
 
   private 

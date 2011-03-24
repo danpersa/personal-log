@@ -14,11 +14,32 @@ PersonalLog::Application.routes.draw do
             :only => [:new, :create],
             # the new path is the same as the create path
             :path_names => {:new => ''}
+            
+  resources :change_passwords,
+            :path => 'change-password',
+            :only => [:new, :create],
+            # the new path is the same as the create path
+            :path_names => {:new => ''}
       
   root                                  :to => 'pages#home'
   match '/signup',                      :to => 'users#new'
   match '/activate',                    :to => 'users#activate'
-  match '/change-password',             :to => 'users#change_password'
+  
+  #match '/change-password',            :to => 'users#change_password',
+  #                                     :as => 'change_password'
+                                        
+  
+  #match '/change-password/:password_reset_code',   
+  #                                      :to => 'users#change_password',
+  #                                      :constraints => {:password_reset_code => /[A-Za-z0-9]+/},
+  #                                      :via => :get
+                                        
+                                        
+  
+                                        
+  
+  #match '/change-password',             :to => 'errors#routing',
+  #                                      :via => 'get'
   
   match '/signin',                      :to => 'sessions#new'
   match '/signout',                     :to => 'sessions#destroy'

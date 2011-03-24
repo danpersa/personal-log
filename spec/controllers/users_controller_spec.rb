@@ -354,10 +354,12 @@ describe UsersController do
 
   describe "follow pages" do
     describe "when not signed in" do
+      
       it "should protect 'following'" do
         get :following, :id => 1
         response.should redirect_to(signin_path)
       end
+      
       it "should protect 'followers'" do
         get :followers, :id => 1
         response.should redirect_to(signin_path)
@@ -376,6 +378,7 @@ describe UsersController do
         response.should have_selector("a", :href => user_path(@other_user),
             :content => @other_user.name)
       end
+      
       it "should show user followers" do
         get :followers, :id => @other_user
         response.should have_selector("a", :href => user_path(@user),
@@ -408,6 +411,7 @@ describe UsersController do
         response.should have_selector("a", :href => user_path(@other_user),
             :content => @other_user.name)
       end
+      
       it "should show user followers" do
         get :followers, :id => @other_user
         response.should have_selector("a", :href => user_path(@user),
@@ -419,7 +423,7 @@ describe UsersController do
   describe "GET 'activate'" do
     
     before(:each) do
-      @user = Factory(:user) 
+      @user = Factory(:user)
     end
     
     describe "when signed in" do
@@ -465,6 +469,56 @@ describe UsersController do
           @user.activated?.should be_true
           response.should redirect_to(root_path)
         end
+      end
+    end
+  end
+  
+  describe "GET 'get_change_password'" do
+    
+    before(:each) do
+      @user = Factory(:user)
+    end
+    
+    describe "success" do
+      
+      it "should allow access without sign in" do
+        @user.reset_password
+        get :get_change_password, :password_reset_code => @user.password_reset_code 
+        response.should_not redirect_to(signin_path)
+      end
+    end
+    
+    describe "fail" do
+      it "should redirect to home page if signed in" do
+        @user.reset_password
+        test_sign_in(@user)
+        get :get_change_password, :password_reset_code => @user.password_reset_code
+        response.should redirect_to(root_path)
+      end
+    end
+  end
+  
+  describe "GET 'post_change_password'" do
+    
+    before(:each) do
+      @user = Factory(:user)
+    end
+    
+    describe "success" do
+      
+      it "should allow access without sign in" do
+        @user.reset_password
+        get :get_change_password, :password_reset_code => @user.password_reset_code 
+        response.should_not redirect_to(signin_path)
+      end
+    end
+    
+    describe "fail" do
+      it "should redirect to home page if signed in" do
+        @user.reset_password
+        test_sign_in(@user)
+        get :get_change_password, :password_reset_code => @user.password_reset_code
+        response.should redirect_to(root_path)
       end
     end
   end
