@@ -135,7 +135,7 @@ describe UsersController do
 
       it "should render the 'new' page" do
         post :create, :user => @attr
-        response.should render_template('new')
+        response.should render_template :new
       end
       
       it "should not send any mail" do
@@ -148,7 +148,7 @@ describe UsersController do
         @attr = { :name => "New Name", :email => "user@example.org",
                   :password => "barbaz", :password_confirmation => "barbaz1" }
         post :create, :user => @attr
-        response.should render_template('new')
+        response.should render_template :new
       end
     end
 
@@ -231,7 +231,7 @@ describe UsersController do
 
       it "should render the 'edit' page" do
         put :update, :id => @user, :user => @attr
-        response.should render_template('edit')
+        response.should render_template :edit
       end
 
       it "should have the right title" do
@@ -243,7 +243,7 @@ describe UsersController do
         @attr = { :name => "New Name", :email => "user@example.org",
                   :password => "barbaz", :password_confirmation => "barbaz1" }
         put :update, :id => @user, :user => @attr
-        response.should render_template('edit')
+        response.should render_template :edit
       end
     end
 
@@ -469,56 +469,6 @@ describe UsersController do
           @user.activated?.should be_true
           response.should redirect_to(root_path)
         end
-      end
-    end
-  end
-  
-  describe "GET 'get_change_password'" do
-    
-    before(:each) do
-      @user = Factory(:user)
-    end
-    
-    describe "success" do
-      
-      it "should allow access without sign in" do
-        @user.reset_password
-        get :get_change_password, :password_reset_code => @user.password_reset_code 
-        response.should_not redirect_to(signin_path)
-      end
-    end
-    
-    describe "fail" do
-      it "should redirect to home page if signed in" do
-        @user.reset_password
-        test_sign_in(@user)
-        get :get_change_password, :password_reset_code => @user.password_reset_code
-        response.should redirect_to(root_path)
-      end
-    end
-  end
-  
-  describe "GET 'post_change_password'" do
-    
-    before(:each) do
-      @user = Factory(:user)
-    end
-    
-    describe "success" do
-      
-      it "should allow access without sign in" do
-        @user.reset_password
-        get :get_change_password, :password_reset_code => @user.password_reset_code 
-        response.should_not redirect_to(signin_path)
-      end
-    end
-    
-    describe "fail" do
-      it "should redirect to home page if signed in" do
-        @user.reset_password
-        test_sign_in(@user)
-        get :get_change_password, :password_reset_code => @user.password_reset_code
-        response.should redirect_to(root_path)
       end
     end
   end

@@ -17,9 +17,9 @@ PersonalLog::Application.routes.draw do
             
   resources :change_passwords,
             :path => 'change-password',
-            :only => [:new, :create],
+            :only => [:edit, :create],
             # the new path is the same as the create path
-            :path_names => {:new => ''}
+            :path_names => {:edit => ''}
       
   root                                  :to => 'pages#home'
   match '/signup',                      :to => 'users#new'

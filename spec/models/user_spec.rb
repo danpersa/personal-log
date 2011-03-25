@@ -314,6 +314,22 @@ describe User do
       @user.reset_password
       last_reset_password_mail_sent_at.should_not == @user.reset_password_mail_sent_at
     end
+  end
+  
+  describe "reset_password_expired?" do
     
+    before(:each) do
+      @user = Factory(:activated_user)
+    end
+    
+    it "should be expired if the reset password mail was sent two days ago" do
+      @user.reset_password_mail_sent_at = 2.days.ago
+      @user.reset_password_expired?.should == true
+    end
+    
+    it "should not be expired if the reset password mail was sent two hours ago" do
+      @user.reset_password_mail_sent_at = 2.hours.ago
+      @user.reset_password_expired?.should == false
+    end
   end
 end

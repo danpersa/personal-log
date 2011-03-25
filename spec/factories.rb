@@ -12,7 +12,7 @@ Factory.define :activated_user, :class => User  do |user|
   user.password              "foobar"
   user.password_confirmation "foobar"
   user.state                 "active"
-  user.activated_at          Time.now
+  user.activated_at          Time.now.utc
   user.activation_code       "1234567890"
 end
 
@@ -22,7 +22,7 @@ end
 
 Factory.define :micropost do |micropost|
   micropost.content "Foo bar"
-  micropost.reminder_date Time.now.tomorrow
+  micropost.reminder_date Time.now.utc.tomorrow
   micropost.association :user
   micropost.association :privacy
 end

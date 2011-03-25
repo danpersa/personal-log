@@ -52,7 +52,7 @@ describe MicropostsController do
       before(:each) do
         @privacy = Factory(:privacy)
         @attr = { :content => "Lorem ipsum", 
-          :reminder_date => Time.now.tomorrow,
+          :reminder_date => Time.now.utc.tomorrow,
           :privacy => @privacy 
           }
       end

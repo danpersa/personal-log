@@ -85,6 +85,10 @@ class User < ActiveRecord::Base
     return true
   end
   
+  def reset_password_expired?
+    return self.reset_password_mail_sent_at < 1.day.ago 
+  end
+  
   def reset_password
     self.password_reset_code = generate_token
     self.reset_password_mail_sent_at = Time.now.utc

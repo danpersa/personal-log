@@ -33,7 +33,7 @@ def make_microposts
   User.all(:limit => 6).each do |user|
     50.times do
       content = Faker::Lorem.sentence(5).downcase.chomp(".")
-      reminder_date = Time.now.tomorrow
+      reminder_date = Time.now.utc.tomorrow
       user.microposts.create!(:content => content, 
           :reminder_date => reminder_date, 
           :privacy => Privacy.find_by_name("public"))

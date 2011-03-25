@@ -30,7 +30,7 @@ describe "Microposts Request" do
       
       it "should make a new micropost" do
         content = "Lorem ipsum dolor sit amet"
-        reminder_date_year = Time.now.year.next
+        reminder_date_year = Time.now.utc.year.next
         lambda do
           visit root_path
           fill_in :micropost_content, :with => content

@@ -7,7 +7,7 @@ describe Micropost do
     @privacy = Privacy.create(:name => "public")
     @attr = { :content => "value for content",
       :privacy => @privacy,
-      :reminder_date => Time.now.tomorrow 
+      :reminder_date => Time.now.utc.tomorrow 
     }
   end
 
