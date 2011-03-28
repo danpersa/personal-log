@@ -16,14 +16,13 @@ shared_examples_for "redirect with flash" do
   end
 end
 
-
 describe ChangePasswordsController do
   render_views
 
   describe "GET 'edit'" do
 
     before(:each) do
-      @user = Factory(:user)
+      @user = Factory(:activated_user)
     end
 
     describe "success" do
@@ -60,13 +59,41 @@ describe ChangePasswordsController do
         
         it_behaves_like "redirect with flash"
       end
+      
+      describe "it should reject expired links" do
+         
+        let(:action) do
+          @user.reset_password
+          @user.reset_password_mail_sent_at = 2.days.ago
+          @user.save!
+          get :edit, :id => @user.password_reset_code
+          @notification = :notice
+          @message = /Your reset password link has expired! Please use the reset password feature again!/
+          @path = reset_passwords_path
+        end
+      
+        it_behaves_like "redirect with flash"
+      end
+    end
+    
+    describe "it should reject users that are not activated" do
+      let(:action) do
+          user = Factory(:user)
+          user.reset_password
+          get :edit, :id => user.password_reset_code
+          @notification = :notice
+          @message = /You cannot reset password for an user that is not activated! Please activate the user first!/
+          @path = signin_path
+        end
+      
+        it_behaves_like "redirect with flash"
     end
   end
 
   describe "POST 'update'" do
 
     before(:each) do
-      @user = Factory(:user)
+      @user = Factory(:activated_user)
       @user.reset_password
       @attr = { :password_reset_code => @user.password_reset_code, 
                 :password => "password",

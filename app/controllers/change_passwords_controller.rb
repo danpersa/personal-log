@@ -4,8 +4,13 @@ class ChangePasswordsController < ApplicationController
   def edit
     @change_password = ChangePassword.new({:password_reset_code => params[:id]})
     @user = User.find_by_password_reset_code(@change_password.password_reset_code)
-    if @user.nil?
-      deny_access("You don't have a valid reset password link!")
+    if deny_access_if_invalid_link?
+      return
+    end
+    if deny_access_if_user_not_activated?
+      return
+    end
+    if deny_access_if_reset_password_expired?
       return
     end
     @title = "Change Password"
@@ -17,14 +22,14 @@ class ChangePasswordsController < ApplicationController
     # we look for a user with that password_reset_code
     @user = User.find_by_password_reset_code(@change_password.password_reset_code)
     # if we don't find an user with that password_reset_code
-    if @user.nil?
-      # maybe someone is trying to update another user's password
-      deny_access("You don't have a valid reset password link!")
+    if deny_access_if_invalid_link?
+      return
+    end
+    if deny_access_if_user_not_activated?
       return
     end
     # the link has expired
-    if @user.reset_password_expired?
-      redirect_to reset_passwords_path, :notice => "Your reset password link has expired! Please use the reset password feature again!"
+    if deny_access_if_reset_password_expired?
       return
     end 
     # if the new password is valid
@@ -44,5 +49,31 @@ class ChangePasswordsController < ApplicationController
       render 'edit'
     end
   end
-
+  
+  private
+  
+  def deny_access_if_reset_password_expired?
+    if @user.reset_password_expired?
+      redirect_to reset_passwords_path, :notice => "Your reset password link has expired! Please use the reset password feature again!"
+      return true
+    end
+    return false
+  end
+  
+  def deny_access_if_invalid_link?
+    if @user.nil?
+      # maybe someone is trying to update another user's password
+      deny_access("You don't have a valid reset password link!")
+      return true
+    end
+    return false
+  end
+  
+  def deny_access_if_user_not_activated?
+    if !@user.activated?
+      deny_access("You cannot reset password for an user that is not activated! Please activate the user first!")
+      return true
+    end
+    return false
+  end
 end
