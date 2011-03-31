@@ -37,6 +37,12 @@ describe User do
       invalid_email_user.should_not be_valid
     end
   end
+  
+  it "should reject emails that are to long" do
+    long_email = "a" * 256 + "@yahoo.com"
+    long_email_user = User.new(@attr.merge(:email => long_email))
+    long_email_user.should_not be_valid
+  end
 
   it "should reject duplicate email addresses" do
   # Put a user with given email address into the database.
@@ -58,28 +64,9 @@ describe User do
     user_with_invalid_state.should_not be_valid
   end
   
-  describe "password validations" do
-
-    it "should require a password" do
-      User.new(@attr.merge(:password => "", :password_confirmation => "")).
-      should_not be_valid
-    end
-
-    it "should require a matching password confirmation" do
-      User.new(@attr.merge(:password_confirmation => "invalid")).
-      should_not be_valid
-    end
-
-    it "should reject short passwords" do
-      short = "a" * 5
-      hash = @attr.merge(:password => short, :password_confirmation => short)
-      User.new(hash).should_not be_valid
-    end
-
-    it "should reject long passwords" do
-      long = "a" * 41
-      hash = @attr.merge(:password => long, :password_confirmation => long)
-      User.new(hash).should_not be_valid
+  it_behaves_like "password validation" do
+    let(:action) do
+      @class = User
     end
   end
 

@@ -30,3 +30,10 @@ end
 Factory.define :privacy do |privacy|
   privacy.name "public"
 end
+
+Factory.define :profile do |profile|
+  profile.name       "George Bush"
+  profile.email      "george.bush@yahoo.com"
+  profile.location   "United States of America"
+  profile.website    "http://www.bush.com"
+end

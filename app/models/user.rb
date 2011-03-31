@@ -33,7 +33,8 @@ class User < ActiveRecord::Base
                     :length       => { :maximum => 50 } 
   validates :email, :presence     => true,
                     :email_format => true,
-                    :uniqueness   => { :case_sensitive => false }
+                    :uniqueness   => { :case_sensitive => false },
+                    :length       => { :maximum => 255 }
   # Automatically create the virtual attribute 'password_confirmation'.
   validates :password, :presence     => true,
                        :confirmation => true,
