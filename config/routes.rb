@@ -4,6 +4,9 @@ PersonalLog::Application.routes.draw do
     member do
       get :following, :followers
     end
+    resource :profile, :only => [:edit, :create, :update],
+             :path_names => {:edit => ''},
+             :as => :profile
   end
 
   resources :sessions, :only => [:new, :create, :destroy]
@@ -18,7 +21,7 @@ PersonalLog::Application.routes.draw do
   resources :change_passwords,
             :path => 'change-password',
             :only => [:edit, :create],
-            # the new path is the same as the create path
+            # the edit path is the same as the create path
             :path_names => {:edit => ''}
       
   root                                  :to => 'pages#home'
@@ -33,10 +36,6 @@ PersonalLog::Application.routes.draw do
   #                                      :to => 'users#change_password',
   #                                      :constraints => {:password_reset_code => /[A-Za-z0-9]+/},
   #                                      :via => :get
-                                        
-                                        
-  
-                                        
   
   #match '/change-password',             :to => 'errors#routing',
   #                                      :via => 'get'

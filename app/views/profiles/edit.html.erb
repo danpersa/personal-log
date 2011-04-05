@@ -1,0 +1,24 @@
+<h1>Update public profile</h1>
+
+<%= form_for(@profile, :url => user_profile_path(current_user), :method => :post) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :website %><br />
+    <%= f.text_field :website %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Update public profile" %>
+  </div>
+<% end %>

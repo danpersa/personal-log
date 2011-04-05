@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20110405072140
+#
+# Table name: relationships
+#
+#  id          :integer(4)      not null, primary key
+#  follower_id :integer(4)
+#  followed_id :integer(4)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Relationship < ActiveRecord::Base
   attr_accessible :followed_id
   

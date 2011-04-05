@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110405072140
+#
+# Table name: microposts
+#
+#  id            :integer(4)      not null, primary key
+#  content       :string(255)
+#  user_id       :integer(4)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  reminder_date :date
+#  privacy_id    :integer(4)
+#
+
 class Micropost < ActiveRecord::Base
   attr_accessible :content, :reminder_date, :privacy, :privacy_id
 
@@ -8,7 +22,7 @@ class Micropost < ActiveRecord::Base
   validates :reminder_date, :presence => true
   validates :user_id, :presence => true
   validates :privacy_id, :presence => true
-  validate :reminder_date_cannot_be_in_the_past
+  validate  :reminder_date_cannot_be_in_the_past
 
   default_scope :order => 'microposts.created_at DESC'
 

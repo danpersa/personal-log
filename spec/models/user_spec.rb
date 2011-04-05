@@ -319,4 +319,12 @@ describe User do
       @user.reset_password_expired?.should == false
     end
   end
+  
+  describe "profile association" do
+    
+    it "should have a profile attribute" do
+      user = Factory(:activated_user)
+      user.should respond_to(:profile)
+    end
+  end
 end

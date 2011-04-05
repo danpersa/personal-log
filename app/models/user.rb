@@ -1,13 +1,21 @@
 # == Schema Information
-# Schema version: 20110125112122
+# Schema version: 20110405072140
 #
 # Table name: users
 #
-#  id         :integer(4)      not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id                          :integer(4)      not null, primary key
+#  name                        :string(255)
+#  email                       :string(255)
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  encrypted_password          :string(255)
+#  salt                        :string(255)
+#  admin                       :boolean(1)
+#  state                       :string(255)     default("pending")
+#  activation_code             :string(40)
+#  activated_at                :datetime
+#  password_reset_code         :string(40)
+#  reset_password_mail_sent_at :datetime
 #
 require 'validators/email_format_validator'
 
@@ -28,6 +36,8 @@ class User < ActiveRecord::Base
     :class_name => "Relationship",
     :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
+  
+  has_one :profile
 
   validates :name,  :presence     => true,
                     :length       => { :maximum => 50 } 
