@@ -1,4 +1,4 @@
-<tr id="feed-item-<%=feed_item.id%>">
+<tr id="feed-item-<%=feed_item.id%>" class="show-close-button">
   <td class="gravatar">
     <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   </td>
@@ -8,16 +8,18 @@
     </span>
     <span class="content">wants to remind to <%= feed_item.content %> on <%= feed_item.reminder_date %></span>
     <span class="timestamp">
-      Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
+      Posted <%= time_ago_in_words(feed_item.created_at) %> ago as <%= feed_item.privacy.name %>
     </span>
   </td>
   <% if current_user?(feed_item.user) %>
   <td class="micropost">
-    <%= link_to "delete", feed_item, :method => :delete,
-                                     :confirm => "You sure?",
-                                     :title => feed_item.content, 
-                                     :remote => true %>
-    <%= feed_item.privacy.name %>
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "delete", feed_item, :method => :delete,
+                                         :confirm => "You sure?",
+                                         :title => "Remove post",
+                                         :remote => true,
+                                         :class => "ui-icon ui-icon-close"%>
+    </div>
   </td>
   <% else %>
   <td class="micropost"></td>

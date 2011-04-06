@@ -211,7 +211,7 @@ table.microposts {
 }
 
 table.microposts tr {
-  height: 70px;
+  height: 65px;
 }
 
 table.microposts tr td.gravatar {
@@ -257,3 +257,6 @@ form.new_micropost textarea {
   margin-bottom: 0;
 }
 
+div.icon-button {
+  width: 17px;
+}
