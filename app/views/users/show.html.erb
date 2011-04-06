@@ -14,17 +14,19 @@
 
 <% content_for :sidebar do %>
   <strong>Username</strong> <%= @user.name %><br />
-  <% unless @user.profile.name.empty? %>
-  <strong>Name</strong> <%= @user.profile.name %><br />
-  <% end %>
-  <% unless @user.profile.email.empty? %>
-  <strong>Email</strong> <%= @user.profile.email %><br />
-  <% end %>
-  <% unless @user.profile.location.empty? %>
-  <strong>Location</strong> <%= @user.profile.location %><br />
-  <% end %>
-  <% unless @user.profile.website.empty? %>
-  <strong>Website</strong> <%= @user.profile.website %><br />
+  <% unless @user.profile.nil? %>
+    <% unless @user.profile.name.empty? %>
+    <strong>Name</strong> <%= @user.profile.name %><br />
+    <% end %>
+    <% unless @user.profile.email.empty? %>
+    <strong>Email</strong> <%= @user.profile.email %><br />
+    <% end %>
+    <% unless @user.profile.location.empty? %>
+    <strong>Location</strong> <%= @user.profile.location %><br />
+    <% end %>
+    <% unless @user.profile.website.empty? %>
+    <strong>Website</strong> <%= @user.profile.website %><br />
+    <% end %>
   <% end %>
   <strong>URL</strong>  <%= link_to user_path(@user), @user %>
   <strong>Microposts</strong> <%= @user.microposts.count %>
