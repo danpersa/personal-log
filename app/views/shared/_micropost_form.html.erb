@@ -3,14 +3,15 @@
   <div class="field">
     <%= f.text_area :content %>
   </div>
-  <h1 class="micropost">on</h1>
-  <div class="field">
+  <span class="title">on</span>
+  <span class="field">
     <%= f.date_select(:reminder_date, options = {:start_year => Time.now.year } )%>
-  </div>
-  <div class="field">
+  </span>
+  <span class="title">as</span>
+  <span class="field">
     <%= f.collection_select(:privacy_id, Privacy.all, :id, :name) %>
-  </div>
-  <div class="actions">
+  </span>
+  <span class="actions">
     <%= f.submit "Post" %>
-  </div>
+  </span>
 <% end %>
