@@ -1,35 +1,31 @@
-<table class="profile" summary="Profile information">
-  <tr>
-    <td class="main">
-      <h1>
-        <%= gravatar_for @user, :size => 30 %>
-        <%= @user.name %>
-      </h1>
-      <%= render 'follow_form' if signed_in? %>
-      <% unless @user.microposts.empty? %>
-        <h3 class="micropost">...wants to remind to...</h3>
-        <table class="microposts" summary="User microposts">
-          <%= render @microposts %>
-        </table>
-        <%= will_paginate @microposts %>
-      <% end %>
-    </td>
-    <td class="sidebar round">
-      <strong>Username</strong> <%= @user.name %><br />
-      <% unless @user.profile.name.empty? %>
-      <strong>Name</strong> <%= @user.profile.name %><br />
-      <% end %>
-      <% unless @user.profile.email.empty? %>
-      <strong>Email</strong> <%= @user.profile.email %><br />
-      <% end %>
-      <% unless @user.profile.location.empty? %>
-      <strong>Location</strong> <%= @user.profile.location %><br />
-      <% end %>
-      <% unless @user.profile.website.empty? %>
-      <strong>Website</strong> <%= @user.profile.website %><br />
-      <% end %>
-      <strong>URL</strong>  <%= link_to user_path(@user), @user %>
-      <strong>Microposts</strong> <%= @user.microposts.count %>
-    </td>
-  </tr>
-</table>
+
+<h1>
+  <%= gravatar_for @user, :size => 30 %>
+  <%= @user.name %>
+</h1>
+<%= render 'follow_form' if signed_in? %>
+<% unless @user.microposts.empty? %>
+  <h3 class="micropost">...wants to remind to...</h3>
+  <table class="microposts" summary="User microposts">
+    <%= render @microposts %>
+  </table>
+  <%= will_paginate @microposts %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <strong>Username</strong> <%= @user.name %><br />
+  <% unless @user.profile.name.empty? %>
+  <strong>Name</strong> <%= @user.profile.name %><br />
+  <% end %>
+  <% unless @user.profile.email.empty? %>
+  <strong>Email</strong> <%= @user.profile.email %><br />
+  <% end %>
+  <% unless @user.profile.location.empty? %>
+  <strong>Location</strong> <%= @user.profile.location %><br />
+  <% end %>
+  <% unless @user.profile.website.empty? %>
+  <strong>Website</strong> <%= @user.profile.website %><br />
+  <% end %>
+  <strong>URL</strong>  <%= link_to user_path(@user), @user %>
+  <strong>Microposts</strong> <%= @user.microposts.count %>
+<% end %>

@@ -22,3 +22,7 @@
     <%= f.submit "Update public profile" %>
   </div>
 <% end %>
+
+<% content_for :sidebar do %>
+  <%= render 'shared/settings_menu' %>
+<% end %>
