@@ -64,7 +64,7 @@ describe User do
     user_with_invalid_state.should_not be_valid
   end
   
-  it_behaves_like "password validation" do
+  it_should_behave_like "password validation" do
     let(:action) do
       @class = User
     end

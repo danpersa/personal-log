@@ -5,16 +5,14 @@ describe UsersController do
 
   before(:each) do
     # Define @base_title here.
-    @base_title = "Personal Log"
+    @base_title = "Remind me to live"
   end
 
   describe "GET 'index'" do
 
-    describe "for non-signed-in users" do
-      it "should deny access" do
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
         get :index
-        response.should redirect_to(signin_path)
-        flash[:notice].should =~ /sign in/i
       end
     end
 
@@ -281,14 +279,16 @@ describe UsersController do
 
     describe "for non-signed-in users" do
 
-      it "should deny access to 'edit'" do
-        get :edit, :id => @user
-        response.should redirect_to(signin_path)
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :edit, :id => @user
+        end
       end
 
-      it "should deny access to 'update'" do
-        put :update, :id => @user, :user => {}
-        response.should redirect_to(signin_path)
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          put :update, :id => @user, :user => {}
+        end
       end
     end
 
@@ -355,47 +355,16 @@ describe UsersController do
   describe "follow pages" do
     describe "when not signed in" do
       
-      it "should protect 'following'" do
-        get :following, :id => 1
-        response.should redirect_to(signin_path)
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :following, :id => 1
+        end
       end
       
-      it "should protect 'followers'" do
-        get :followers, :id => 1
-        response.should redirect_to(signin_path)
-      end
-    end
-    
-    describe "when signed in" do
-      before(:each) do
-        @user = test_sign_in(Factory(:user))
-        @other_user = Factory(:user, :email => Factory.next(:email))
-        @user.follow!(@other_user)
-      end
-      
-      it "should show user following" do
-        get :following, :id => @user
-        response.should have_selector("a", :href => user_path(@other_user),
-            :content => @other_user.name)
-      end
-      
-      it "should show user followers" do
-        get :followers, :id => @other_user
-        response.should have_selector("a", :href => user_path(@user),
-            :content => @user.name)
-      end
-    end
-  end
-  
-  describe "follow pages" do
-    describe "when not signed in" do
-      it "should protect 'following'" do
-        get :following, :id => 1
-        response.should redirect_to(signin_path)
-      end
-      it "should protect 'followers'" do
-        get :followers, :id => 1
-        response.should redirect_to(signin_path)
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :followers, :id => 1
+        end
       end
     end
     

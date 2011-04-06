@@ -14,7 +14,7 @@ describe ChangePassword do
     change_password.should be_valid
   end
 
-  it_behaves_like "password validation" do
+  it_should_behave_like "password validation" do
     let(:action) do
       @class = ChangePassword
     end

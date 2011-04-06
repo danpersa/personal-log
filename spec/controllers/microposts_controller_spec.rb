@@ -5,14 +5,16 @@ describe MicropostsController do
 
   describe "access control" do
 
-    it "should deny access to 'create'" do
-      post :create
-      response.should redirect_to(signin_path)
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        post :create
+      end
     end
-
-    it "should deny access to 'destroy'" do
-      delete :destroy, :id => 1
-      response.should redirect_to(signin_path)
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        delete :destroy, :id => 1
+      end
     end
   end
   

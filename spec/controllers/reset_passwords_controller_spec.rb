@@ -6,7 +6,7 @@ describe ResetPasswordsController do
   describe "GET 'new'" do
     
     before(:each) do
-      @base_title = "Personal Log"
+      @base_title = "Remind me to live"
     end
     
     it "should be successful" do

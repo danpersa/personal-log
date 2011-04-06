@@ -41,7 +41,7 @@ describe ChangePasswordsController do
           @path = signin_path
         end
         
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
       end
       
       describe "it should reject expired links" do
@@ -56,7 +56,7 @@ describe ChangePasswordsController do
           @path = reset_passwords_path
         end
       
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
       end
     end
     
@@ -70,7 +70,7 @@ describe ChangePasswordsController do
           @path = signin_path
         end
       
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
     end
   end
 
@@ -96,7 +96,7 @@ describe ChangePasswordsController do
         @path = signin_path
       end
       
-      it_behaves_like "redirect with flash"
+      it_should_behave_like "redirect with flash"
       
       it "should not allow to use the same password twice" do
         post :create, :change_password => @attr
@@ -123,7 +123,7 @@ describe ChangePasswordsController do
           @path = reset_passwords_path
         end
       
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
       end
       
       describe "wrong password_reset_code" do
@@ -135,7 +135,7 @@ describe ChangePasswordsController do
           @path = signin_path
         end
       
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
       end
       
       describe "signed in" do
@@ -147,7 +147,7 @@ describe ChangePasswordsController do
           @path = root_path
         end
       
-        it_behaves_like "redirect with flash"
+        it_should_behave_like "redirect with flash"
       end
     end
   end
