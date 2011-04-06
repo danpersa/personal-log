@@ -327,4 +327,25 @@ describe User do
       user.should respond_to(:profile)
     end
   end
+  
+  describe "display name" do
+    before(:each) do
+      @profile = Factory(:profile)
+      @user = @profile.user
+    end
+    
+    it "should return the profile name" do
+      @user.display_name.should == @profile.name
+    end
+    
+    it "should return the user name if no user profile name" do
+      @user.profile.name = ""
+      @user.display_name.should == @user.name
+    end
+    
+    it "should return the user name if no profile" do
+      user = Factory(:activated_user)
+      user.display_name.should == user.name
+    end
+  end
 end

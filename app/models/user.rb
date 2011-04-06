@@ -123,6 +123,15 @@ class User < ActiveRecord::Base
     self.activated_at = Time.now.utc
     self.save!
   end
+  
+  def display_name
+    unless self.profile.nil?
+      unless self.profile.name.empty?
+        return self.profile.name
+      end
+    end
+    return self.name
+  end
 
   private
 

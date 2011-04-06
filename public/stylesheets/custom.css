@@ -133,11 +133,6 @@ td.sidebar {
   background: #ffc;
 }
 
-.profile img.gravatar {
-  border: 1px solid #999;
-  margin-bottom: -15px;
-}
-
 /* For the form */
 div.field, div.actions {
   margin-bottom: 10px;
@@ -259,4 +254,12 @@ form.new_micropost textarea {
 
 div.icon-button {
   width: 17px;
+}
+
+div.sidebar-user-info {
+  font-size: 80%;
+}
+
+div.sidebar-user-info-item {
+  margin-bottom: 5px;
 }
