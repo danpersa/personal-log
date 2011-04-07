@@ -24,15 +24,12 @@ describe UsersController do
         third  = Factory(:user, :email => "another@example.net")
         @users = [@user, second, third]
       end
-
-      it "should be successful" do
-        get :index
-        response.should be_success
-      end
-
-      it "should have the right title" do
-        get :index
-        response.should have_selector("title", :content => "All users")
+      
+      it_should_behave_like "successful get request" do
+        let(:action) do
+          get :index
+          @title = @base_title + " | All users"
+        end
       end
 
       it "should have an element for each user" do
@@ -58,14 +55,12 @@ describe UsersController do
   end
 
   describe "GET 'new'" do
-    it "should be successful" do
-      get 'new'
-      response.should be_success
-    end
-
-    it "should have the right title" do
-      get 'new'
-      response.should have_selector "title", :content => @base_title + " | Sign up"
+    
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :new
+        @title = @base_title + " | Sign up"
+      end
     end
   end
 
@@ -74,15 +69,12 @@ describe UsersController do
     before(:each) do
       @user = Factory(:user)
     end
-
-    it "should be successful" do
-      get :show, :id => @user
-      response.should be_success
-    end
-
-    it "should have the right title" do
-      get :show, :id => @user
-      response.should have_selector "title", :content => @base_title + " | " + @user.name
+    
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :show, :id => @user
+        @title = @base_title + " | " + @user.name
+      end
     end
 
     it "should find the right user" do
@@ -194,15 +186,12 @@ describe UsersController do
       @user = Factory(:user)
       test_sign_in(@user)
     end
-
-    it "should be successful" do
-      get :edit, :id => @user
-      response.should be_success
-    end
-
-    it "should have the right title" do
-      get :edit, :id => @user
-      response.should have_selector("title", :content => "Edit user")
+    
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :edit, :id => @user
+        @title = @base_title + " | Edit user"
+      end
     end
 
     it "should have a link to change the Gravatar" do

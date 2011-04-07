@@ -23,6 +23,12 @@ PersonalLog::Application.routes.draw do
             :only => [:edit, :create],
             # the edit path is the same as the create path
             :path_names => {:edit => ''}
+            
+  resources :change_passwords,
+            :path => 'change-password',
+            :only => [:new, :create],
+            # the new path is the same as the create path
+            :path_names => {:new => ''}
       
   root                                  :to => 'pages#home'
   match '/signup',                      :to => 'users#new'

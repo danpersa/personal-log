@@ -4,7 +4,6 @@ describe ProfilesController do
   render_views
 
   before(:each) do
-  # Define @base_title here.
     @base_title = "Remind me to live"
   end
 
@@ -36,11 +35,13 @@ describe ProfilesController do
 
     before(:each) do
       @user = test_sign_in(Factory(:user))
-    end
-
-    it "should be successful" do
       get :edit, :user_id => @user.id
-      response.should be_success
+    end
+    
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        @title = @base_title + " | Update public profile"
+      end
     end
 
   end

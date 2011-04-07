@@ -10,14 +10,11 @@ describe PagesController do
 
   describe "GET 'home'" do
     
-    it "should be successful" do
-      get 'home'
-      response.should be_success
-    end
-
-    it "should have the correct title" do
-      get 'home'
-      response.should have_selector("title", :content => @base_title + " | Home")
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :home
+        @title = @base_title + " | Home"
+      end
     end
 
     describe "when signed in" do
@@ -41,40 +38,31 @@ describe PagesController do
 
   describe "GET 'contact'" do
     
-    it "should be successful" do
-      get 'contact'
-      response.should be_success
-    end
-    
-    it "should have the correct title" do
-      get 'contact'
-      response.should have_selector "title", :content => @base_title + " | Contact"
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :contact
+        @title =  @base_title + " | Contact"
+      end
     end
   end
 
   describe "GET 'about'" do
     
-    it "should be successful" do
-      get 'about'
-      response.should be_success
-    end
-    
-    it "should have the correct title" do
-      get 'about'
-      response.should have_selector "title", :content => @base_title + " | About"
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :about
+        @title =  @base_title + " | About"
+      end
     end
   end
 
   describe "GET 'reset_password_mail_sent'" do
 
-    it "should be successful" do
-      get :reset_password_mail_sent
-      response.should be_successful
-    end
-
-    it "should have the correct title" do
-      get :reset_password_mail_sent
-      response.should have_selector("title", :content => @base_title + " | Reset Password Mail Sent")
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :reset_password_mail_sent
+        @title =  @base_title + " | Reset Password Mail Sent"
+      end
     end
 
     it "should have the correct text" do

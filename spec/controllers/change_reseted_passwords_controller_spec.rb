@@ -6,6 +6,7 @@ describe ChangeResetedPasswordsController do
   describe "GET 'edit'" do
 
     before(:each) do
+      @base_title = "Remind me to live"
       @user = Factory(:activated_user)
     end
 
@@ -15,8 +16,10 @@ describe ChangeResetedPasswordsController do
         get :edit, :id => @user.password_reset_code
       end
 
-      it "should allow access without sign in" do
-        response.should_not redirect_to(signin_path)
+      it_should_behave_like "successful get request" do
+        let(:action) do
+          @title = @base_title + " | Change Password"
+        end
       end
       
       it "should render the edit template" do
@@ -74,7 +77,7 @@ describe ChangeResetedPasswordsController do
     end
   end
 
-  describe "POST 'update'" do
+  describe "POST 'create'" do
 
     before(:each) do
       @user = Factory(:activated_user)
@@ -89,14 +92,14 @@ describe ChangeResetedPasswordsController do
       before(:each) do
         post :create, :change_reseted_password => @attr
       end
-      
-      let(:action) do
-        @notification = :success
-        @message = /Your password was successfully changed!/
-        @path = signin_path
+
+      it_should_behave_like "redirect with flash" do
+        let(:action) do
+          @notification = :success
+          @message = /Your password was successfully changed!/
+          @path = signin_path
+        end
       end
-      
-      it_should_behave_like "redirect with flash"
       
       it "should not allow to use the same password twice" do
         post :create, :change_reseted_password => @attr

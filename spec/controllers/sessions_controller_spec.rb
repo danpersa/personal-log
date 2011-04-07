@@ -2,16 +2,18 @@ require 'spec_helper'
 
 describe SessionsController do
   render_views
+  
+  before(:each) do
+    @base_title = "Remind me to live"
+  end
 
   describe "GET 'new'" do
-    it "should be successful" do
-      get 'new'
-      response.should be_success
-    end
-
-    it "should have the right title" do
-      get :new
-      response.should have_selector("title", :content => "Sign in")
+    
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :new
+        @title = @base_title + " | Sign in"
+      end
     end
   end
 

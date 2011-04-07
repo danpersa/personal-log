@@ -1,6 +1,6 @@
 class ChangeResetedPasswordsController < ApplicationController
-
   before_filter :not_authenticate
+  
   def edit
     @change_reseted_password = ChangeResetedPassword.new({:password_reset_code => params[:id]})
     @user = User.find_by_password_reset_code(@change_reseted_password.password_reset_code)
