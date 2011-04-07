@@ -1,6 +1,6 @@
 <h1>Change password</h1>
 
-<%= form_for(@change_password) do |f| %>
+<%= form_for(@change_reseted_password) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
   <%= f.hidden_field :password_reset_code %>
   <div class="field">
@@ -12,6 +12,6 @@
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="actions">
-    <%= f.submit "Change passoword" %>
+    <%= f.submit "Change password" %>
   </div>
 <% end %>

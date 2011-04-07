@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChangePassword do
+describe ChangeResetedPassword do
   before(:each) do
     @attr = {
       :password => "password",
@@ -10,13 +10,13 @@ describe ChangePassword do
   end
 
   it "should create a new valid instance given valid attributes" do
-    change_password = ChangePassword.new(@attr)
-    change_password.should be_valid
+    change_reseted_password = ChangeResetedPassword.new(@attr)
+    change_reseted_password.should be_valid
   end
 
   it_should_behave_like "password validation" do
     let(:action) do
-      @class = ChangePassword
+      @class = ChangeResetedPassword
     end
   end
 end

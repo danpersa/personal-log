@@ -1,9 +1,9 @@
-class ChangePasswordsController < ApplicationController
+class ChangeResetedPasswordsController < ApplicationController
 
   before_filter :not_authenticate
   def edit
-    @change_password = ChangePassword.new({:password_reset_code => params[:id]})
-    @user = User.find_by_password_reset_code(@change_password.password_reset_code)
+    @change_reseted_password = ChangeResetedPassword.new({:password_reset_code => params[:id]})
+    @user = User.find_by_password_reset_code(@change_reseted_password.password_reset_code)
     if deny_access_if_invalid_link?
       return
     end
@@ -18,9 +18,9 @@ class ChangePasswordsController < ApplicationController
 
   def create
     # we create the change password object
-    @change_password = ChangePassword.new(params[:change_password])
+    @change_reseted_password = ChangeResetedPassword.new(params[:change_reseted_password])
     # we look for a user with that password_reset_code
-    @user = User.find_by_password_reset_code(@change_password.password_reset_code)
+    @user = User.find_by_password_reset_code(@change_reseted_password.password_reset_code)
     # if we don't find an user with that password_reset_code
     if deny_access_if_invalid_link?
       return
@@ -33,12 +33,12 @@ class ChangePasswordsController < ApplicationController
       return
     end 
     # if the new password is valid
-    if @change_password.valid?
+    if @change_reseted_password.valid?
       flash[:success] = "Your password was successfully changed!"
       # we update the user
       @user.updating_password = true
-      @user.password = @change_password.password
-      @user.password_confirmation = @change_password.password_confirmation
+      @user.password = @change_reseted_password.password
+      @user.password_confirmation = @change_reseted_password.password_confirmation
       # we don't let a password reset code to be used twice
       @user.password_reset_code = nil
       @user.reset_password_mail_sent_at = nil

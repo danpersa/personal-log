@@ -18,8 +18,8 @@ PersonalLog::Application.routes.draw do
             # the new path is the same as the create path
             :path_names => {:new => ''}
             
-  resources :change_passwords,
-            :path => 'change-password',
+  resources :change_reseted_passwords,
+            :path => 'change-reseted-password',
             :only => [:edit, :create],
             # the edit path is the same as the create path
             :path_names => {:edit => ''}
@@ -28,16 +28,16 @@ PersonalLog::Application.routes.draw do
   match '/signup',                      :to => 'users#new'
   match '/activate',                    :to => 'users#activate'
   
-  #match '/change-password',            :to => 'users#change_password',
-  #                                     :as => 'change_password'
+  #match '/change-reseted-password',            :to => 'users#change_reseted_password',
+  #                                     :as => 'change_reseted_password'
                                         
   
-  #match '/change-password/:password_reset_code',   
-  #                                      :to => 'users#change_password',
+  #match '/change-reseted-password/:password_reset_code',   
+  #                                      :to => 'users#change_reseted_password',
   #                                      :constraints => {:password_reset_code => /[A-Za-z0-9]+/},
   #                                      :via => :get
   
-  #match '/change-password',             :to => 'errors#routing',
+  #match '/change-reseted-password',             :to => 'errors#routing',
   #                                      :via => 'get'
   
   match '/signin',                      :to => 'sessions#new'

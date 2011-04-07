@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_password]
-  before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_password]
+  before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
+  before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
-  before_filter :not_authenticate, :only => [:change_password]
+  before_filter :not_authenticate, :only => [:change_reseted_password]
   
 
 

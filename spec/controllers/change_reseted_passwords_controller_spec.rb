@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChangePasswordsController do
+describe ChangeResetedPasswordsController do
   render_views
 
   describe "GET 'edit'" do
@@ -87,7 +87,7 @@ describe ChangePasswordsController do
     describe "success" do
       
       before(:each) do
-        post :create, :change_password => @attr
+        post :create, :change_reseted_password => @attr
       end
       
       let(:action) do
@@ -99,7 +99,7 @@ describe ChangePasswordsController do
       it_should_behave_like "redirect with flash"
       
       it "should not allow to use the same password twice" do
-        post :create, :change_password => @attr
+        post :create, :change_reseted_password => @attr
         flash[:notice].should =~ /You don't have a valid reset password link!/
       end
       
@@ -108,7 +108,7 @@ describe ChangePasswordsController do
     describe "fail" do
       
       it "should validate password" do
-        post :create, :change_password => @attr.merge(:password_confirmation => "another")
+        post :create, :change_reseted_password => @attr.merge(:password_confirmation => "another")
         response.should render_template :edit
       end
       
@@ -117,7 +117,7 @@ describe ChangePasswordsController do
         let(:action) do
           @user.reset_password_mail_sent_at = 2.days.ago
           @user.save!
-          post :create, :change_password => @attr
+          post :create, :change_reseted_password => @attr
           @notification = :notice
           @message = /Your reset password link has expired! Please use the reset password feature again!/
           @path = reset_passwords_path
@@ -129,7 +129,7 @@ describe ChangePasswordsController do
       describe "wrong password_reset_code" do
         
         let(:action) do
-          post :create, :change_password => @attr.merge(:password_reset_code => "another")
+          post :create, :change_reseted_password => @attr.merge(:password_reset_code => "another")
           @notification = :notice
           @message = /ou don't have a valid reset password link!/
           @path = signin_path
@@ -141,7 +141,7 @@ describe ChangePasswordsController do
       describe "signed in" do
         let(:action) do
           test_sign_in(@user)
-          post :create, :change_password => @attr
+          post :create, :change_reseted_password => @attr
           @notification = :notice
           @message = /You must not be signed in in order to do this action!/
           @path = root_path
