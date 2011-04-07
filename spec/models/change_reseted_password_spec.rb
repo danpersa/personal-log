@@ -16,7 +16,7 @@ describe ChangeResetedPassword do
 
   it_should_behave_like "password validation" do
     let(:action) do
-      @class = ChangeResetedPassword
+      @valid_object = ChangeResetedPassword.new(@attr)
     end
   end
 end

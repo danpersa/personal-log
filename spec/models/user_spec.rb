@@ -66,7 +66,7 @@ describe User do
   
   it_should_behave_like "password validation" do
     let(:action) do
-      @class = User
+      @valid_object = User.new(@attr)
     end
   end
 
