@@ -205,15 +205,14 @@ describe UsersController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @user = Factory(:user)
+      @user = Factory(:activated_user)
       test_sign_in(@user)
     end
 
     describe "failure" do
 
       before(:each) do
-        @attr = { :email => "", :name => "", :password => "",
-                  :password_confirmation => "" }
+        @attr = { :email => "", :name => "" }
       end
 
       it "should render the 'edit' page" do
@@ -226,12 +225,6 @@ describe UsersController do
         response.should have_selector("title", :content => "Edit user")
       end
       
-      it "should validate the password" do
-        @attr = { :name => "New Name", :email => "user@example.org",
-                  :password => "barbaz", :password_confirmation => "barbaz1" }
-        put :update, :id => @user, :user => @attr
-        response.should render_template :edit
-      end
     end
 
     describe "success" do
@@ -246,6 +239,12 @@ describe UsersController do
         @user.reload
         @user.name.should  == @attr[:name]
         @user.email.should == @attr[:email]
+      end
+      
+      it "should not change the user's password" do
+        put :update, :id => @user, :user => @attr
+        @user.reload
+        @user.has_password?("foobar").should == true
       end
 
       it "should redirect to the user show page" do
