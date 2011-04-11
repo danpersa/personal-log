@@ -31,6 +31,8 @@ class UsersController < ApplicationController
     
     unless verify_recaptcha(request.remote_ip, params)
       @title = "Sign up"
+      # we trigger the validation manually
+      @user.valid?
       render :new
       return
     end
