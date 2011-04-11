@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  
+  include RecaptchaHelper
+  
   before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :correct_user, :only => [:edit, :update]
@@ -25,6 +28,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    
+    unless verify_recaptcha(request.remote_ip, params)
+      @title = "Sign up"
+      render :new
+      return
+    end
+    
     if @user.save
       flash[:success] = "Please follow the steps from the email we sent you to activate your account!"
       redirect_to signin_path

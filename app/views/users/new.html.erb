@@ -17,6 +17,9 @@
     <%= f.label :password_confirmation, "Confirmation" %><br />
     <%= f.password_field :password_confirmation %>
   </div>
+  <div class="field">
+    <%= render '/shared/recaptcha' %>
+  </div>
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

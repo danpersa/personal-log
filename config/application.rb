@@ -41,5 +41,11 @@ module PersonalLog
     
     # Observers
     config.active_record.observers = :user_observer
+    config.recaptcha = {}
+    config.recaptcha[:enable]              = true
+    config.recaptcha[:private_key]         = '6Len6sISAAAAAOnvKTBhB-qav8UHClxqP2RAuIHE'
+    config.recaptcha[:public_key]          = '6Len6sISAAAAAFjJaGLIU7IxEEheifrB8HY2AQj7'
+    config.recaptcha[:api_server_url]      = "http://www.google.com/recaptcha/api/verify"
+    config.recaptcha[:ssl_api_service_url] = "https://www.google.com/recaptcha/api/verify"
   end
 end
