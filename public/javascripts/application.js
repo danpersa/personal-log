@@ -10,4 +10,6 @@ $(function(){
     function() { $(this).find("div.icon-button").removeClass('invisible'); },
     function() { $(this).find("div.icon-button").addClass('invisible'); }
   );
+  
+  $("#micropost_reminder_date").datepicker({ dateFormat: 'dd/mm/yy', minDate: new Date()});
 });
