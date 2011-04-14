@@ -17,7 +17,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(:page => params[:page])
+    if signed_in?
+      @microposts = @user.microposts_for_logged_user(current_user).paginate(:page => params[:page])
+    else
+      @microposts = @user.microposts_for_logged_user(nil).paginate(:page => params[:page])
+    end
     @title = @user.name
   end
 

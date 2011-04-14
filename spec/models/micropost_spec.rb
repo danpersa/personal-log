@@ -98,23 +98,68 @@ describe Micropost do
                                                      :privacy => @private_privacy))
       @user.follow!(@other_user)
     end
+    
     it "should have a from_users_followed_by class method" do
       Micropost.should respond_to(:from_users_followed_by)
     end
+    
     it "should include the followed user's microposts" do
       Micropost.from_users_followed_by(@user).should include(@other_post)
     end
+    
     it "should include the user's own microposts" do
       Micropost.from_users_followed_by(@user).should include(@user_post)
     end
+    
     it "should not include an unfollowed user's microposts" do
       Micropost.from_users_followed_by(@user).should_not include(@third_post)
     end
+    
     it "should not include the followed user's microposts that are private" do
       Micropost.from_users_followed_by(@user).should_not include(@private_post_of_followd_user)
     end
+    
     it "should include the user's own private microposts" do
       Micropost.from_users_followed_by(@user).should include(@user_private_post)
+    end
+  end
+  
+  describe "from_user_with_privacy" do
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      
+      @user_post = @user.microposts.create!(@attr.merge(:content => "foo"))
+      @user_private_post = @user.microposts.create!(@attr.merge(:content => "foo", 
+                                                                :privacy => @private_privacy))
+    end
+    
+    it "should have a from_user_with_privacy class method" do
+      Micropost.should respond_to(:from_user_with_privacy)
+    end
+    
+    it "should include own public posts" do
+      Micropost.from_user_with_privacy(@user, @user).should include(@user_post)
+    end
+    
+    it "should include own private posts" do
+      Micropost.from_user_with_privacy(@user, @user).should include(@user_private_post)
+    end
+    
+    it "should include other user's public posts" do
+      Micropost.from_user_with_privacy(@user, @other_user).should include(@user_post)
+    end
+    
+    it "should not include other user's private posts" do
+      Micropost.from_user_with_privacy(@user, @other_user).should_not include(@user_private_post)
+    end
+    
+    it "should include other user's public posts for guest" do
+      Micropost.from_user_with_privacy(@user, nil).should include(@user_post)
+    end
+    
+    it "should not include other user's private posts for guest" do
+      Micropost.from_user_with_privacy(@user, nil).should_not include(@user_private_post)
     end
   end
 end

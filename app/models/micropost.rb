@@ -33,6 +33,7 @@ class Micropost < ActiveRecord::Base
 
   # Return microposts from the users being followed by the given user.
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
+  scope :from_user_with_privacy, lambda { |user, logged_user| with_privacy(user, logged_user) }
   
   private
   # Return an SQL condition for users followed by the given user.
@@ -41,6 +42,15 @@ class Micropost < ActiveRecord::Base
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.find_by_name("public").id
     where("(user_id IN (#{followed_ids} AND privacy_id = #{public_privacy_id})) OR user_id = :user_id", { :user_id => user })
+  end
+  
+  def self.with_privacy(user, logged_user)
+    if !logged_user.nil? and user == logged_user
+      where("user_id = :user_id", { :user_id => user })
+    elsif
+      public_privacy_id = Privacy.find_by_name("public").id
+      where("user_id = :user_id AND privacy_id = #{public_privacy_id}", { :user_id => user })
+    end
   end
   
   def reminder_date_cannot_be_in_the_past

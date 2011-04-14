@@ -68,6 +68,8 @@ describe UsersController do
 
     before(:each) do
       @user = Factory(:user)
+      @privacy = Factory(:privacy)
+      @private_privacy = Factory(:privacy, :name => "private")
     end
     
     it_should_behave_like "successful get request" do
@@ -93,14 +95,56 @@ describe UsersController do
     end
     
     it "should show the user's microposts" do
-      privacy = Factory(:privacy) 
-      mp1 = Factory(:micropost, :user => @user, :content => "Foo bar", :privacy => privacy)
-      mp2 = Factory(:micropost, :user => @user, :content => "Baz quux", :privacy => privacy)
+      mp1 = Factory(:micropost, :user => @user, :content => "Foo bar", :privacy => @privacy)
+      mp2 = Factory(:micropost, :user => @user, :content => "Baz quux", :privacy => @privacy)
       get :show, :id => @user
       response.should have_selector("span.content", :content => mp1.content)
       response.should have_selector("span.content", :content => mp2.content)
     end
-
+    
+    it "should not show private posts" do
+      public_micropost = Factory(:micropost, :user => @user, :content => "Foo bar", :privacy => @privacy)
+      private_micropost = Factory(:micropost, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+      get :show, :id => @user
+      response.should have_selector("span.content", :content => public_micropost.content)
+      response.should_not have_selector("span.content", :content => private_micropost.content)
+    end
+    
+    it "should paginate" do
+        32.times do
+          Factory(:micropost, :user => @user, :content => "Baz quux", :privacy => @privacy)
+        end
+        get :show, :id => @user
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/users/#{@user.id}?page=2",
+                                           :content => "2")
+        response.should have_selector("a", :href => "/users/#{@user.id}?page=2",
+                                           :content => "Next")
+    end
+    
+    describe "for logged users" do
+      before(:each) do
+        @public_micropost = Factory(:micropost, :user => @user, :content => "Foo bar", :privacy => @privacy)
+        @private_micropost = Factory(:micropost, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+      end
+      
+      
+      it "should show own private posts" do
+        test_sign_in(@user)
+        get :show, :id => @user
+        response.should have_selector("span.content", :content => @public_micropost.content)
+        response.should have_selector("span.content", :content => @private_micropost.content)
+      end
+      
+      it "should not show other user's private posts" do
+        other_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(other_user)
+        get :show, :id => @user
+        response.should have_selector("span.content", :content => @public_micropost.content)
+        response.should_not have_selector("span.content", :content => @private_micropost.content)
+      end
+    end
   end
 
   describe "POST 'create'" do

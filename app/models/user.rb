@@ -89,6 +89,10 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
   
+  def microposts_for_logged_user(logged_user)
+    Micropost.from_user_with_privacy(self, logged_user)
+  end
+  
   def activated?
     if self.activated_at == nil
       return false
