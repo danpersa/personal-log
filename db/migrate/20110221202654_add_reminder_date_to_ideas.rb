@@ -1,4 +1,4 @@
-class AddReminderDateToIdea < ActiveRecord::Migration
+class AddReminderDateToIdeas < ActiveRecord::Migration
   def self.up
     add_column :ideas, :reminder_date, :date
   end

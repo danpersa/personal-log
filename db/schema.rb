@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110405072140) do
+ActiveRecord::Schema.define(:version => 20110418123704) do
 
   create_table "ideas", :force => true do |t|
     t.string   "content"
@@ -29,15 +29,19 @@ ActiveRecord::Schema.define(:version => 20110405072140) do
     t.datetime "updated_at"
   end
 
+  add_index "privacies", ["name"], :name => "index_privacies_on_name", :unique => true
+
   create_table "profiles", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "website"
     t.string   "location"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
+
+  add_index "profiles", ["user_id"], :name => "index_profiles_on_user_id"
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -50,13 +54,16 @@ ActiveRecord::Schema.define(:version => 20110405072140) do
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
   create_table "reminders", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "idea_id"
     t.date     "reminder_date"
+    t.integer  "privacy_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "idea_id"
   end
 
   add_index "reminders", ["idea_id"], :name => "index_reminders_on_idea_id"
+  add_index "reminders", ["user_id"], :name => "index_reminders_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -74,5 +81,6 @@ ActiveRecord::Schema.define(:version => 20110405072140) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["encrypted_password"], :name => "index_users_on_encrypted_password"
 
 end

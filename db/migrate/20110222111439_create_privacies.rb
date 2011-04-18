@@ -5,9 +5,12 @@ class CreatePrivacies < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :privacies, :name, :unique => true
   end
 
   def self.down
+    remove_index :privacies, :name
     drop_table :privacies
   end
 end
