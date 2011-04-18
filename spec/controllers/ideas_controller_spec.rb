@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MicropostsController do
+describe IdeasController do
   render_views
 
   describe "access control" do
@@ -31,20 +31,20 @@ describe MicropostsController do
         @attr = { :content => "", :privacy => @privacy }
       end
 
-      it "should not create a micropost without content" do
+      it "should not create a idea without content" do
         lambda do
-          post :create, :micropost => @attr
-        end.should_not change(Micropost, :count)
+          post :create, :idea => @attr
+        end.should_not change(Idea, :count)
       end
       
-      it "should not create a micropost without privacy" do
+      it "should not create a idea without privacy" do
         lambda do
-          post :create, :micropost => @attr.merge({:content => "valid content", :privacy => nil})
-        end.should_not change(Micropost, :count)
+          post :create, :idea => @attr.merge({:content => "valid content", :privacy => nil})
+        end.should_not change(Idea, :count)
       end
 
       it "should render the home page" do
-        post :create, :micropost => @attr
+        post :create, :idea => @attr
         response.should render_template('pages/home')
       end
     end
@@ -59,20 +59,20 @@ describe MicropostsController do
           }
       end
        
-      it "should create a micropost" do
+      it "should create a idea" do
         lambda do
-          post :create, :micropost => @attr
-        end.should change(Micropost, :count).by(1)
+          post :create, :idea => @attr
+        end.should change(Idea, :count).by(1)
       end
     
       it "should redirect to the home page" do
-        post :create, :micropost => @attr
+        post :create, :idea => @attr
         response.should redirect_to(root_path)
       end
  
       it "should have a flash message" do
-        post :create, :micropost => @attr
-        flash[:success].should =~ /micropost created/i
+        post :create, :idea => @attr
+        flash[:success].should =~ /idea created/i
       end
     end
   end
@@ -85,11 +85,11 @@ describe MicropostsController do
         @user = Factory(:user)
         wrong_user = Factory(:user, :email => Factory.next(:email))
         test_sign_in(wrong_user)
-        @micropost = Factory(:micropost, :user => @user)
+        @idea = Factory(:idea, :user => @user)
       end
 
       it "should deny access" do
-        delete :destroy, :id => @micropost
+        delete :destroy, :id => @idea
         response.should redirect_to(root_path)
       end
     end
@@ -98,13 +98,13 @@ describe MicropostsController do
 
       before(:each) do
         @user = test_sign_in(Factory(:user))
-        @micropost = Factory(:micropost, :user => @user)
+        @idea = Factory(:idea, :user => @user)
       end
 
-      it "should destroy the micropost" do
+      it "should destroy the idea" do
         lambda do 
-          delete :destroy, :id => @micropost
-        end.should change(Micropost, :count).by(-1)
+          delete :destroy, :id => @idea
+        end.should change(Idea, :count).by(-1)
       end
     end
   end

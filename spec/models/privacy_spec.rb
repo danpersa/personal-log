@@ -22,14 +22,14 @@ describe Privacy do
     end
   end
   
-  describe "micropost associations" do
+  describe "idea associations" do
     before(:each) do
       @privacy = Factory(:privacy)
-      @micropost = Factory(:micropost, :privacy => @privacy, :created_at => 1.day.ago)
+      @idea = Factory(:idea, :privacy => @privacy, :created_at => 1.day.ago)
     end
     
-    it "should have a microposts attribute" do
-      @privacy.should respond_to(:microposts)
+    it "should have a ideas attribute" do
+      @privacy.should respond_to(:ideas)
     end
   end
 end

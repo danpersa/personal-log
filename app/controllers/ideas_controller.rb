@@ -1,12 +1,12 @@
-class MicropostsController < ApplicationController
+class IdeasController < ApplicationController
   before_filter :authenticate, :only => [:create, :destroy]
   before_filter :authorized_user, :only => :destroy
   before_filter :correct_user, :only => [:edit, :update]
 
   def create
-  	@micropost  = current_user.microposts.build(params[:micropost])
-    if @micropost.save
-      flash[:success] = "Micropost created!"
+  	@idea  = current_user.ideas.build(params[:idea])
+    if @idea.save
+      flash[:success] = "Idea created!"
       redirect_to root_path
     else
       @feed_items = []
@@ -16,7 +16,7 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
-    @micropost.destroy
+    @idea.destroy
     respond_to do |format|
        format.html { redirect_back_or root_path }
        format.js
@@ -26,8 +26,8 @@ class MicropostsController < ApplicationController
   private
 
   def authorized_user
-    @micropost = Micropost.find(params[:id])
-    redirect_to root_path unless current_user?(@micropost.user)
+    @idea = Idea.find(params[:id])
+    redirect_to root_path unless current_user?(@idea.user)
   end
 
 end

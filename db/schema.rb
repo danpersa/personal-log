@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(:version => 20110405072140) do
 
-  create_table "microposts", :force => true do |t|
+  create_table "ideas", :force => true do |t|
     t.string   "content"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20110405072140) do
     t.integer  "privacy_id"
   end
 
-  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
+  add_index "ideas", ["user_id"], :name => "index_ideas_on_user_id"
 
   create_table "privacies", :force => true do |t|
     t.string   "name"
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(:version => 20110405072140) do
     t.date     "reminder_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "micropost_id"
+    t.integer  "idea_id"
   end
 
-  add_index "reminders", ["micropost_id"], :name => "index_reminders_on_micropost_id"
+  add_index "reminders", ["idea_id"], :name => "index_reminders_on_idea_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

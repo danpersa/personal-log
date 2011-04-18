@@ -17,6 +17,6 @@ class Privacy < ActiveRecord::Base
   validates_inclusion_of :name, :in => %w(private public),
     :message => "%{value} is not a valid privacy"
     
-  has_many :microposts
+  has_many :ideas
 
 end

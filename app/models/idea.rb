@@ -1,7 +1,7 @@
 # == Schema Information
 # Schema version: 20110405072140
 #
-# Table name: microposts
+# Table name: ideas
 #
 #  id            :integer(4)      not null, primary key
 #  content       :string(255)
@@ -12,7 +12,7 @@
 #  privacy_id    :integer(4)
 #
 
-class Micropost < ActiveRecord::Base
+class Idea < ActiveRecord::Base
   attr_accessible :content, :reminder_date, :privacy, :privacy_id
 
   belongs_to :user
@@ -24,14 +24,14 @@ class Micropost < ActiveRecord::Base
   validates :privacy_id, :presence => true
   validate  :reminder_date_cannot_be_in_the_past
 
-  default_scope :order => 'microposts.created_at DESC'
+  default_scope :order => 'ideas.created_at DESC'
 
   #def self.from_users_followed_by(user)
   #  followed_ids = user.following.map(&:id).join(", ")
   #  where("user_id IN (#{followed_ids}) OR user_id = ?", user)
   #end
 
-  # Return microposts from the users being followed by the given user.
+  # Return ideas from the users being followed by the given user.
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
   scope :from_user_with_privacy, lambda { |user, logged_user| with_privacy(user, logged_user) }
   

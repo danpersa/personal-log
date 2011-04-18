@@ -6,7 +6,7 @@ namespace :db do
     Rake::Task['db:reset'].invoke
     make_privacies
     make_users
-    make_microposts
+    make_ideas
     make_relationships
   end
 end
@@ -29,12 +29,12 @@ def make_users
   
 end
 
-def make_microposts
+def make_ideas
   User.all(:limit => 6).each do |user|
     50.times do
       content = Faker::Lorem.sentence(5).downcase.chomp(".")
       reminder_date = Time.now.utc.tomorrow
-      user.microposts.create!(:content => content, 
+      user.ideas.create!(:content => content, 
           :reminder_date => reminder_date, 
           :privacy => Privacy.find_by_name("public"))
     end

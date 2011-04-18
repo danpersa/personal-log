@@ -14,7 +14,7 @@
     <br />
     <strong>URL</strong> <%= link_to user_path(@user), @user %>
     <br />
-    <strong>Microposts</strong> <%= @user.microposts.count %>
+    <strong>Ideas</strong> <%= @user.ideas.count %>
     <%= render 'shared/stats' %>
     <% unless @users.empty? %>
     <% @users.each do |user| %>

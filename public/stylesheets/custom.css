@@ -248,8 +248,8 @@ ul.users {
   list-style: none;
 }
 
-/* Microposts */
-h1.micropost {
+/* Ideas */
+h1.idea {
   margin-bottom: 0.3em;
 }
 
@@ -262,27 +262,27 @@ span.field {
   margin-right: 0.3em;
 }
 
-table.microposts {
+table.ideas {
   margin-top: 1em;
 }
 
-table.microposts tr {
+table.ideas tr {
   height: 65px;
 }
 
-table.microposts tr td.gravatar {
+table.ideas tr td.gravatar {
   border-top: 1px solid #ccc;
   vertical-align: top;
   width: 50px;
 }
 
-table.microposts tr td.micropost {
+table.ideas tr td.idea {
   border-top: 1px solid #ccc;
   vertical-align: top;
   padding-top: 10px;
 }
 
-table.microposts tr td.micropost span.timestamp {
+table.ideas tr td.idea span.timestamp {
   display: block;
   font-size: 85%;
   color: #666;
@@ -300,15 +300,15 @@ div.user_info span.user_name {
   position: absolute;
 }
 
-div.user_info span.microposts {
+div.user_info span.ideas {
   font-size: 80%;
 }
 
-form.new_micropost {
+form.new_idea {
   margin-bottom: 2em;
 }
 
-form.new_micropost textarea {
+form.new_idea textarea {
   height: 4em;
   margin-bottom: 0;
 }

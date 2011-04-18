@@ -20,11 +20,11 @@ Factory.sequence :email do |n|
   "person-#{n}@example.com"
 end
 
-Factory.define :micropost do |micropost|
-  micropost.content "Foo bar"
-  micropost.reminder_date Time.now.utc.tomorrow
-  micropost.association :user
-  micropost.association :privacy
+Factory.define :idea do |idea|
+  idea.content "Foo bar"
+  idea.reminder_date Time.now.utc.tomorrow
+  idea.association :user
+  idea.association :privacy
 end
 
 Factory.define :privacy do |privacy|

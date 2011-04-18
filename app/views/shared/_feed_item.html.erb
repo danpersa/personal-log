@@ -2,7 +2,7 @@
   <td class="gravatar">
     <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   </td>
-  <td class="micropost">
+  <td class="idea">
     <span class="user">
       <%= link_to feed_item.user.display_name, feed_item.user %>
     </span>
@@ -12,7 +12,7 @@
     </span>
   </td>
   <% if current_user?(feed_item.user) %>
-  <td class="micropost">
+  <td class="idea">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "delete", feed_item, :method => :delete,
                                          :confirm => "You sure?",
@@ -22,6 +22,6 @@
     </div>
   </td>
   <% else %>
-  <td class="micropost"></td>
+  <td class="idea"></td>
   <% end %>
 </tr>

@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, 
                   :activation_code
 
-  has_many :microposts, :dependent => :destroy
+  has_many :ideas, :dependent => :destroy
   has_many :relationships, :foreign_key => "follower_id",
     :dependent => :destroy
   has_many :following, :through => :relationships, :source => :followed
@@ -86,11 +86,11 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    Micropost.from_users_followed_by(self)
+    Idea.from_users_followed_by(self)
   end
   
-  def microposts_for_logged_user(logged_user)
-    Micropost.from_user_with_privacy(self, logged_user)
+  def ideas_for_logged_user(logged_user)
+    Idea.from_user_with_privacy(self, logged_user)
   end
   
   def activated?

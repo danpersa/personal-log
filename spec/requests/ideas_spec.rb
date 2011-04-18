@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Microposts Request" do
+describe "Ideas Request" do
 
   before(:each) do
     user = Factory(:activated_user)
@@ -15,30 +15,30 @@ describe "Microposts Request" do
 
     describe "failure" do
 
-      it "should not make a new micropost" do
+      it "should not make a new idea" do
         lambda do
           visit root_path
-          fill_in :micropost_content, :with => ""
+          fill_in :idea_content, :with => ""
           click_button
           response.should render_template('pages/home')
           response.should have_selector("div#error_explanation")
-        end.should_not change(Micropost, :count)
+        end.should_not change(Idea, :count)
       end
     end
 
     describe "success" do
       
-      it "should make a new micropost" do
+      it "should make a new idea" do
         content = "Lorem ipsum dolor sit amet"
         reminder_date = Time.now.utc
         lambda do
           visit root_path
-          fill_in :micropost_content, :with => content
-          fill_in :micropost_reminder_date, :with => reminder_date
-          select "public", :from => "micropost_privacy_id"
+          fill_in :idea_content, :with => content
+          fill_in :idea_reminder_date, :with => reminder_date
+          select "public", :from => "idea_privacy_id"
           click_button
           response.should have_selector("span.content", :content => content)
-        end.should change(Micropost, :count).by(1)
+        end.should change(Idea, :count).by(1)
       end
     end
   end

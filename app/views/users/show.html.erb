@@ -4,12 +4,12 @@
   <span id="profile-display-name"><%= @user.display_name %></span>
 </h1>
 <%= render 'follow_form' if signed_in? %>
-<% unless @user.microposts.empty? %>
-  <h3 class="micropost">...wants to remind to...</h3>
-  <table class="microposts" summary="User microposts">
-    <%= render @microposts %>
+<% unless @user.ideas.empty? %>
+  <h3 class="idea">...wants to remind to...</h3>
+  <table class="ideas" summary="User ideas">
+    <%= render @ideas %>
   </table>
-  <%= will_paginate @microposts %>
+  <%= will_paginate @ideas %>
 <% end %>
 
 <% content_for :sidebar do %>
