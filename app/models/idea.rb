@@ -17,6 +17,7 @@ class Idea < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :privacy
+  has_many   :reminders, :dependent => :destroy
 
   validates :content, :presence => true, :length => { :maximum => 140 }
   validates :reminder_date, :presence => true
