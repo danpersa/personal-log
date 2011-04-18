@@ -18,5 +18,6 @@ class Privacy < ActiveRecord::Base
     :message => "%{value} is not a valid privacy"
     
   has_many :ideas
+  has_many :reminders
 
 end

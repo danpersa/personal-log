@@ -4,7 +4,7 @@ describe Idea do
 
   before(:each) do
     @user = Factory(:user)
-    @privacy = Privacy.create(:name => "public")
+    @privacy = Factory(:privacy)
     @attr = { :content => "value for content",
       :privacy => @privacy,
       :reminder_date => Time.now.utc.tomorrow 
@@ -49,6 +49,22 @@ describe Idea do
       @privacy.should_not be_nil
       @idea.privacy.should_not be_nil
       # == @privacy
+    end
+  end
+  
+  describe "reminder associations" do
+    before(:each) do
+      @idea = @user.ideas.create!(@attr)
+      @reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => @privacy)
+    end
+    
+    it "should have a reminders attribute" do
+      @idea.should respond_to(:reminders)
+    end
+    
+    it "should destroy associated reminders" do
+      @idea.destroy
+      Reminder.find_by_id(@reminder.id).should be_nil
     end
   end
 

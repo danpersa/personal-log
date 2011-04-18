@@ -38,3 +38,10 @@ Factory.define :profile do |profile|
   profile.website     "http://www.bush.com"
   profile.association :user
 end
+
+Factory.define :reminder do |reminder|
+  reminder.reminder_date Time.now.utc.tomorrow
+  reminder.association :idea
+  reminder.association :user
+  reminder.association :privacy
+end

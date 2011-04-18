@@ -187,6 +187,24 @@ describe User do
       end
     end
   end
+  
+  describe "reminder associations" do
+    before(:each) do
+      @privacy = Factory(:privacy)
+      @user = User.create(@attr)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago, :privacy => @privacy)
+      @reminder = @user.reminders.create(:idea => @idea, :privacy => @privacy)
+    end
+    
+    it "should have a reminders attribute" do
+      @user.should respond_to(:reminders)
+    end
+    
+    it "should destroy associated reminders" do
+      @user.destroy
+      Reminder.find_by_id(@reminder.id).should be_nil
+    end
+  end
 
   describe "relationships" do
     before(:each) do
