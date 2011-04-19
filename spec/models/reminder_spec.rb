@@ -95,5 +95,80 @@ describe Reminder do
     end
   end
   
+  describe "from_users_followed_by" do
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      @third_user = Factory(:user, :email => Factory.next(:email))
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+      @other_reminder = @other_user.reminders.create!(@attr)
+      @third_reminder = @third_user.reminders.create!(@attr)
+      @private_reminder_of_followd_user = 
+          @other_user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+      @user.follow!(@other_user)
+    end
+    
+    it "should have a from_users_followed_by class method" do
+      Reminder.should respond_to(:from_users_followed_by)
+    end
+    
+    it "should include the followed user's reminders" do
+      Reminder.from_users_followed_by(@user).should include(@other_reminder)
+    end
+    
+    it "should include the user's own reminders" do
+      Reminder.from_users_followed_by(@user).should include(@reminder)
+    end
+    
+    it "should not include an unfollowed user's ideas" do
+      Reminder.from_users_followed_by(@user).should_not include(@third_reminder)
+    end
+    
+    it "should not include the followed user's reminders that are private" do
+      Reminder.from_users_followed_by(@user).should_not include(@private_reminder_of_followd_user)
+    end
+    
+    it "should include the user's own private reminders" do
+      Reminder.from_users_followed_by(@user).should include(@private_reminder)
+    end
+  end
   
+  describe "from_user_with_privacy" do
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+    end
+    
+    it "should have a from_user_with_privacy class method" do
+      Reminder.should respond_to(:from_user_with_privacy)
+    end
+    
+    it "should include own public reminders" do
+      Reminder.from_user_with_privacy(@user, @user).should include(@reminder)
+    end
+    
+    it "should include own private reminders" do
+      Reminder.from_user_with_privacy(@user, @user).should include(@private_reminder)
+    end
+    
+    it "should include other user's public reminders" do
+      Reminder.from_user_with_privacy(@user, @other_user).should include(@reminder)
+    end
+    
+    it "should not include other user's private reminders" do
+      Reminder.from_user_with_privacy(@user, @other_user).should_not include(@private_reminder)
+    end
+    
+    it "should include other user's public reminders for guest" do
+      Reminder.from_user_with_privacy(@user, nil).should include(@reminder)
+    end
+    
+    it "should not include other user's private reminders for guest" do
+      Reminder.from_user_with_privacy(@user, nil).should_not include(@private_reminder)
+    end
+  end
 end
