@@ -87,11 +87,15 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    Idea.from_users_followed_by(self)
+    Reminder.from_users_followed_by(self)
   end
   
   def ideas_for_logged_user(logged_user)
     Idea.from_user_with_privacy(self, logged_user)
+  end
+  
+  def reminders_for_logged_user(logged_user)
+    Reminder.from_user_with_privacy(self, logged_user)
   end
   
   def activated?

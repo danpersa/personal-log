@@ -1,17 +1,21 @@
-<%= form_for @idea do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
+<%= form_tag :controller => :ideas,  :action => :create do %>
+  <%= render 'shared/error_messages', :object => @idea %>
+  <%= render 'shared/error_messages', :object => @reminder %>
+  
   <div class="field">
-    <%= f.text_area :content %>
+    <%= text_area :idea, :content %>
   </div>
   <span class="title">on</span>
+  
   <span class="field">
-    <%= f.text_field :reminder_date %>
+    <%= text_field :reminder, :reminder_date %>
   </span>
+
   <span class="title">as</span>
   <span class="field">
-    <%= f.collection_select(:privacy_id, Privacy.all, :id, :name) %>
+    <%= collection_select(:idea, :privacy_id, Privacy.all, :id, :name) %>
   </span>
   <span class="actions">
-    <%= f.submit "Post" %>
-  </span>
+    <%= submit_tag "Post" %>
+  </span>  
 <% end %>

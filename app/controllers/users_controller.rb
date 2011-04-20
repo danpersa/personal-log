@@ -17,11 +17,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    if signed_in?
-      @ideas = @user.ideas_for_logged_user(current_user).paginate(:page => params[:page])
-    else
-      @ideas = @user.ideas_for_logged_user(nil).paginate(:page => params[:page])
-    end
+    @reminders = @user.reminders_for_logged_user(current_user).paginate(:page => params[:page])
+    # we store the location so we can be redirected here after reminder delete
+    store_location
     @title = @user.name
   end
 

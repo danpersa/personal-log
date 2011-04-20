@@ -34,7 +34,7 @@ describe "Ideas Request" do
         lambda do
           visit root_path
           fill_in :idea_content, :with => content
-          fill_in :idea_reminder_date, :with => reminder_date
+          fill_in :reminder_reminder_date, :with => reminder_date
           select "public", :from => "idea_privacy_id"
           click_button
           response.should have_selector("span.content", :content => content)

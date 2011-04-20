@@ -8,22 +8,21 @@
 #  user_id       :integer(4)
 #  created_at    :datetime
 #  updated_at    :datetime
-#  reminder_date :date
 #  privacy_id    :integer(4)
 #
 
 class Idea < ActiveRecord::Base
-  attr_accessible :content, :reminder_date, :privacy, :privacy_id
+  attr_accessible :content, :privacy, :privacy_id
+  #, :reminders_attributes
 
   belongs_to :user
   belongs_to :privacy
   has_many   :reminders, :dependent => :destroy
+  #accepts_nested_attributes_for :reminders
 
   validates :content, :presence => true, :length => { :maximum => 140 }
-  validates :reminder_date, :presence => true
   validates :user_id, :presence => true
   validates :privacy_id, :presence => true
-  validate  :reminder_date_cannot_be_in_the_past
 
   default_scope :order => 'ideas.created_at DESC'
 
@@ -52,11 +51,6 @@ class Idea < ActiveRecord::Base
       public_privacy_id = Privacy.find_by_name("public").id
       where("user_id = :user_id AND privacy_id = #{public_privacy_id}", { :user_id => user })
     end
-  end
-  
-  def reminder_date_cannot_be_in_the_past
-    errors.add(:reminder_date, "can't be in the past") if
-      reminder_date != nil and reminder_date < Date.today
   end
 
 end

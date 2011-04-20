@@ -5,14 +5,30 @@ class IdeasController < ApplicationController
 
   def create
   	@idea  = current_user.ideas.build(params[:idea])
-    if @idea.save
-      flash[:success] = "Idea created!"
-      redirect_to root_path
-    else
+    @reminder = current_user.reminders.build(params[:reminder])
+    @reminder.privacy = @idea.privacy
+  	Idea.transaction do
+  	  if @idea.valid?
+  	    @idea.save!
+  	    @reminder.idea = @idea
+  	    if @reminder.save!
+    	    flash[:success] = "Idea created!"
+          redirect_to root_path
+          return
+        end
+      else
+        @reminder.valid?
+      end  
+    end
+
+    @feed_items = []
+    @user = current_user
+    render 'pages/home'
+    
+    rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
       @feed_items = []
       @user = current_user
       render 'pages/home'
-    end
   end
 
   def destroy

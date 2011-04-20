@@ -1,0 +1,18 @@
+<tr class="show-close-button">
+  <td class="idea">
+    <span class="content"><%= reminder.idea.content %> on <%= reminder.reminder_date %></span>
+    <span class="timestamp">
+      Posted <%= time_ago_in_words(reminder.created_at) %> ago.
+    </span>
+  </td>
+  <% if current_user?(reminder.user) %>
+  <td class="idea">
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "delete", reminder, :method => :delete,
+                                         :confirm => "You sure?",
+                                         :title => "Remove reminder",
+                                         :class => "ui-icon ui-icon-close" %>
+    </div>
+  </td>
+  <% end %>
+</tr>

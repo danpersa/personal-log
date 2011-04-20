@@ -25,6 +25,9 @@ class Reminder < ActiveRecord::Base
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.find_by_name("public").id
     where("(user_id IN (#{followed_ids} AND privacy_id = #{public_privacy_id})) OR user_id = :user_id", { :user_id => user })
+    .includes(:idea)
+    .includes(:privacy)
+    .includes(:user => :profile)
   end
   
   def self.with_privacy(user, logged_user)

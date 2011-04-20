@@ -6,8 +6,7 @@ describe Idea do
     @user = Factory(:user)
     @privacy = Factory(:privacy)
     @attr = { :content => "value for content",
-      :privacy => @privacy,
-      :reminder_date => Time.now.utc.tomorrow 
+      :privacy => @privacy 
     }
   end
 
@@ -15,9 +14,6 @@ describe Idea do
     @user.ideas.create!(@attr)
   end
   
-  it "should have a reminder date attribute" do
-    Idea.new(@attr).should respond_to(:reminder_date)
-  end
 
   describe "user associations" do
 
@@ -80,18 +76,6 @@ describe Idea do
 
     it "should reject long content" do
       @user.ideas.build(@attr.merge(:content => "a" * 141)).should_not be_valid
-    end
-    
-    it "should require a reminder date" do
-      @user.ideas.build(@attr.merge(:reminder_date => nil)).should_not be_valid
-    end
-    
-    it "should require reminder date that is not in the past" do
-      @user.ideas.build(@attr.merge(:reminder_date => 2.days.ago)).should_not be_valid
-    end
-    
-    it "should require a future reminder date" do
-      @user.ideas.build(@attr).should be_valid
     end
     
     it "should require a privacy" do

@@ -3,6 +3,7 @@ class PagesController < ApplicationController
     @title = "Home"
     if signed_in?
       @idea = Idea.new
+      @reminder = Reminder.new
       @feed_items = current_user.feed.paginate(:page => params[:page])
       @user = current_user
     end

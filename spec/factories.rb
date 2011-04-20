@@ -22,7 +22,6 @@ end
 
 Factory.define :idea do |idea|
   idea.content "Foo bar"
-  idea.reminder_date Time.now.utc.tomorrow
   idea.association :user
   idea.association :privacy
 end

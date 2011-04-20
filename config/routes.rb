@@ -11,6 +11,7 @@ PersonalLog::Application.routes.draw do
 
   resources :sessions, :only => [:new, :create, :destroy]
   resources :ideas, :only => [:create, :destroy]
+  resources :reminders, :only => [:destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :reset_passwords,
             :path => 'reset-password',
