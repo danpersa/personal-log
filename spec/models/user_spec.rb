@@ -160,32 +160,6 @@ describe User do
     #   Idea.find(idea.id)
     #end.should raise_error(ActiveRecord::RecordNotFound)
     end
-
-    describe "status feed" do
-
-      it "should have a feed" do
-        @user.should respond_to(:feed)
-      end
-
-      it "should include the user's ideas" do
-        @user.feed.should include(@mp1)
-        @user.feed.should include(@mp2)
-      end
-      
-      it "should not include a different user's ideas" do
-        mp3 = Factory(:idea, 
-            :user => Factory(:user, :email => Factory.next(:email)),
-            :privacy => @privacy)
-        @user.feed.should_not include(mp3)
-      end
-      
-      it "should include the ideas of followed users" do
-        followed = Factory(:user, :email => Factory.next(:email))
-        mp3 = Factory(:idea, :user => followed, :privacy => @privacy)
-        @user.follow!(followed)
-        @user.feed.should include(mp3)
-      end
-    end
   end
   
   describe "reminder associations" do
@@ -201,7 +175,7 @@ describe User do
       @user.should respond_to(:reminders)
     end
     
-    it "should have the right ideas in the right order" do
+    it "should have the right reminders in the right order" do
       @user.reminders.should == [@reminder2, @reminder1]
     end
     
@@ -209,6 +183,41 @@ describe User do
       @user.destroy
       Reminder.find_by_id(@reminder1.id).should be_nil
       Reminder.find_by_id(@reminder2.id).should be_nil
+    end
+    
+    describe "status feed" do
+
+      it "should have a feed" do
+        @user.should respond_to(:feed)
+      end
+
+      it "should include the user's reminders" do
+        @user.feed.should include(@reminder1)
+        @user.feed.should include(@reminder2)
+      end
+      
+      it "should not include a different user's reminders" do
+        reminder3 = Factory(:reminder, 
+            :user => Factory(:user, :email => Factory.next(:email)),
+            :idea => @idea,
+            :privacy => @privacy)
+        @user.feed.should_not include(reminder3)
+      end
+      
+      it "should include the public reminders of followed users" do
+        followed = Factory(:user, :email => Factory.next(:email))
+        reminder3 = Factory(:reminder, :user => followed, :idea => @idea, :privacy => @privacy)
+        @user.follow!(followed)
+        @user.feed.should include(reminder3)
+      end
+      
+      it "should not include the public reminders of followed users" do
+        followed = Factory(:user, :email => Factory.next(:email))
+        private_privacy = Factory(:privacy, :name => "private")
+        reminder3 = Factory(:reminder, :user => followed, :idea => @idea, :privacy => private_privacy)
+        @user.follow!(followed)
+        @user.feed.should_not include(reminder3)
+      end
     end
   end
 
@@ -370,6 +379,41 @@ describe User do
     it "should return the user name if no profile" do
       user = Factory(:activated_user)
       user.display_name.should == user.name
+    end
+  end
+  
+  describe "reminders_for_logged_user" do
+    before(:each) do
+      @user = Factory(:activated_user)
+    end
+    
+    it "should have a reminders_for_logged_user method" do
+      @user.should respond_to(:reminders_for_logged_user)
+    end
+    
+    describe "cases" do
+      before(:each) do
+        @privacy = Factory(:privacy)
+        @private_privacy = Factory(:privacy, :name => "private")
+        @public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
+        @private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+        @public_reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @privacy)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 2.day.ago, :privacy => @private_privacy) 
+      end
+      
+      it "should return both private and public posts if the logged user is the same as the user we request" do
+        @user.reminders_for_logged_user(@user).should == [@public_reminder, @private_reminder]
+      end
+      
+      it "should return public posts if the logged user is not the same as the user we request" do
+        other_logged_user = Factory(:user, :email => Factory.next(:email))
+        @user.reminders_for_logged_user(other_logged_user).should == [@public_reminder]
+      end
+      
+      it "should return public posts if not logged user is not the same as the user we request" do
+        @user.reminders_for_logged_user(nil).should == [@public_reminder]
+      end
+      
     end
   end
 end

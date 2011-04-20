@@ -94,17 +94,25 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
     
-    it "should show the user's ideas" do
-      mp1 = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
-      mp2 = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
+    it "should show the user's reminders" do
+      idea1 = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
+      idea2 = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
+      
+      reminder1 = Factory(:reminder, :user => @user, :idea => idea1, :created_at => 1.day.ago, :privacy => @privacy)
+      reminder2 = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @privacy)
+      
       get :show, :id => @user
-      response.should have_selector("span.content", :content => mp1.content)
-      response.should have_selector("span.content", :content => mp2.content)
+      response.should have_selector("span.content", :content => idea1.content)
+      response.should have_selector("span.content", :content => idea2.content)
     end
     
-    it "should not show private posts" do
+    it "should not show private reminders" do
       public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
       private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+      
+      public_reminder = Factory(:reminder, :user => @user, :idea => public_idea, :created_at => 1.day.ago, :privacy => @privacy)
+      private_reminder = Factory(:reminder, :user => @user, :idea => private_idea, :created_at => 2.day.ago, :privacy => @private_privacy)
+      
       get :show, :id => @user
       response.should have_selector("span.content", :content => public_idea.content)
       response.should_not have_selector("span.content", :content => private_idea.content)
@@ -112,7 +120,8 @@ describe UsersController do
     
     it "should paginate" do
         32.times do
-          Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
+          idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
+          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => idea.privacy)
         end
         get :show, :id => @user
         response.should have_selector("div.pagination")
@@ -127,6 +136,8 @@ describe UsersController do
       before(:each) do
         @public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
         @private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+        @public_reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @privacy)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 2.day.ago, :privacy => @private_privacy)
       end
       
       

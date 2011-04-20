@@ -29,22 +29,29 @@ describe IdeasController do
       before(:each) do
         @privacy = Factory(:privacy)
         @attr = { :content => "", :privacy => @privacy }
+        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow }
       end
 
-      it "should not create a idea without content" do
+      it "should not create an idea without content" do
         lambda do
-          post :create, :idea => @attr
+          post :create, :idea => @attr, :reminder => @reminder_attr
         end.should_not change(Idea, :count)
       end
       
-      it "should not create a idea without privacy" do
+      it "should not create an idea without a reminder" do
         lambda do
-          post :create, :idea => @attr.merge({:content => "valid content", :privacy => nil})
+          post :create, :idea => @attr.merge(:content => "content")
+        end.should_not change(Idea, :count)
+      end
+      
+      it "should not create an idea without privacy" do
+        lambda do
+          post :create, :idea => @attr.merge({:content => "valid content", :privacy => nil}), :reminder => @reminder_attr
         end.should_not change(Idea, :count)
       end
 
       it "should render the home page" do
-        post :create, :idea => @attr
+        post :create, :idea => @attr, :reminder => @reminder_attr
         response.should render_template('pages/home')
       end
     end
@@ -54,24 +61,24 @@ describe IdeasController do
       before(:each) do
         @privacy = Factory(:privacy)
         @attr = { :content => "Lorem ipsum", 
-          :reminder_date => Time.now.utc.tomorrow,
-          :privacy => @privacy 
+          :privacy => @privacy, 
           }
+        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow }
       end
        
-      it "should create a idea" do
+      it "should create an idea" do
         lambda do
-          post :create, :idea => @attr
+          post :create, :idea => @attr, :reminder => @reminder_attr
         end.should change(Idea, :count).by(1)
       end
     
       it "should redirect to the home page" do
-        post :create, :idea => @attr
+        post :create, :idea => @attr, :reminder => @reminder_attr
         response.should redirect_to(root_path)
       end
  
       it "should have a flash message" do
-        post :create, :idea => @attr
+        post :create, :idea => @attr, :reminder => @reminder_attr
         flash[:success].should =~ /idea created/i
       end
     end
@@ -99,12 +106,19 @@ describe IdeasController do
       before(:each) do
         @user = test_sign_in(Factory(:user))
         @idea = Factory(:idea, :user => @user)
+        @reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => @idea.privacy)
       end
 
       it "should destroy the idea" do
         lambda do 
           delete :destroy, :id => @idea
         end.should change(Idea, :count).by(-1)
+      end
+      
+      it "should destroy all it's reminders" do
+        Reminder.find_by_idea_id(@idea.id).should_not be_nil
+        delete :destroy, :id => @idea
+        Reminder.find_by_idea_id(@idea.id).should be_nil
       end
     end
   end
