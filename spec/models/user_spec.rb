@@ -193,16 +193,22 @@ describe User do
       @privacy = Factory(:privacy)
       @user = User.create(@attr)
       @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago, :privacy => @privacy)
-      @reminder = @user.reminders.create(:idea => @idea, :privacy => @privacy)
+      @reminder1 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.day.ago)
+      @reminder2 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.hour.ago)
     end
     
     it "should have a reminders attribute" do
       @user.should respond_to(:reminders)
     end
     
+    it "should have the right ideas in the right order" do
+      @user.reminders.should == [@reminder2, @reminder1]
+    end
+    
     it "should destroy associated reminders" do
       @user.destroy
-      Reminder.find_by_id(@reminder.id).should be_nil
+      Reminder.find_by_id(@reminder1.id).should be_nil
+      Reminder.find_by_id(@reminder2.id).should be_nil
     end
   end
 
