@@ -36,4 +36,7 @@ PersonalLog::Application.configure do
   :authentication       => "plain",
 #  :enable_starttls_auto => true
   }
+  
+  # uncomment when generating sample data using rake db:populate
+  #config.action_mailer.delivery_method = :test
 end

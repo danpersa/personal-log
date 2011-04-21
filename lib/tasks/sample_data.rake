@@ -1,10 +1,17 @@
 require 'faker'
 
 namespace :db do
-  desc "Fill database with sample data"
+  desc "Raise an error unless the RAILS_ENV is development"
+  task :development_environment_only do
+    raise "Hey, development only you monkey!" unless ::Rails.env == 'development'
+  end
+  
+  desc "Fill database with sample data " + ::Rails.env
+  puts "enable " + PersonalLog::Application.config.action_mailer.delivery_method + " to test"
   task :populate => :environment do
+    puts ::Rails.env
     Rake::Task['db:reset'].invoke
-    make_privacies
+    #make_privacies
     make_users
     make_ideas
     make_relationships
@@ -17,16 +24,17 @@ def make_users
   :password => "foobar",
   :password_confirmation => "foobar")
   admin.toggle!(:admin)
+  admin.activate!
   99.times do |n|
     name = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password = "password"
-    User.create!(:name => name,
+    user = User.create!(:name => name,
     :email => email,
     :password => password,
     :password_confirmation => password)
+    user.activate!
   end
-  
 end
 
 def make_ideas
@@ -34,9 +42,9 @@ def make_ideas
     50.times do
       content = Faker::Lorem.sentence(5).downcase.chomp(".")
       reminder_date = Time.now.utc.tomorrow
-      user.ideas.create!(:content => content, 
-          :reminder_date => reminder_date, 
-          :privacy => Privacy.find_by_name("public"))
+      idea = user.ideas.create!(:content => content)
+      user.reminders.create!(:reminder_date => reminder_date, 
+          :privacy => Privacy.find_by_name("public"), :idea => idea)
     end
   end
 end

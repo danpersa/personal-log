@@ -24,7 +24,7 @@ class Reminder < ActiveRecord::Base
   def self.followed_by(user)
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.find_by_name("public").id
-    where("(user_id IN (#{followed_ids} AND privacy_id = #{public_privacy_id})) OR user_id = :user_id", { :user_id => user })
+    where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user })
     .includes(:idea)
     .includes(:privacy)
     .includes(:user => :profile)
@@ -32,10 +32,14 @@ class Reminder < ActiveRecord::Base
   
   def self.with_privacy(user, logged_user)
     if !logged_user.nil? and user == logged_user
-      where("user_id = :user_id", { :user_id => user })
+      where("reminders.user_id = :user_id", { :user_id => user })
+      .includes(:idea)
+      .includes(:user => :profile)
     elsif
       public_privacy_id = Privacy.find_by_name("public").id
-      where("user_id = :user_id AND privacy_id = #{public_privacy_id}", { :user_id => user })
+      where("reminders.user_id = :user_id AND reminders.privacy_id = #{public_privacy_id}", { :user_id => user })
+      .includes(:idea)
+      .includes(:user => :profile)
     end
   end
   
