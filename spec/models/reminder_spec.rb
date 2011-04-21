@@ -4,7 +4,7 @@ describe Reminder do
   before(:each) do
     @idea = Factory(:idea)
     @user = @idea.user
-    @privacy = @idea.privacy
+    @privacy = Factory(:privacy)
     @attr = { :privacy => @privacy,
               :reminder_date => Time.now.utc.tomorrow,
               :idea_id => @idea.id

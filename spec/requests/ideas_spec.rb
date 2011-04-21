@@ -35,7 +35,7 @@ describe "Ideas Request" do
           visit root_path
           fill_in :idea_content, :with => content
           fill_in :reminder_reminder_date, :with => reminder_date
-          select "public", :from => "idea_privacy_id"
+          select "public", :from => "reminder_privacy_id"
           click_button
           response.should have_selector("span.content", :content => content)
         end.should change(Idea, :count).by(1)

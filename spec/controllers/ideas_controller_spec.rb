@@ -28,8 +28,8 @@ describe IdeasController do
 
       before(:each) do
         @privacy = Factory(:privacy)
-        @attr = { :content => "", :privacy => @privacy }
-        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow }
+        @attr = { :content => ""}
+        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
       end
 
       it "should not create an idea without content" do
@@ -43,12 +43,6 @@ describe IdeasController do
           post :create, :idea => @attr.merge(:content => "content")
         end.should_not change(Idea, :count)
       end
-      
-      it "should not create an idea without privacy" do
-        lambda do
-          post :create, :idea => @attr.merge({:content => "valid content", :privacy => nil}), :reminder => @reminder_attr
-        end.should_not change(Idea, :count)
-      end
 
       it "should render the home page" do
         post :create, :idea => @attr, :reminder => @reminder_attr
@@ -60,10 +54,8 @@ describe IdeasController do
         
       before(:each) do
         @privacy = Factory(:privacy)
-        @attr = { :content => "Lorem ipsum", 
-          :privacy => @privacy, 
-          }
-        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow }
+        @attr = { :content => "Lorem ipsum" }
+        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
       end
        
       it "should create an idea" do
@@ -104,9 +96,10 @@ describe IdeasController do
     describe "for an authorized user" do
 
       before(:each) do
+        @privacy = Factory(:privacy)
         @user = test_sign_in(Factory(:user))
         @idea = Factory(:idea, :user => @user)
-        @reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => @idea.privacy)
+        @reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => @privacy)
       end
 
       it "should destroy the idea" do

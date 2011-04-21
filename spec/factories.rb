@@ -23,7 +23,6 @@ end
 Factory.define :idea do |idea|
   idea.content "Foo bar"
   idea.association :user
-  idea.association :privacy
 end
 
 Factory.define :privacy do |privacy|

@@ -6,7 +6,6 @@ class IdeasController < ApplicationController
   def create
   	@idea  = current_user.ideas.build(params[:idea])
     @reminder = current_user.reminders.build(params[:reminder])
-    @reminder.privacy = @idea.privacy
   	Idea.transaction do
   	  if @idea.valid?
   	    @idea.save!

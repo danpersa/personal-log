@@ -137,10 +137,9 @@ describe User do
   describe "idea associations" do
 
     before(:each) do
-      @privacy = Factory(:privacy)
       @user = User.create(@attr)
-      @mp1 = Factory(:idea, :user => @user, :created_at => 1.day.ago, :privacy => @privacy)
-      @mp2 = Factory(:idea, :user => @user, :created_at => 1.hour.ago, :privacy => @privacy)
+      @mp1 = Factory(:idea, :user => @user, :created_at => 1.day.ago)
+      @mp2 = Factory(:idea, :user => @user, :created_at => 1.hour.ago)
     end
 
     it "should have a ideas attribute" do
@@ -166,7 +165,7 @@ describe User do
     before(:each) do
       @privacy = Factory(:privacy)
       @user = User.create(@attr)
-      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago, :privacy => @privacy)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)
       @reminder1 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.day.ago)
       @reminder2 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.hour.ago)
     end
@@ -395,10 +394,10 @@ describe User do
       before(:each) do
         @privacy = Factory(:privacy)
         @private_privacy = Factory(:privacy, :name => "private")
-        @public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
-        @private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
-        @public_reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @privacy)
-        @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 2.day.ago, :privacy => @private_privacy) 
+        @idea1 = Factory(:idea, :user => @user, :content => "Foo bar")
+        @idea2 = Factory(:idea, :user => @user, :content => "Baz quux")
+        @public_reminder = Factory(:reminder, :user => @user, :idea => @idea1, :created_at => 1.day.ago, :privacy => @privacy)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @idea2, :created_at => 2.day.ago, :privacy => @private_privacy) 
       end
       
       it "should return both private and public posts if the logged user is the same as the user we request" do

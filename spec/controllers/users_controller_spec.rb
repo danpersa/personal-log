@@ -69,7 +69,6 @@ describe UsersController do
     before(:each) do
       @user = Factory(:user)
       @privacy = Factory(:privacy)
-      @private_privacy = Factory(:privacy, :name => "private")
     end
     
     it_should_behave_like "successful get request" do
@@ -95,8 +94,8 @@ describe UsersController do
     end
     
     it "should show the user's reminders" do
-      idea1 = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
-      idea2 = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
+      idea1 = Factory(:idea, :user => @user, :content => "Foo bar")
+      idea2 = Factory(:idea, :user => @user, :content => "Baz quux")
       
       reminder1 = Factory(:reminder, :user => @user, :idea => idea1, :created_at => 1.day.ago, :privacy => @privacy)
       reminder2 = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @privacy)
@@ -107,21 +106,22 @@ describe UsersController do
     end
     
     it "should not show private reminders" do
-      public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
-      private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
+      @private_privacy = Factory(:privacy, :name => "private")
+      idea1 = Factory(:idea, :user => @user, :content => "Foo bar")
+      idea2 = Factory(:idea, :user => @user, :content => "Baz quux")
       
-      public_reminder = Factory(:reminder, :user => @user, :idea => public_idea, :created_at => 1.day.ago, :privacy => @privacy)
-      private_reminder = Factory(:reminder, :user => @user, :idea => private_idea, :created_at => 2.day.ago, :privacy => @private_privacy)
+      public_reminder = Factory(:reminder, :user => @user, :idea => idea1, :created_at => 1.day.ago, :privacy => @privacy)
+      private_reminder = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @private_privacy)
       
       get :show, :id => @user
-      response.should have_selector("span.content", :content => public_idea.content)
-      response.should_not have_selector("span.content", :content => private_idea.content)
+      response.should have_selector("span.content", :content => idea1.content)
+      response.should_not have_selector("span.content", :content => idea2.content)
     end
     
     it "should paginate" do
         32.times do
-          idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @privacy)
-          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => idea.privacy)
+          idea = Factory(:idea, :user => @user, :content => "Baz quux")
+          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @privacy)
         end
         get :show, :id => @user
         response.should have_selector("div.pagination")
@@ -134,26 +134,27 @@ describe UsersController do
     
     describe "for logged users" do
       before(:each) do
-        @public_idea = Factory(:idea, :user => @user, :content => "Foo bar", :privacy => @privacy)
-        @private_idea = Factory(:idea, :user => @user, :content => "Baz quux", :privacy => @private_privacy)
-        @public_reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @privacy)
-        @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 2.day.ago, :privacy => @private_privacy)
+        @private_privacy = Factory(:privacy, :name => "private")
+        @idea1 = Factory(:idea, :user => @user, :content => "Foo bar")
+        @idea2 = Factory(:idea, :user => @user, :content => "Baz quux")
+        @public_reminder = Factory(:reminder, :user => @user, :idea => @idea1, :created_at => 1.day.ago, :privacy => @privacy)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @idea2, :created_at => 2.day.ago, :privacy => @private_privacy)
       end
       
       
       it "should show own private posts" do
         test_sign_in(@user)
         get :show, :id => @user
-        response.should have_selector("span.content", :content => @public_idea.content)
-        response.should have_selector("span.content", :content => @private_idea.content)
+        response.should have_selector("span.content", :content => @idea1.content)
+        response.should have_selector("span.content", :content => @idea2.content)
       end
       
       it "should not show other user's private posts" do
         other_user = Factory(:user, :email => Factory.next(:email))
         test_sign_in(other_user)
         get :show, :id => @user
-        response.should have_selector("span.content", :content => @public_idea.content)
-        response.should_not have_selector("span.content", :content => @private_idea.content)
+        response.should have_selector("span.content", :content => @idea1.content)
+        response.should_not have_selector("span.content", :content => @idea2.content)
       end
     end
   end

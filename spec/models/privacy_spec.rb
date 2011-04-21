@@ -22,22 +22,11 @@ describe Privacy do
     end
   end
   
-  describe "idea associations" do
-    before(:each) do
-      @privacy = Factory(:privacy)
-      @idea = Factory(:idea, :privacy => @privacy, :created_at => 1.day.ago)
-    end
-    
-    it "should have a ideas attribute" do
-      @privacy.should respond_to(:ideas)
-    end
-  end
-  
   describe "reminder associations" do
     before(:each) do
       @privacy = Factory(:privacy)
-      @idea = Factory(:idea, :privacy => @privacy, :created_at => 1.day.ago)
-      @reminder = @idea.user.reminders.create(:privacy => @privacy)
+      #@idea = Factory(:idea, :created_at => 1.day.ago)
+      #@reminder = @idea.user.reminders.create(:privacy => @privacy)
     end
     
     it "should have a ideas attribute" do
