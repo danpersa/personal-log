@@ -1,13 +1,7 @@
 require 'faker'
 
 namespace :db do
-  desc "Raise an error unless the RAILS_ENV is development"
-  task :development_environment_only do
-    raise "Hey, development only you monkey!" unless ::Rails.env == 'development'
-  end
-  
-  desc "Fill database with sample data " + ::Rails.env
-  puts "enable " + PersonalLog::Application.config.action_mailer.delivery_method + " to test"
+  desc "Fill database with sample data "
   task :populate => :environment do
     puts ::Rails.env
     Rake::Task['db:reset'].invoke
