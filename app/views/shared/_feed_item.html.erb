@@ -10,6 +10,11 @@
     <span class="timestamp">
       Posted <%= time_ago_in_words(feed_item.created_at) %> ago as <%= feed_item.privacy.name %>
     </span>
+    <% unless current_user?(feed_item.user) %>
+    <span class="idea-toolbar">
+      <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item.id) %> · 
+    </span>
+    <% end %>
   </td>
   <% if current_user?(feed_item.user) %>
   <td class="idea">

@@ -60,4 +60,21 @@ describe Idea do
       @user.ideas.build(@attr.merge(:content => "a" * 141)).should_not be_valid
     end
   end
+  
+  describe "is_public?" do
+    
+    it "should be public if it has at least one public reminder" do
+      @public_privacy = Factory(:privacy)
+      @public_idea = @user.ideas.create!(@attr)
+      @reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @public_privacy)
+      @public_idea.should be_public
+    end
+    
+    it "should not be public if it has only private reminders" do
+      @private_privacy = Factory(:privacy, :name => "private")
+      @private_idea = @user.ideas.create!(@attr)
+      @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 1.day.ago, :privacy => @private_privacy)
+      @private_idea.should_not be_public
+    end
+  end
 end

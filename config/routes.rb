@@ -11,7 +11,7 @@ PersonalLog::Application.routes.draw do
 
   resources :sessions, :only => [:new, :create, :destroy]
   resources :ideas, :only => [:create, :destroy]
-  resources :reminders, :only => [:destroy]
+  resources :reminders, :only => [:create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :reset_passwords,
             :path => 'reset-password',
@@ -54,6 +54,10 @@ PersonalLog::Application.routes.draw do
   match '/about',                       :to => 'pages#about'
   match '/help',                        :to => 'pages#help'
   match '/reset-password-mail-sent',    :to => 'pages#reset_password_mail_sent'
+  
+  match '/remind-me-too/:idea_id',      :to => 'reminders#remind_me_too',
+                                        :constraints => { :idea_id => /[0-9]+/ },
+                                        :as => 'remind_me_too'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

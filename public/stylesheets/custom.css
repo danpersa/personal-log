@@ -288,6 +288,10 @@ table.ideas tr td.idea span.timestamp {
   color: #666;
 }
 
+.idea-toolbar {
+  font-size: 75%;
+}
+
 div.user_info img {
   padding-right: 0.1em;
 }
@@ -310,6 +314,7 @@ form.new_idea {
 
 form.new_idea textarea {
   height: 4em;
+  width: 415px;
   margin-bottom: 0;
 }
 

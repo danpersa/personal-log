@@ -9,7 +9,7 @@ gem "transitions", :require => ["transitions", "active_record/transitions"]
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
+gem 'mysql2', '0.2.6'
 gem 'faker'
 
 # Use unicorn as the web server

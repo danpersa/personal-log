@@ -171,4 +171,26 @@ describe Reminder do
       Reminder.from_user_with_privacy(@user, nil).should_not include(@private_reminder)
     end
   end
+  
+  describe "from_idea_by_privacy" do
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+    end
+    
+    it "should return only the private reminders" do
+      reminders = Reminder.from_idea_by_privacy(@idea, @private_privacy)
+      reminders.size.should == 1
+      reminders.first.privacy.should == @private_privacy
+    end
+    
+    it "should return only the public reminders" do
+      reminders = Reminder.from_idea_by_privacy(@idea, @privacy)
+      reminders.size.should == 1
+      reminders.first.privacy.should == @privacy
+    end
+  end
 end

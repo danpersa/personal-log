@@ -1,9 +1,8 @@
-<%= form_tag({:controller => :ideas, :action => :create}, {:class => "new_idea"}) do %>
-  <%= render 'shared/error_messages', :object => @idea %>
+<%= form_tag :controller => :reminders,  :action => :create do %>
   <%= render 'shared/error_messages', :object => @reminder %>
   
   <div class="field">
-    <%= text_area :idea, :content, :cols => 3, :rows => 2, :class => "idea-text-area" %>
+    <%= hidden_field :idea, :id %>
   </div>
   <span class="title">on</span>
   
