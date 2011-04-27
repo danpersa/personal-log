@@ -6,4 +6,3 @@ en:
   date:
     formats:
       default: "%d/%m/%Y"
-      short: "%D'ish"
