@@ -11,5 +11,5 @@ $(function(){
     function() { $(this).find("div.icon-button").addClass('invisible'); }
   );
   
-  $("#reminder_reminder_date").datepicker({ dateFormat: 'dd/mm/yy', minDate: new Date()});
+  $("#reminder_reminder_date").datepicker({ dateFormat: 'mm/dd/yy', minDate: new Date()});
 });

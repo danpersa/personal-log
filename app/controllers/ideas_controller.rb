@@ -17,7 +17,7 @@ class IdeasController < ApplicationController
         end
       else
         @reminder.valid?
-      end  
+      end
     end
 
     @feed_items = []
