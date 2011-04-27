@@ -9,7 +9,6 @@ gem "transitions", :require => ["transitions", "active_record/transitions"]
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', '0.2.6'
 gem 'faker'
 
 # Use unicorn as the web server
@@ -33,11 +32,13 @@ gem 'faker'
 # and rake tasks are available in development mode:
 
 group :development do
+  gem 'mysql2', '0.2.6'
   gem 'rspec-rails'
   gem 'annotate-models'
 end
 
 group :test do
+  gem 'mysql2', '0.2.6'
   gem 'rspec'
   gem 'webrat'
   gem 'factory_girl_rails'
