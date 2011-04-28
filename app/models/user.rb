@@ -87,7 +87,8 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    Reminder.from_users_followed_by(self)
+    # Reminder.from_users_followed_by(self)
+    Idea.from_users_followed_by(self)
   end
   
   def ideas_for_logged_user(logged_user)

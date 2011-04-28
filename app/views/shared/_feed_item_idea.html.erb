@@ -1,0 +1,30 @@
+<tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
+  <td class="gravatar">
+    <% feed_item_idea.reminders.each do |reminder| %>
+      <%= link_to gravatar_for(reminder.user), reminder.user %>
+    <% end %>
+  </td>
+  <td class="idea">
+    <% feed_item_idea.reminders.each do |reminder| %>
+      <span class="user">
+        <%= link_to reminder.user.display_name, reminder.user %>
+      </span>
+    <% end %>
+    <span class="content">wants to remind to <%= feed_item_idea.content %></span>
+    <span class="timestamp">
+      First posted <%= time_ago_in_words(feed_item_idea.created_at) %>
+    </span>
+
+    <% feed_item_idea.reminders.each do |reminder| %>
+    <span class="timestamp">
+      Posted <%= time_ago_in_words(reminder.created_at) %>
+    </span>
+    <% end %>    
+
+    <% unless current_user?(feed_item_idea.user) %>
+    <span class="idea-toolbar">
+      <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> · 
+    </span>
+    <% end %>
+  </td>
+</tr>

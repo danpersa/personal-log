@@ -22,7 +22,11 @@ class Idea < ActiveRecord::Base
   validates :content, :presence => true, :length => { :maximum => 140 }
   validates :user_id, :presence => true
 
-  default_scope :order => 'ideas.created_at DESC'
+  # default_scope :order => 'ideas.created_at DESC'
+  
+  scope :ideas_order, order('ideas.created_at DESC')
+  
+  scope :reminders_order, order('reminders.created_at DESC')
   
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
 
@@ -38,7 +42,8 @@ class Idea < ActiveRecord::Base
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.find_by_name("public").id
     joins(:reminders).
-    where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).group('ideas.id')
+    where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).group('ideas.id').
+    reminders_order
   end
   
   #def self.from_users_followed_by(user)
