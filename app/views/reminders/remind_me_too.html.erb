@@ -1,3 +1,5 @@
+<h1 class="idea">Remind me to</h1>
+<span class="title"><%= @idea.content %></span>
 <%= form_tag :controller => :reminders,  :action => :create do %>
   <%= render 'shared/error_messages', :object => @reminder %>
   
