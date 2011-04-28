@@ -30,7 +30,7 @@ describe "Ideas Request" do
       
       it "should make a new idea" do
         content = "Lorem ipsum dolor sit amet"
-        reminder_date = Time.now.utc
+        reminder_date = "01/02/2020"
         lambda do
           visit root_path
           fill_in :idea_content, :with => content

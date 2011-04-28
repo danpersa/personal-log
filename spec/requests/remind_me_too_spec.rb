@@ -42,7 +42,7 @@ describe "Remind me too Request" do
     describe "success" do
       
       it "should make a new reminder" do
-        reminder_date = Time.now.utc
+        reminder_date = "01/02/2020"
         lambda do
           visit remind_me_too_path(:idea_id => @idea.id )
           fill_in :reminder_reminder_date, :with => reminder_date
@@ -52,7 +52,7 @@ describe "Remind me too Request" do
       end
       
       it "should display a flash message" do
-        reminder_date = Time.now.utc
+        reminder_date = "01/02/2020"
         visit remind_me_too_path(:idea_id => @idea.id )
         fill_in :reminder_reminder_date, :with => reminder_date
         select "public", :from => "reminder_privacy_id"

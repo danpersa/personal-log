@@ -43,7 +43,7 @@ class Reminder < ActiveRecord::Base
   # returns all the reminders from a specified idea, that has a specified privacy
   def self.from_idea_by_privacy(idea, privacy)
     joins(:idea).
-    where("ideas.id = :idea_id AND privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy)
+    where("ideas.id = :idea_id AND reminders.privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy)
   end
   
   def reminder_date_cannot_be_in_the_past
