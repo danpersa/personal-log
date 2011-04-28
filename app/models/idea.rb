@@ -23,11 +23,22 @@ class Idea < ActiveRecord::Base
   validates :user_id, :presence => true
 
   default_scope :order => 'ideas.created_at DESC'
+  
+  scope :from_users_followed_by, lambda { |user| followed_by(user) }
 
   def public?
     # the idea is public if it has at least one public reminder
     public_privacy = Privacy.find_by_name("public")
     Reminder.from_idea_by_privacy(self, public_privacy).size > 0
+  end
+  
+  private
+  
+  def self.followed_by(user)
+    followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
+    public_privacy_id = Privacy.find_by_name("public").id
+    joins(:reminders).
+    where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).group('ideas.id')
   end
   
   #def self.from_users_followed_by(user)
