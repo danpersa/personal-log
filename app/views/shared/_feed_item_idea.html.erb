@@ -1,4 +1,9 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
+  
+  <td>
+    <%=count_public_reminders_for_idea(feed_item_idea)%>
+  </td>
+
   <td class="gravatar">
     <% feed_item_idea.reminders.each do |reminder| %>
       <%= link_to gravatar_for(reminder.user), reminder.user %>

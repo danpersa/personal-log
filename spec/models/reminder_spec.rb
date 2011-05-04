@@ -175,8 +175,6 @@ describe Reminder do
   describe "from_idea_by_privacy" do
     before(:each) do
       @private_privacy = Privacy.create(:name => "private")
-      @other_user = Factory(:user, :email => Factory.next(:email))
-      
       @reminder = @user.reminders.create!(@attr)
       @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
     end
@@ -191,6 +189,35 @@ describe Reminder do
       reminders = Reminder.from_idea_by_privacy(@idea, @privacy)
       reminders.size.should == 1
       reminders.first.privacy.should == @privacy
+    end
+  end
+  
+  describe "public_reminders_for_idea" do
+    
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+    end
+    
+    it "should return the correct value" do
+      Reminder.public_reminders_for_idea(@idea).size == 1
+    end
+  end
+  
+  describe "public_or_users_reminders_for_idea" do
+    
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      @user.follow!(@other_user)
+      @reminder1 = @other_user.reminders.create!(@attr)
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+    end
+    
+    it "should return the correct value" do
+      Reminder.public_or_users_reminders_for_idea(@idea, @user).size == 3
     end
   end
 end

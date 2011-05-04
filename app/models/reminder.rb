@@ -17,6 +17,12 @@ class Reminder < ActiveRecord::Base
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
   scope :from_user_with_privacy, lambda { |user, logged_user| with_privacy(user, logged_user) }
   scope :from_idea_by_privacy, lambda { |idea, privacy| from_idea_by_privacy(idea, privacy) }
+  scope :public_reminders_for_idea, lambda { |idea| public_reminders_for_idea(idea, privacy) }
+  scope :from_user, lambda { |user| where("reminders.user_id = :user_id", :user_id => user) }
+
+  scope :public_or_users_reminders_for_idea, lambda { |idea, user| public_or_users_reminders_for_idea(idea,user) }
+  
+  
   
   private
   
@@ -45,6 +51,21 @@ class Reminder < ActiveRecord::Base
     joins(:idea).
     where("ideas.id = :idea_id AND reminders.privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy)
   end
+  
+  def self.public_reminders_for_idea(idea)
+    public_privacy_id = Privacy.find_by_name("public").id
+    from_idea_by_privacy(idea, public_privacy_id)
+  end
+  
+  def self.public_or_users_reminders_for_idea(idea, user)
+    public_privacy = Privacy.find_by_name("public") 
+    where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))", :idea_id => idea, :privacy_id => public_privacy, :user_id => user)
+  end
+  
+  # def self.public_or_users_reminders_for_idea(idea, user)
+    # public_privacy_id = Privacy.find_by_name("public").id
+    # from_idea_by_privacy(idea, public_privacy_id)
+  # end
   
   def reminder_date_cannot_be_in_the_past
     errors.add(:reminder_date, "can't be in the past") if

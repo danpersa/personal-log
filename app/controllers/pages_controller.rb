@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     if signed_in?
       @idea = Idea.new
       @reminder = Reminder.new
-      @feed_items = current_user.feed.paginate(:page => params[:page])
+      @feed_items = current_user.feed #.limit(50)
       @user = current_user
     end
   end
