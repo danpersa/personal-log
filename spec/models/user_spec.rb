@@ -147,7 +147,7 @@ describe User do
     end
 
     it "should have the right ideas in the right order" do
-      @user.ideas.should == [@mp2, @mp1]
+      @user.ideas.order("ideas.created_at DESC").should == [@mp2, @mp1]
     end
 
     it "should destroy associated ideas" do
@@ -165,6 +165,7 @@ describe User do
     before(:each) do
       @privacy = Factory(:privacy)
       @user = User.create(@attr)
+      @other_user = Factory(:user, :email => Factory.next(:email))
       @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)
       @reminder1 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.day.ago)
       @reminder2 = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @privacy, :created_at => 1.hour.ago)
@@ -190,32 +191,34 @@ describe User do
         @user.should respond_to(:feed)
       end
 
-      it "should include the user's reminders" do
-        @user.feed.should include(@reminder1)
-        @user.feed.should include(@reminder2)
+      it "should include the user's idea" do
+        @user.feed.should include(@idea)
       end
       
-      it "should not include a different user's reminders" do
-        reminder3 = Factory(:reminder, 
-            :user => Factory(:user, :email => Factory.next(:email)),
-            :idea => @idea,
+      it "should not include a different user's ideas" do
+        idea1 = Factory(:idea, :user => @other_user, :created_at => 1.day.ago)
+        reminder3 = Factory(:reminder,
+            :user => @other_user,
+            :idea => idea1,
             :privacy => @privacy)
-        @user.feed.should_not include(reminder3)
+        @user.feed.should_not include(idea1)
       end
       
-      it "should include the public reminders of followed users" do
+      it "should include the public ideas of followed users" do
         followed = Factory(:user, :email => Factory.next(:email))
-        reminder3 = Factory(:reminder, :user => followed, :idea => @idea, :privacy => @privacy)
+        idea1 = Factory(:idea, :user => followed, :created_at => 1.day.ago)
+        reminder3 = Factory(:reminder, :user => followed, :idea => idea1, :privacy => @privacy)
         @user.follow!(followed)
-        @user.feed.should include(reminder3)
+        @user.feed.should include(idea1)
       end
       
-      it "should not include the public reminders of followed users" do
-        followed = Factory(:user, :email => Factory.next(:email))
+      it "should not include the private ideas of followed users" do
         private_privacy = Factory(:privacy, :name => "private")
-        reminder3 = Factory(:reminder, :user => followed, :idea => @idea, :privacy => private_privacy)
+        followed = Factory(:user, :email => Factory.next(:email))
+        idea1 = Factory(:idea, :user => followed, :created_at => 1.day.ago)
+        reminder3 = Factory(:reminder, :user => followed, :idea => idea1, :privacy => private_privacy)
         @user.follow!(followed)
-        @user.feed.should_not include(reminder3)
+        @user.feed.should_not include(idea1)
       end
     end
   end
