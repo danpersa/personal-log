@@ -14,4 +14,8 @@ module ApplicationHelper
   def logo
     image_tag("remindmetolive.png", :alt => "Remind me to live", :class => "round")
   end
+  
+  def pluralize_without_numbers(count, one, many)
+    pluralize(count, one, many)[count.to_s.length + 1..pluralize(count, one, many).length]
+  end
 end

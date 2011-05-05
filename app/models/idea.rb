@@ -13,6 +13,7 @@
 
 class Idea < ActiveRecord::Base
   attr_accessible :content
+  #attr_accessor :user_id
   #, :reminders_attributes
 
   belongs_to :user
@@ -44,8 +45,8 @@ class Idea < ActiveRecord::Base
     select("ideas.*, max(reminders.created_at) as mx").
     joins(:reminders).
     where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).
-    group('ideas.id')
-    .order("mx DESC")
+    group('ideas.id').
+    order("mx DESC")
     
     #includes(:reminders => [ {:user => :profile }, :privacy]).
   end

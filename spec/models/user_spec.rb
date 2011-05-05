@@ -176,7 +176,7 @@ describe User do
     end
     
     it "should have the right reminders in the right order" do
-      @user.reminders.should == [@reminder2, @reminder1]
+      @user.reminders.order("reminders.created_at DESC").should == [@reminder2, @reminder1]
     end
     
     it "should destroy associated reminders" do

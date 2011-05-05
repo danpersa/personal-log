@@ -1,6 +1,6 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
   <% users_with_reminders = @public_reminders_for_idea_group_by_user[feed_item_idea] %>
-  <% users_with_reminders_size = users_with_reminders.size.size %>
+  <% users_with_reminders_count = @public_reminders_for_idea_group_by_user_count[feed_item_idea] %>
   
   
 
@@ -13,23 +13,18 @@
 
     <% users_with_reminders.each do |reminder| %>
       <span class="user">
-        <%= link_to reminder.user.display_name, reminder.user %>
+        <%= link_to reminder.user.display_name, reminder.user %><% if reminder == users_with_reminders.first and reminder != users_with_reminders.last %><%= pluralize_without_numbers(users_with_reminders_count - 2, ",", " and") %><% end %>
       </span>
     <% end %>
+    <% if users_with_reminders_count > 2 %>and <%= users_with_reminders_count - 2 %> other <%= pluralize_without_numbers(users_with_reminders_count - 2, "person", "people") %><% end %>
 
-    <span class="content">wants to remind to <%= feed_item_idea.content %></span>
+    <span class="content"><%= pluralize_without_numbers(users_with_reminders_count, "wants", "want") %> to remind to <%= feed_item_idea.content %></span>
+      
     <span class="timestamp">
-      First posted <%= time_ago_in_words(feed_item_idea.created_at) %>
+      Posted <%= time_ago_in_words(users_with_reminders.first.created_at) %>
     </span>
 
-
-    <% users_with_reminders.each do |reminder| %>
-      <span class="timestamp">
-      Posted <%= time_ago_in_words(reminder.created_at) %>
-    </span>
-    <% end %>    
-
-    <% unless current_user?(feed_item_idea.user) %>
+    <% unless current_user_id?(feed_item_idea.user_id) %>
     <span class="idea-toolbar">
       <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> · 
     </span>

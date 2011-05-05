@@ -11,7 +11,7 @@ class Reminder < ActiveRecord::Base
   validates :privacy_id, :presence => true
   validate  :reminder_date_cannot_be_in_the_past
   
-  default_scope :order => 'reminders.created_at DESC'
+  # default_scope :order => 'reminders.created_at DESC'
   
   # Return reminders from the users being followed by the given user.
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
@@ -21,8 +21,6 @@ class Reminder < ActiveRecord::Base
   scope :from_user, lambda { |user| where("reminders.user_id = :user_id", :user_id => user) }
   scope :public_or_users_reminders_for_idea, lambda { |idea, user| public_or_users_reminders_for_idea(idea,user) }
   scope :public_or_users_reminders_for_idea_group_by_user, lambda { |idea, user| Reminder.public_or_users_reminders_for_idea(idea,user).group("reminders.user_id") }
-  
-  
   
   private
   

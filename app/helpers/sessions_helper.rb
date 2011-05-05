@@ -34,6 +34,10 @@ module SessionsHelper
     user == current_user
   end
   
+  def current_user_id?(user_id)
+    user_id == current_user.id
+  end
+  
   def redirect_back_or(default)
     redirect_to(session[:return_to] || default)
     clear_return_to
