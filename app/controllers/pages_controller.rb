@@ -10,7 +10,7 @@ class PagesController < ApplicationController
       @newest_public_or_own_reminder_for_idea = {}
       @feed_items.each do |idea|
         @users_with_public_or_own_reminders_for_idea[idea] = User.users_with_public_or_own_reminders_for_idea(idea, current_user).includes(:profile).limit(2).all
-        @users_with_public_or_own_reminders_for_idea_count[idea] = User.users_with_public_or_own_reminders_for_idea(idea, current_user).count("distinct users.id")
+        @users_with_public_or_own_reminders_for_idea_count[idea] = User.users_with_public_or_own_reminders_for_idea(idea, current_user).count.size
         @newest_public_or_own_reminder_for_idea[idea] = Reminder.newest_public_or_own_reminder_for_idea(idea, current_user).first
       end
       @user = current_user

@@ -147,14 +147,13 @@ class User < ActiveRecord::Base
   
   def self.users_with_public_or_own_reminders_for_idea(idea, user)
     public_privacy = Privacy.public_privacy_id
-    select("distinct users.*").
     joins(:reminders).
     where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))",
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
+    group("users.id").
     order("reminders.created_at ASC")
-    #.group("users.id")
   end
 
   private
