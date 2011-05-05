@@ -23,9 +23,9 @@ class Privacy < ActiveRecord::Base
   @@public_privacy_id = nil
   
   def self.public_privacy_id
-    #if @@public_privacy_id.nil?
+    if @@public_privacy_id.nil?
       @@public_privacy_id = Privacy.find_by_name("public").id
-    #end
+    end
     @@public_privacy_id
   end
 
