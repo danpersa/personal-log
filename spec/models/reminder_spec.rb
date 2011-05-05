@@ -7,8 +7,7 @@ describe Reminder do
     @privacy = Factory(:privacy)
     @attr = { :privacy => @privacy,
               :reminder_date => Time.now.utc.tomorrow,
-              :idea_id => @idea.id
-      }
+              :idea_id => @idea.id }
   end
   
   it "should create a new instance given valid attributes" do
@@ -213,11 +212,29 @@ describe Reminder do
       @user.follow!(@other_user)
       @reminder1 = @other_user.reminders.create!(@attr)
       @reminder = @user.reminders.create!(@attr)
+      @reminder2 = @user.reminders.create!(@attr)
       @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
     end
     
     it "should return the correct value" do
-      Reminder.public_or_users_reminders_for_idea(@idea, @user).size == 3
+      Reminder.public_or_users_reminders_for_idea(@idea, @user).size == 4
+    end
+  end
+  
+  describe "public_or_users_reminders_for_idea_group_by_user" do
+    
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      @user.follow!(@other_user)
+      @reminder1 = @other_user.reminders.create!(@attr)
+      @reminder = @user.reminders.create!(@attr)
+      @reminder2 = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+    end
+    
+    it "should return the correct value" do
+      Reminder.public_or_users_reminders_for_idea_group_by_user(@idea, @user).size.size == 2
     end
   end
 end

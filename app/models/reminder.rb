@@ -19,8 +19,8 @@ class Reminder < ActiveRecord::Base
   scope :from_idea_by_privacy, lambda { |idea, privacy| from_idea_by_privacy(idea, privacy) }
   scope :public_reminders_for_idea, lambda { |idea| public_reminders_for_idea(idea, privacy) }
   scope :from_user, lambda { |user| where("reminders.user_id = :user_id", :user_id => user) }
-
   scope :public_or_users_reminders_for_idea, lambda { |idea, user| public_or_users_reminders_for_idea(idea,user) }
+  scope :public_or_users_reminders_for_idea_group_by_user, lambda { |idea, user| Reminder.public_or_users_reminders_for_idea(idea,user).group("reminders.user_id") }
   
   
   
@@ -30,7 +30,7 @@ class Reminder < ActiveRecord::Base
   # We include the user's own id as well.
   def self.followed_by(user)
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
-    public_privacy_id = Privacy.find_by_name("public").id
+    public_privacy_id = Privacy.public_privacy_id
     where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).includes(:idea).includes(:privacy).includes(:user => :profile)
   end
   
@@ -41,7 +41,7 @@ class Reminder < ActiveRecord::Base
     if !logged_user.nil? and user == logged_user
       where("reminders.user_id = :user_id", { :user_id => user }).includes(:idea).includes(:user => :profile)
     elsif
-      public_privacy_id = Privacy.find_by_name("public").id
+      public_privacy_id = Privacy.public_privacy_id
       where("reminders.user_id = :user_id AND reminders.privacy_id = #{public_privacy_id}", { :user_id => user }).includes(:idea).includes(:user => :profile)
     end
   end
@@ -53,19 +53,14 @@ class Reminder < ActiveRecord::Base
   end
   
   def self.public_reminders_for_idea(idea)
-    public_privacy_id = Privacy.find_by_name("public").id
+    public_privacy_id = Privacy.public_privacy_id
     from_idea_by_privacy(idea, public_privacy_id)
   end
   
   def self.public_or_users_reminders_for_idea(idea, user)
-    public_privacy = Privacy.find_by_name("public") 
+    public_privacy = Privacy.public_privacy_id 
     where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))", :idea_id => idea, :privacy_id => public_privacy, :user_id => user)
   end
-  
-  # def self.public_or_users_reminders_for_idea(idea, user)
-    # public_privacy_id = Privacy.find_by_name("public").id
-    # from_idea_by_privacy(idea, public_privacy_id)
-  # end
   
   def reminder_date_cannot_be_in_the_past
     errors.add(:reminder_date, "can't be in the past") if

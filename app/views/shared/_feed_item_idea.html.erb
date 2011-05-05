@@ -1,27 +1,30 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
+  <% users_with_reminders = @public_reminders_for_idea_group_by_user[feed_item_idea] %>
+  <% users_with_reminders_size = users_with_reminders.size.size %>
   
-  <td>
-    <%=count_public_reminders_for_idea(feed_item_idea)%>-<%=feed_item_idea.id%>
-  </td>
+  
 
   <td class="gravatar">
-    <% feed_item_idea.reminders.each do |reminder| %>
+    <% users_with_reminders.each do |reminder| %>
       <%= link_to gravatar_for(reminder.user), reminder.user %>
     <% end %>
   </td>
   <td class="idea">
-    <% feed_item_idea.reminders.each do |reminder| %>
+
+    <% users_with_reminders.each do |reminder| %>
       <span class="user">
         <%= link_to reminder.user.display_name, reminder.user %>
       </span>
     <% end %>
+
     <span class="content">wants to remind to <%= feed_item_idea.content %></span>
     <span class="timestamp">
       First posted <%= time_ago_in_words(feed_item_idea.created_at) %>
     </span>
 
-    <% feed_item_idea.reminders.each do |reminder| %>
-    <span class="timestamp">
+
+    <% users_with_reminders.each do |reminder| %>
+      <span class="timestamp">
       Posted <%= time_ago_in_words(reminder.created_at) %>
     </span>
     <% end %>    

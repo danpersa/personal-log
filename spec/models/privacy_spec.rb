@@ -33,4 +33,16 @@ describe Privacy do
       @privacy.should respond_to(:reminders)
     end
   end
+  
+  describe "public_privacy_id" do
+    before(:each) do
+      @privacy = Factory(:privacy)
+      #@idea = Factory(:idea, :created_at => 1.day.ago)
+      #@reminder = @idea.user.reminders.create(:privacy => @privacy)
+    end
+    
+    it "should not be nil" do
+      Privacy.public_privacy_id.should_not be_nil
+    end
+  end
 end

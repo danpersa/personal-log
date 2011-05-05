@@ -4,7 +4,11 @@ class PagesController < ApplicationController
     if signed_in?
       @idea = Idea.new
       @reminder = Reminder.new
-      @feed_items = current_user.feed #.limit(50)
+      @feed_items = current_user.feed.limit(50)
+      @public_reminders_for_idea_group_by_user = {}
+      @feed_items.each do |idea|
+        @public_reminders_for_idea_group_by_user[idea] = Reminder.public_or_users_reminders_for_idea_group_by_user(idea, current_user)
+      end
       @user = current_user
     end
   end
