@@ -152,7 +152,7 @@ class User < ActiveRecord::Base
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
-    group("users.id, users.name, users.email, users.created_at, users.updated_at, users.activation_code").
+    group("users.id, users.name, users.email, users.created_at, users.updated_at, users.activation_code, users.encrypted_password, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.salt").
     order("reminders.created_at ASC")
   end
 
