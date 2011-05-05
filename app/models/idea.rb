@@ -42,9 +42,9 @@ class Idea < ActiveRecord::Base
   def self.followed_by(user)
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.public_privacy_id
-    select("ideas.*, max(reminders.created_at) as mx").joins(:reminders).
+    joins(:reminders).
     where("(reminders.user_id IN (#{followed_ids} AND reminders.privacy_id = #{public_privacy_id})) OR reminders.user_id = :user_id", { :user_id => user }).
-    group('ideas.id, ideas.content, ideas.user_id, ideas.created_at, ideas.updated_at').order("mx DESC")
+    group('ideas.id, ideas.content, ideas.user_id, ideas.created_at, ideas.updated_at').order("max(reminders.created_at) DESC")
     #includes(:reminders => [ {:user => :profile }, :privacy]).
   end
 end
