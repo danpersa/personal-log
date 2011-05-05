@@ -57,6 +57,8 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
   before_create :make_activation_code
+  
+  scope :users_with_public_or_own_reminders_for_idea, lambda { |idea, user| users_with_public_or_own_reminders_for_idea(idea, user) }
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
@@ -141,6 +143,18 @@ class User < ActiveRecord::Base
       end
     end
     return self.name
+  end
+  
+  def self.users_with_public_or_own_reminders_for_idea(idea, user)
+    public_privacy = Privacy.public_privacy_id
+    select("distinct users.*").
+    joins(:reminders).
+    where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))",
+      :idea_id => idea,
+      :privacy_id => public_privacy,
+      :user_id => user).
+    order("reminders.created_at ASC")
+    #.group("users.id")
   end
 
   private

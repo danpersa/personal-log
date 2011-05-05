@@ -1,27 +1,26 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
-  <% users_with_reminders = @public_reminders_for_idea_group_by_user[feed_item_idea] %>
-  <% users_with_reminders_count = @public_reminders_for_idea_group_by_user_count[feed_item_idea] %>
-  
-  
+  <% users_for_idea = @users_with_public_or_own_reminders_for_idea[feed_item_idea] %>
+  <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed_item_idea] %>
+  <% newest_reminder_for_idea = @newest_public_or_own_reminder_for_idea[feed_item_idea] %>
 
   <td class="gravatar">
-    <% users_with_reminders.each do |reminder| %>
-      <%= link_to gravatar_for(reminder.user), reminder.user %>
+    <% users_for_idea.each do |user| %>
+      <%= link_to gravatar_for(user), user %>
     <% end %>
   </td>
   <td class="idea">
 
-    <% users_with_reminders.each do |reminder| %>
+    <% users_for_idea.each do |user| %>
       <span class="user">
-        <%= link_to reminder.user.display_name, reminder.user %><% if reminder == users_with_reminders.first and reminder != users_with_reminders.last %><%= pluralize_without_numbers(users_with_reminders_count - 2, ",", " and") %><% end %>
+        <%= link_to user.display_name, user %><% if user == users_for_idea.first and user != users_for_idea.last %><%= pluralize_without_numbers(users_for_idea_count - 2, ",", " and") %><% end %>
       </span>
     <% end %>
-    <% if users_with_reminders_count > 2 %>and <%= users_with_reminders_count - 2 %> other <%= pluralize_without_numbers(users_with_reminders_count - 2, "person", "people") %><% end %>
+    <% if users_for_idea_count > 2 %>and <%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %><% end %>
 
-    <span class="content"><%= pluralize_without_numbers(users_with_reminders_count, "wants", "want") %> to remind to <%= feed_item_idea.content %></span>
+    <span class="content"><%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <%= feed_item_idea.content %></span>
       
     <span class="timestamp">
-      Posted <%= time_ago_in_words(users_with_reminders.first.created_at) %>
+      Posted <%= time_ago_in_words(newest_reminder_for_idea.created_at) %> ago
     </span>
 
     <% unless current_user_id?(feed_item_idea.user_id) %>
