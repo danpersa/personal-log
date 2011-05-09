@@ -4,8 +4,9 @@ class UsersController < ApplicationController
   
   before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
+  before_filter :existing_user, :only => [:show, :edit, :update, :destroy, :following, :followers]
   before_filter :correct_user, :only => [:edit, :update]
-  before_filter :admin_user,   :only => :destroy
+  before_filter :admin_user, :only => :destroy
   before_filter :not_authenticate, :only => [:change_reseted_password]
   
 
@@ -16,7 +17,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @reminders = @user.reminders_for_logged_user(current_user).paginate(:page => params[:page])
     # we store the location so we can be redirected here after reminder delete
     store_location
@@ -50,10 +50,11 @@ class UsersController < ApplicationController
 
   def edit
     @title = "Edit user"
+    # the user is searched in the existing_user before interceptor
   end
 
   def update
-    @user = User.find(params[:id])
+    # the user is searched in the existing_user before interceptor
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated."
       redirect_to @user
@@ -64,21 +65,22 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    # the user is searched in the existing_user before interceptor
+    @user.destroy
     flash[:success] = "User destroyed."
     redirect_to users_path
   end
   
   def following
+    # the user is searched in the existing_user before interceptor
     @title = "Following"
-    @user = User.find(params[:id])
     @users = @user.following.paginate(:page => params[:page])
     render 'show_follow'
   end
 
   def followers
+    # the user is searched in the existing_user before interceptor
     @title = "Followers"
-    @user = User.find(params[:id])
     @users = @user.followers.paginate(:page => params[:page])
     render 'show_follow'
   end
@@ -111,9 +113,12 @@ class UsersController < ApplicationController
 
   private 
 
+  def existing_user
+    @user = User.find_by_id(params[:id])
+    redirect_to(root_path) unless not @user.nil?
+  end
 
   def correct_user
-    @user = User.find(params[:id])
     redirect_to(root_path) unless current_user?(@user)
   end
 

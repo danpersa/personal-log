@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-  before_filter :authenticate, :only => [:new, :edit, :create, :update]
-  before_filter :correct_user, :only => [:new, :edit, :create, :update]
+  before_filter :authenticate, :only => [:edit, :create, :update]
+  before_filter :correct_user, :only => [:edit, :create, :update]
   
   def edit
     @profile = Profile.find_by_user_id(current_user.id)
@@ -52,7 +52,7 @@ class ProfilesController < ApplicationController
   end
 
   def correct_user
-    @user = User.find(params[:user_id])
-    redirect_to(edit_user_profile_path(current_user)) unless current_user?(@user)
+    @user = User.find_by_id(params[:user_id])
+    redirect_to(edit_user_profile_path(current_user)) unless not @user.nil? and current_user?(@user)
   end
 end

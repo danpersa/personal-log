@@ -1,7 +1,7 @@
 class IdeasController < ApplicationController
-  before_filter :authenticate, :only => [:create, :destroy]
-  before_filter :authorized_user, :only => :destroy
-  before_filter :correct_user, :only => [:edit, :update]
+  before_filter :authenticate, :only => [:create, :destroy, :show]
+  before_filter :own_idea, :only => :destroy
+  before_filter :own_idea_or_public, :only => :show
 
   def create
   	@idea  = current_user.ideas.build(params[:idea])
@@ -29,6 +29,12 @@ class IdeasController < ApplicationController
       @user = current_user
       render 'pages/home'
   end
+  
+  def show
+    # the idea is searched in interceptor
+    @user = current_user
+    @users = @idea.public_users(current_user).paginate(:page => params[:page])
+  end
 
   def destroy
     @idea.destroy
@@ -40,9 +46,14 @@ class IdeasController < ApplicationController
 
   private
 
-  def authorized_user
-    @idea = Idea.find(params[:id])
-    redirect_to root_path unless current_user?(@idea.user)
+  def own_idea
+    @idea = Idea.find_by_id(params[:id])
+    redirect_to root_path unless not @idea.nil? and current_user?(@idea.user)
+  end
+  
+  def own_idea_or_public
+    @idea = Idea.find_by_id(params[:id])
+    redirect_to root_path unless not @idea.nil? and current_user?(@idea.user) || @idea.public?
   end
 
 end

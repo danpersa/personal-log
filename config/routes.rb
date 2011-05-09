@@ -10,7 +10,7 @@ PersonalLog::Application.routes.draw do
   end
 
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :ideas, :only => [:create, :destroy]
+  resources :ideas, :only => [:create, :destroy, :show]
   resources :reminders, :only => [:create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :reset_passwords,

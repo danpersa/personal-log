@@ -35,13 +35,28 @@ describe ProfilesController do
 
     before(:each) do
       @user = test_sign_in(Factory(:user))
-      get :edit, :user_id => @user.id
     end
     
     it_should_behave_like "successful get request" do
       let(:action) do
+        get :edit, :user_id => @user.id
         @title = @base_title + " | Update public profile"
       end
+    end
+    
+    describe "failure" do
+      
+      it "should not update a profile for an user that does not exist" do
+        get :edit, :user_id => 999999
+        response.should redirect_to(user_profile_path(@user))
+      end
+      
+      it "should not allow access if the user is not the logged user" do
+        another_user = Factory(:user, :email => "other@yahoo.com")
+        put :update, :user_id => another_user, :profile => @attr
+        response.should redirect_to(user_profile_path(@user))
+      end
+      
     end
 
   end
@@ -60,6 +75,17 @@ describe ProfilesController do
         lambda do
           post :create, :user_id => @user.id, :profile => @attr
         end.should_not change(Profile, :count)
+      end
+      
+      it "should not allow access if the user does not exist" do
+        post :create, :user_id => 999999, :profile => @attr
+        response.should redirect_to(user_profile_path(@user))
+      end
+      
+      it "should not allow access if the user is not the logged user" do
+        another_user = Factory(:user, :email => "other@yahoo.com")
+        post :create, :user_id => another_user, :profile => @attr
+        response.should redirect_to(user_profile_path(@user))
       end
       
       describe "invalid email" do
@@ -118,6 +144,17 @@ describe ProfilesController do
         lambda do
           put :update, :user_id => @user.id, :profile => @attr
         end.should change(Profile, :count).by(-1)
+      end
+      
+      it "should not update a profile for an user that does not exist" do
+        put :update, :user_id => 999999, :profile => @attr
+        response.should redirect_to(user_profile_path(@user))
+      end
+      
+      it "should not allow access if the user is not the logged user" do
+        another_user = Factory(:user, :email => "other@yahoo.com")
+        put :update, :user_id => another_user, :profile => @attr
+        response.should redirect_to(user_profile_path(@user))
       end
       
       describe "invalid email" do

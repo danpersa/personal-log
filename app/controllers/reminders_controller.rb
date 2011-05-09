@@ -4,7 +4,7 @@ class RemindersController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update]
   
   def remind_me_too
-    @idea = Idea.find(params[:idea_id])
+    @idea = Idea.find_by_id(params[:idea_id])
     if redirect_unless_public_idea @idea
       return
     end
@@ -21,7 +21,7 @@ class RemindersController < ApplicationController
   end
   
   def create
-    @idea = Idea.find(params[:idea][:id])
+    @idea = Idea.find_by_id(params[:idea][:id])
     # if the idea is not public and the logged user is not the owner of the idea, we can't create reminders
     if redirect_unless_public_idea @idea
       return
@@ -39,7 +39,7 @@ class RemindersController < ApplicationController
   private
   
   def redirect_unless_public_idea(idea)
-    if idea.user != current_user and not idea.public?
+    if idea.nil? or (idea.user != current_user and not idea.public?)
       flash[:error] = "You want to remind an idea that does not exist!"
       redirect_to root_path
       return true
@@ -48,7 +48,7 @@ class RemindersController < ApplicationController
   end
   
   def authorized_user
-    @reminder = Reminder.find(params[:id])
-    redirect_to root_path unless current_user?(@reminder.user)
+    @reminder = Reminder.find_by_id(params[:id])
+    redirect_to root_path unless not @reminder.nil? and current_user?(@reminder.user)
   end
 end

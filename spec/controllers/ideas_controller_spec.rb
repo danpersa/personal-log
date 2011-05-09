@@ -16,6 +16,12 @@ describe IdeasController do
         delete :destroy, :id => 1
       end
     end
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        get :show, :id => 1
+      end
+    end
   end
   
   describe "POST 'create'" do
@@ -78,22 +84,7 @@ describe IdeasController do
 
   describe "DELETE 'destroy'" do
 
-    describe "for an unauthorized user" do
-
-      before(:each) do
-        @user = Factory(:user)
-        wrong_user = Factory(:user, :email => Factory.next(:email))
-        test_sign_in(wrong_user)
-        @idea = Factory(:idea, :user => @user)
-      end
-
-      it "should deny access" do
-        delete :destroy, :id => @idea
-        response.should redirect_to(root_path)
-      end
-    end
-
-    describe "for an authorized user" do
+    describe "success" do
 
       before(:each) do
         @privacy = Factory(:privacy)
@@ -113,6 +104,127 @@ describe IdeasController do
         delete :destroy, :id => @idea
         Reminder.find_by_idea_id(@idea.id).should be_nil
       end
+    end
+
+    describe "failure" do
+
+      before(:each) do
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+        @idea = Factory(:idea, :user => @user)
+      end
+
+      it "should deny access if user does not own the idea" do
+        delete :destroy, :id => @idea
+        response.should redirect_to(root_path)
+      end
+      
+      it "should deny access if the idea does not exist" do
+        delete :destroy, :id => 9999
+        response.should redirect_to(root_path)
+      end
+    end
+  end
+  
+  describe "GET 'show'" do
+    
+    describe "fail" do
+
+      before(:each) do
+        @private_privacy = Factory(:privacy, :name => "private")
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+        @idea = Factory(:idea, :user => @user)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @private_privacy)
+      end
+
+      it "should deny access if the user is trying to access other user's private idea" do
+        get :show, :id => @idea
+        response.should redirect_to(root_path)
+      end
+      
+      it "should deny access if the user is trying to access an unexisting idea" do
+        get :show, :id => 99999
+        response.should redirect_to(root_path)
+      end
+      
+    end
+    
+    describe "success" do
+
+      before(:each) do
+        @public_privacy = Factory(:privacy)
+        @user = Factory(:user)
+        @idea = Factory(:idea, :user => @user)
+      end
+
+      describe "should allow access" do
+        
+        before(:each) do
+          private_privacy = Factory(:privacy, :name => "private")
+          private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
+        end
+
+        it "to own private idea" do
+          test_sign_in(@user)
+          get :show, :id => @idea
+          response.should be_successful
+        end
+
+        it "to another user's public idea" do
+          public_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+          # now the idea is public
+          wrong_user = Factory(:user, :email => Factory.next(:email))
+          test_sign_in(wrong_user)
+          get :show, :id => @idea
+          response.should be_successful
+        end  
+      end
+      
+      it "should show the idea" do
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should have_selector("span.title", :content => @idea.content)
+      end
+      
+      
+      it "should have an element for each user that shares the idea as public" do
+        @users = []
+        @users << @user
+        2.times do
+          another_user = Factory(:user, :email => Factory.next(:email))
+          @users << another_user
+          Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)  
+        end
+        
+        test_sign_in(@user)
+        get :show, :id => @idea
+        @users[0..2].each do |user|
+          response.should have_selector("li", :content => user.name)
+        end
+      end
+
+      it "should paginate users that share the idea as public" do
+        @users = []
+        @users << @user
+        100.times do
+          another_user = Factory(:user, :email => Factory.next(:email))
+          @users << another_user
+          Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)  
+        end
+        
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "2")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "Next")
+      end
+      
     end
   end
 end
