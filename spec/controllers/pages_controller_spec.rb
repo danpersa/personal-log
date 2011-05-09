@@ -4,7 +4,7 @@ describe PagesController do
   render_views
 
   before(:each) do
-  # Define @base_title here.
+   # Define @base_title here.
     @base_title = "Remind me to live"
   end
 
@@ -32,6 +32,18 @@ describe PagesController do
           :content => "0 following")
         response.should have_selector("a", :href => followers_user_path(@user),
           :content => "1 follower")
+      end
+      
+      it "should paginate" do
+        21.times do
+          idea = Factory(:idea, :user => @user, :content => "Baz quux")
+          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
+        end
+        get :home
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => ".?page=2",
+                                           :content => "Next")
       end
     end
   end

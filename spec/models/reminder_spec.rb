@@ -169,6 +169,14 @@ describe Reminder do
     it "should not include other user's private reminders for guest" do
       Reminder.from_user_with_privacy(@user, nil).should_not include(@private_reminder)
     end
+    
+    it "should have the right order" do
+      reminder1 = @user.reminders.create!(@attr)
+      reminder1.created_at = Time.now.utc.tomorrow
+      reminder1.save!
+      # newest should be first
+      Reminder.from_user_with_privacy(@user, @user).should == [reminder1, @reminder, @private_reminder]
+    end
   end
   
   describe "from_idea_by_privacy" do
@@ -188,53 +196,6 @@ describe Reminder do
       reminders = Reminder.from_idea_by_privacy(@idea, @privacy)
       reminders.size.should == 1
       reminders.first.privacy.should == @privacy
-    end
-  end
-  
-  describe "public_reminders_for_idea" do
-    
-    before(:each) do
-      @private_privacy = Privacy.create(:name => "private")
-      @reminder = @user.reminders.create!(@attr)
-      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
-    end
-    
-    it "should return the correct value" do
-      Reminder.public_reminders_for_idea(@idea).size == 1
-    end
-  end
-  
-  describe "public_or_users_reminders_for_idea" do
-    
-    before(:each) do
-      @private_privacy = Privacy.create(:name => "private")
-      @other_user = Factory(:user, :email => Factory.next(:email))
-      @user.follow!(@other_user)
-      @reminder1 = @other_user.reminders.create!(@attr)
-      @reminder = @user.reminders.create!(@attr)
-      @reminder2 = @user.reminders.create!(@attr)
-      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
-    end
-    
-    it "should return the correct value" do
-      Reminder.public_or_users_reminders_for_idea(@idea, @user).size == 4
-    end
-  end
-  
-  describe "public_or_users_reminders_for_idea_group_by_user" do
-    
-    before(:each) do
-      @private_privacy = Privacy.create(:name => "private")
-      @other_user = Factory(:user, :email => Factory.next(:email))
-      @user.follow!(@other_user)
-      @reminder1 = @other_user.reminders.create!(@attr)
-      @reminder = @user.reminders.create!(@attr)
-      @reminder2 = @user.reminders.create!(@attr)
-      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
-    end
-    
-    it "should return the correct value" do
-      Reminder.public_or_users_reminders_for_idea_group_by_user(@idea, @user).size.size == 2
     end
   end
 end

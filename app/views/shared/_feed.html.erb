@@ -1,3 +1,15 @@
 <table class="ideas" summary="User ideas">
   <%= render :partial => 'shared/feed_item_idea', :collection => @feed_items %>
 </table>
+<div class="pagination">
+  <% if @has_prev_page %>
+    <a class="previous_page" rel="prev" href="?page=<%= @page - 1 %>">&#8592; Previous</a>
+  <% else %>
+    <span class="previous_page disabled">&#8592; Previous</span>
+  <% end %>
+  <% if @has_next_page %>
+    <a class="next_page" rel="next" href=".?page=<%= @page + 1 %>">Next &#8594;</a>
+  <% else %>
+    <span class="next_page disabled">Next &#8594;</span>
+  <% end %>
+</div>

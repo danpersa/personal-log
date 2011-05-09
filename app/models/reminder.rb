@@ -36,16 +36,16 @@ class Reminder < ActiveRecord::Base
   # else he can see only the public ones
   def self.with_privacy(user, logged_user)
     if !logged_user.nil? and user == logged_user
-      where("reminders.user_id = :user_id", { :user_id => user }).includes(:idea).includes(:user => :profile)
+      where("reminders.user_id = :user_id", { :user_id => user }).includes(:idea).includes(:user => :profile).order("reminders.created_at DESC")
     elsif
       public_privacy_id = Privacy.public_privacy_id
-      where("reminders.user_id = :user_id AND reminders.privacy_id = #{public_privacy_id}", { :user_id => user }).includes(:idea).includes(:user => :profile)
+      where("reminders.user_id = :user_id AND reminders.privacy_id = #{public_privacy_id}", { :user_id => user }).includes(:idea).includes(:user => :profile).order("reminders.created_at DESC")
     end
   end
   
   # returns all the reminders from a specified idea, that has a specified privacy
   def self.from_idea_by_privacy(idea, privacy)
-    joins(:idea).where("ideas.id = :idea_id AND reminders.privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy)
+    joins(:idea).where("ideas.id = :idea_id AND reminders.privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy).order("reminders.created_at DESC")
   end
   
   def self.public_or_own_reminders_for_idea(idea, user)

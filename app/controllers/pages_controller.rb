@@ -1,10 +1,17 @@
 class PagesController < ApplicationController
+  
+  include ApplicationHelper
+  
+  @@items_per_page = 20
+  
   def home
     @title = "Home"
     if signed_in?
+      # we create the pagination
+      @feed_items = pagination(current_user.feed, @@items_per_page)
+      # other variables
       @idea = Idea.new
       @reminder = Reminder.new
-      @feed_items = current_user.feed.limit(50)
       @users_with_public_or_own_reminders_for_idea = {}
       @users_with_public_or_own_reminders_for_idea_count = {}
       @newest_public_or_own_reminder_for_idea = {}
