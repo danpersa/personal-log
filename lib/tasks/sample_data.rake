@@ -32,19 +32,24 @@ def make_users
 end
 
 def make_ideas
+  first_user = User.first
+  first_idea = first_user.ideas.create!(:content => "to go to school")
+  public_privacy = Privacy.find_by_name("public")
+  reminder_date = Time.now.utc.tomorrow
   User.all(:limit => 6).each do |user|
     50.times do
       content = Faker::Lorem.sentence(5).downcase.chomp(".")
-      reminder_date = Time.now.utc.tomorrow
       idea = user.ideas.create!(:content => content)
       user.reminders.create!(:reminder_date => reminder_date, 
-          :privacy => Privacy.find_by_name("public"), :idea => idea)
+          :privacy => public_privacy, :idea => idea)
     end
+    user.reminders.create!(:reminder_date => reminder_date, 
+          :privacy => public_privacy, :idea => first_idea)
   end
 end
 
 def make_relationships
-  users = User.all(:limit => 70)
+  users = User.all(:limit => 7)
   user = users.first
   following = users[1..50]
   followers = users[3..40]

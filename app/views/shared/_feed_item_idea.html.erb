@@ -1,9 +1,10 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
   <% users_for_idea = @users_with_public_or_own_reminders_for_idea[feed_item_idea] %>
-  <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed_item_idea] %>
+  <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed_item_idea].size %>
   <% newest_reminder_for_idea = @newest_public_or_own_reminder_for_idea[feed_item_idea] %>
 
   <td class="gravatar">
+    <%= users_for_idea_count %>
     <% users_for_idea.each do |user| %>
       <%= link_to gravatar_for(user), user %>
     <% end %>
