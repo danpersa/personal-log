@@ -148,14 +148,13 @@ class User < ActiveRecord::Base
   # TODO
   def self.users_with_public_or_own_reminders_for_idea(idea, user)
     public_privacy = Privacy.public_privacy_id
-    select("users.*, max(reminders.created_at)").
     joins(:reminders).
     where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))",
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
-    group("users.id, users.name, users.email, users.created_at, users.updated_at, users.activation_code, users.encrypted_password, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.salt").
-    order("max(reminders.created_at) ASC")
+    group("users.id, users.name, users.email, users.activation_code, users.encrypted_password, users.salt, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.created_at, users.updated_at, reminders.created_at").
+    order("reminders.created_at ASC")
   end
 
   private
