@@ -12,6 +12,7 @@
 #
 
 class Idea < ActiveRecord::Base
+  
   attr_accessible :content
   #attr_accessor :user_id
   #, :reminders_attributes

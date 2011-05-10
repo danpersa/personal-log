@@ -205,26 +205,6 @@ describe IdeasController do
           response.should have_selector("li", :content => user.name)
         end
       end
-
-      it "should paginate users that share the idea as public" do
-        @users = []
-        @users << @user
-        100.times do
-          another_user = Factory(:user, :email => Factory.next(:email))
-          @users << another_user
-          Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)  
-        end
-        
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("div.pagination")
-        response.should have_selector("span.disabled", :content => "Previous")
-        response.should have_selector("a", :href => "/users?page=2",
-                                           :content => "2")
-        response.should have_selector("a", :href => "/users?page=2",
-                                           :content => "Next")
-      end
-      
     end
   end
 end

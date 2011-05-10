@@ -21,7 +21,6 @@ require 'validators/email_format_validator'
 
 class User < ActiveRecord::Base
   include ActiveRecord::Transitions
-  
 
   attr_accessor :password, :updating_password
   attr_accessible :name, :email, :password, :password_confirmation, 
