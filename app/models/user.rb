@@ -152,8 +152,8 @@ class User < ActiveRecord::Base
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
-    group("users.id, users.name, users.email, users.activation_code, users.encrypted_password, users.salt, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.created_at, users.updated_at, reminders.created_at").
-    order("reminders.created_at ASC")
+    group("users.id, users.name, users.email, users.activation_code, users.encrypted_password, users.salt, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.created_at, users.updated_at").
+    order("max(reminders.created_at) ASC")
   end
 
   private
