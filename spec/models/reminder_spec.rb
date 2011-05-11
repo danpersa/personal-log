@@ -198,4 +198,19 @@ describe Reminder do
       reminders.first.privacy.should == @privacy
     end
   end
+  
+  describe "from_idea_by_user" do
+    before(:each) do
+      @private_privacy = Privacy.create(:name => "private")
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+      another_user = Factory(:user, :email => Factory.next(:email))
+      another_reminder = another_user.reminders.create!(@attr)
+    end
+    
+    it "should return the public and private reminders of the user" do
+      reminders = Reminder.from_idea_by_user(@idea, @user).all
+      reminders.size.should == 2
+    end
+  end
 end

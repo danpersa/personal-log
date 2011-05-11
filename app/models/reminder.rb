@@ -17,6 +17,7 @@ class Reminder < ActiveRecord::Base
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
   scope :from_user_with_privacy, lambda { |user, logged_user| with_privacy(user, logged_user) }
   scope :from_idea_by_privacy, lambda { |idea, privacy| from_idea_by_privacy(idea, privacy) }
+  scope :from_idea_by_user, lambda { |idea, user| from_idea_by_user(idea, user) }
   scope :public_or_own_reminders_for_idea, lambda { |idea, user| public_or_own_reminders_for_idea(idea, user) }
   scope :newest_public_or_own_reminder_for_idea, lambda { |idea, user| Reminder.public_or_own_reminders_for_idea(idea, user).order("reminders.created_at DESC").limit(1) }
   scope :from_user, lambda { |user| where("reminders.user_id = :user_id", :user_id => user) }
@@ -46,6 +47,10 @@ class Reminder < ActiveRecord::Base
   # returns all the reminders from a specified idea, that has a specified privacy
   def self.from_idea_by_privacy(idea, privacy)
     joins(:idea).where("ideas.id = :idea_id AND reminders.privacy_id = :privacy_id", :idea_id => idea, :privacy_id => privacy).order("reminders.created_at DESC")
+  end
+  
+  def self.from_idea_by_user(idea, user)
+    joins(:idea).where("ideas.id = :idea_id AND reminders.user_id = :user_id", :idea_id => idea, :user_id => user).order("reminders.created_at DESC")
   end
   
   def self.public_or_own_reminders_for_idea(idea, user)

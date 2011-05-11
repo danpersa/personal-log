@@ -1,0 +1,30 @@
+<h1 class="idea">Remind me to</h1>
+<span class="title"><%= @idea.content %></span>
+
+<% unless @idea.shared_by?(current_user) %>
+  <div>
+    <span class="idea-toolbar">
+      <%= link_to "Remind me too", remind_me_too_path(:idea_id => @idea.id) %> 
+    </span>
+  </div>
+<% else %>
+  <div>
+  <span class="idea-toolbar">
+    <%= link_to "Create new reminder", remind_me_too_path(:idea_id => @idea.id) %> 
+  </span>  · 
+    <span class="idea-toolbar">
+      <%= link_to "My reminders for this idea", idea_path(@idea) %>
+    </span>
+  </div>
+<% end %>
+
+<%= will_paginate @users %>
+<ul class="users">
+  <%= render @users %>
+</ul>
+<%= will_paginate @users %>
+
+<% content_for :sidebar do %>
+  <%= render 'shared/user_info' %>
+  <%= render 'shared/stats' %>
+<% end %>

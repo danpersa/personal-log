@@ -1,7 +1,7 @@
 class IdeasController < ApplicationController
   before_filter :authenticate, :only => [:create, :destroy, :show]
   before_filter :own_idea, :only => :destroy
-  before_filter :own_idea_or_public, :only => :show
+  before_filter :own_idea_or_public, :only => [:show, :users]
 
   def create
   	@idea  = current_user.ideas.build(params[:idea])
@@ -31,6 +31,13 @@ class IdeasController < ApplicationController
   end
   
   def show
+    # the idea is searched in interceptor
+    @user = current_user
+    @reminders = Reminder.from_idea_by_user(@idea, current_user)
+    redirect_to users_idea_path(@idea) if @reminders.empty?
+  end
+  
+  def users
     # the idea is searched in interceptor
     @user = current_user
     @users = @idea.public_users(current_user).includes(:profile).paginate(:page => params[:page], :per_page => 10)

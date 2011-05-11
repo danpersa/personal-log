@@ -4,9 +4,7 @@
   <% newest_reminder_for_idea = @newest_public_or_own_reminder_for_idea[feed_item_idea] %>
 
   <td class="gravatar">
-    <% users_for_idea.each do |user| %>
-      <%= link_to gravatar_for(user), user %>
-    <% end %>
+    <%= link_to gravatar_for(users_for_idea.first), users_for_idea.first %>
   </td>
   <td class="idea">
 
@@ -15,7 +13,7 @@
         <%= link_to user.display_name, user %><% if user == users_for_idea.first and user != users_for_idea.last %><%= pluralize_without_numbers(users_for_idea_count - 2, ",", " and") %><% end %>
       </span>
     <% end %>
-    <% if users_for_idea_count > 2 %>and <a href="<%= idea_path feed_item_idea %>"><%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %></a><% end %>
+    <% if users_for_idea_count > 2 %>and <a href="<%= users_idea_path feed_item_idea %>"><%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %></a><% end %>
 
     <span class="content"><%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <%= feed_item_idea.content %></span>
       

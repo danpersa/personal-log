@@ -61,7 +61,7 @@ describe Idea do
     end
   end
   
-  describe "is_public?" do
+  describe "public?" do
     
     it "should be public if it has at least one public reminder" do
       @public_privacy = Factory(:privacy)
@@ -75,6 +75,34 @@ describe Idea do
       @private_idea = @user.ideas.create!(@attr)
       @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 1.day.ago, :privacy => @private_privacy)
       @private_idea.should_not be_public
+    end
+  end
+  
+  describe "shared_by?(user)" do
+    
+    describe "success" do
+      it "should be true if user has a public reminder for the idea" do
+        @public_privacy = Factory(:privacy)
+        @public_idea = @user.ideas.create!(@attr)
+        @reminder = Factory(:reminder, :user => @user, :idea => @public_idea, :created_at => 1.day.ago, :privacy => @public_privacy)
+        @public_idea.should be_shared_by(@user)
+      end
+      
+      it "should be true if the user has a private reminder for the idea" do
+        @private_privacy = Factory(:privacy, :name => "private")
+        @private_idea = @user.ideas.create!(@attr)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @private_idea, :created_at => 1.day.ago, :privacy => @private_privacy)
+        @private_idea.should be_shared_by(@user)
+      end
+      
+    end
+    
+    describe "failure" do
+      it "should be false if the user doesn't have a reminder for the idea" do
+        @public_privacy = Factory(:privacy)
+        @public_idea = @user.ideas.create!(@attr)
+        @public_idea.should_not be_shared_by(@user)
+      end
     end
   end
 end

@@ -1,11 +1,22 @@
 <h1 class="idea">Remind me to</h1>
 <span class="title"><%= @idea.content %></span>
 
-<%= will_paginate @users %>
-<ul class="users">
-  <%= render @users %>
+<div>
+  <span class="idea-toolbar">
+    <%= link_to "Create new reminder", remind_me_too_path(:idea_id => @idea.id) %> 
+  </span>  · 
+  <span class="idea-toolbar">
+    <%= link_to "Users sharing this idea", users_idea_path(@idea) %> 
+  </span>
+</div>
+
+<div>on</div>
+
+<ul>
+  <% @reminders.each do |reminder| %>
+    <li><%= reminder.reminder_date.to_s %></li>
+  <% end %>
 </ul>
-<%= will_paginate @users %>
 
 <% content_for :sidebar do %>
   <%= render 'shared/user_info' %>

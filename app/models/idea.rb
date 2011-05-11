@@ -38,6 +38,10 @@ class Idea < ActiveRecord::Base
     Reminder.from_idea_by_privacy(self, public_privacy).size > 0
   end
   
+  def shared_by?(user)
+    Reminder.from_idea_by_user(self, user).size > 0
+  end
+  
   def public_users(logged_user)
     User.users_with_public_or_own_reminders_for_idea(self, logged_user)
   end
