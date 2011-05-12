@@ -31,17 +31,24 @@ class Idea < ActiveRecord::Base
   scope :reminders_order, order('reminders.created_at DESC')
   
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
+  
+  scope :owned_by, lambda { |user| where('ideas.user_id = :user_id', :user_id => user).ideas_order }
 
+  # the idea is public if it has at least one public reminder
   def public?
-    # the idea is public if it has at least one public reminder
     public_privacy = Privacy.find_by_name("public")
     Reminder.from_idea_by_privacy(self, public_privacy).size > 0
   end
   
+  # returns true if the specified user has at least one reminder for the
+  # current idea
   def shared_by?(user)
     Reminder.from_idea_by_user(self, user).size > 0
   end
   
+  # returns the list of users that have public reminders for the current idea,
+  # including the specified user if he has a public or private reminder for the
+  # current idea
   def public_users(logged_user)
     User.users_with_public_or_own_reminders_for_idea(self, logged_user)
   end

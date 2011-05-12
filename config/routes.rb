@@ -2,7 +2,7 @@ PersonalLog::Application.routes.draw do
 
   resources :users do
     member do
-      get :following, :followers
+      get :following, :followers, :ideas
     end
     resource :profile, :only => [:edit, :create, :update],
              :path_names => {:edit => ''},

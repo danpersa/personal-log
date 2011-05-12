@@ -105,4 +105,28 @@ describe Idea do
       end
     end
   end
+  
+  describe "owned_by_user" do
+    
+    before(:each) do
+      @public_privacy = Factory(:privacy)
+      @user_idea1 = @user.ideas.create!(@attr)
+      @user_idea2 = @user.ideas.create!(@attr)
+      other_user = Factory(:user, :email => Factory.next(:email))
+      @other_user_idea1 = other_user.ideas.create!(@attr)
+      @other_user_idea2 = other_user.ideas.create!(@attr)
+    end
+    
+    it "should return the ideas created by a specified user" do
+      ideas = Idea.owned_by(@user)
+      ideas.should include(@user_idea1)
+      ideas.should include(@user_idea2)
+    end
+    
+    it "should not return the ideas created by another user" do
+      ideas = Idea.owned_by(@user)
+      ideas.should_not include(@other_user_idea1)
+      ideas.should_not include(@other_user_idea2)
+    end
+  end
 end

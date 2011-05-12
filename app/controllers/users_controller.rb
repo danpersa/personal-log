@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   
   before_filter :authenticate, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
-  before_filter :existing_user, :only => [:show, :edit, :update, :destroy, :following, :followers]
-  before_filter :correct_user, :only => [:edit, :update]
+  before_filter :existing_user, :only => [:show, :edit, :update, :destroy, :following, :followers, :ideas]
+  before_filter :correct_user, :only => [:edit, :update, :ideas]
   before_filter :admin_user, :only => :destroy
   before_filter :not_authenticate, :only => [:change_reseted_password]
   
@@ -108,6 +108,11 @@ class UsersController < ApplicationController
       return
     end
     redirect_to signin_path
+  end
+  
+  # page displaying the ideas of the current user
+  def ideas
+    @own_ideas = Idea.owned_by(@user).paginate(:page => params[:page])
   end
 
 

@@ -1,0 +1,5 @@
+<%= will_paginate @own_ideas %>
+<table class="ideas" summary="User ideas">
+  <%= render :partial => 'ideas/own_idea', :collection => @own_ideas %>
+</table>
+<%= will_paginate @own_ideas %>

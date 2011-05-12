@@ -2,13 +2,10 @@
   <%= gravatar_for(@user) %>
   <span id="profile-display-name"><%= @user.display_name %></span>
 </h1>
-<%= render 'follow_form' if signed_in? %>
-<% unless @reminders.empty? %>
-  <h3 class="idea">...wants to remind to...</h3>
-  <table class="ideas" summary="User reminders">
-    <%= render @reminders %>
-  </table>
-  <%= will_paginate @reminders %>
+
+<% unless @own_ideas.empty? %>
+  <h3 class="idea">...has the next ideas...</h3>
+  <%= render 'ideas/own_ideas' %>
 <% end %>
 
 <% content_for :sidebar do %>

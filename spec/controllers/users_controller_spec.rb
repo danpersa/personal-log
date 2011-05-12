@@ -238,23 +238,41 @@ describe UsersController do
 
   describe "GET 'edit'" do
 
-    before(:each) do
-      @user = Factory(:user)
-      test_sign_in(@user)
-    end
-    
-    it_should_behave_like "successful get request" do
-      let(:action) do
-        get :edit, :id => @user
-        @title = @base_title + " | Edit user"
+    describe "security" do
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :edit, :id => 1
+        end
+      end
+
+      it "should deny access if wrong user" do
+        @user = Factory(:user)
+        test_sign_in(@user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        get :edit, :id => wrong_user
+        response.should redirect_to(root_path)
       end
     end
 
-    it "should have a link to change the Gravatar" do
-      get :edit, :id => @user
-      gravatar_url = "http://gravatar.com/emails"
-      response.should have_selector("a", :href => gravatar_url,
-                                         :content => "change")
+    describe "success" do
+      before(:each) do
+        @user = Factory(:user)
+        test_sign_in(@user)
+      end
+      
+      it_should_behave_like "successful get request" do
+        let(:action) do
+          get :edit, :id => @user
+          @title = @base_title + " | Edit user"
+        end
+      end
+  
+      it "should have a link to change the Gravatar" do
+        get :edit, :id => @user
+        gravatar_url = "http://gravatar.com/emails"
+        response.should have_selector("a", :href => gravatar_url,
+                                           :content => "change")
+      end
     end
   end
 
@@ -484,5 +502,33 @@ describe UsersController do
         end
       end
     end
+  end
+  
+  describe "GET 'ideas'" do
+    
+    describe "security" do
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :ideas, :id => 1
+        end
+      end
+      
+      it "should deny access if wrong user" do
+        @user = Factory(:user)
+        test_sign_in(@user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        get :ideas, :id => wrong_user
+        response.should redirect_to(root_path)
+      end
+      
+      it "should show the ideas entries" do
+        
+      end
+      
+      it "should paginate the ideas" do
+        
+      end
+    end
+
   end
 end
