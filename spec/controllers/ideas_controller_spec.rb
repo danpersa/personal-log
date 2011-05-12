@@ -336,7 +336,7 @@ describe IdeasController do
         test_sign_in(@user)
         get :show, :id => @idea
         reminders[0..2].each do |reminder|
-          response.should have_selector("li", :content => reminder.reminder_date.to_s)
+          response.should have_selector("span.content", :content => reminder.reminder_date.to_s)
         end
       end
     end
