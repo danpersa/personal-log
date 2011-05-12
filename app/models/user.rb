@@ -144,7 +144,6 @@ class User < ActiveRecord::Base
     return self.name
   end
   
-  # TODO
   def self.users_with_public_or_own_reminders_for_idea(idea, user)
     public_privacy = Privacy.public_privacy_id
     joins(:reminders).

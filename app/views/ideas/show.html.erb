@@ -12,11 +12,7 @@
 
 <div>on</div>
 
-<ul>
-  <% @reminders.each do |reminder| %>
-    <li><%= reminder.reminder_date.to_s %></li>
-  <% end %>
-</ul>
+<%= render 'reminders/simple_reminders' %>
 
 <% content_for :sidebar do %>
   <%= render 'shared/user_info' %>
