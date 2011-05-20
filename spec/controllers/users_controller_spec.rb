@@ -522,11 +522,33 @@ describe UsersController do
       end
       
       it "should show the ideas entries" do
-        pending
+        @user = Factory(:user)
+        @public_privacy = Factory(:privacy)
+        test_sign_in(@user)
+        ideas = []
+        3.times do
+          ideas << (idea = Factory(:idea, :user => @user, :content => "Baz quux"))
+          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
+        end
+        get :ideas, :id => @user
+        ideas.each do |idea|
+          response.should have_selector("span", :content => idea.content)
+        end
       end
       
       it "should paginate the ideas" do
-        pending
+        @user = Factory(:user)
+        @public_privacy = Factory(:privacy)
+        test_sign_in(@user)
+        31.times do
+          idea = Factory(:idea, :user => @user, :content => "Baz quux")
+          Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
+        end
+        get :ideas, :id => @user
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/users/#{@user.id}/ideas?page=2",
+                                           :content => "Next")
       end
     end
 

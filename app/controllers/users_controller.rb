@@ -112,7 +112,7 @@ class UsersController < ApplicationController
   
   # page displaying the ideas of the current user
   def ideas
-    @own_ideas = Idea.owned_by(@user).paginate(:page => params[:page])
+    @own_ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page])
   end
 
 
