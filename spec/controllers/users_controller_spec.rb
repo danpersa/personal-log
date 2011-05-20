@@ -522,11 +522,11 @@ describe UsersController do
       end
       
       it "should show the ideas entries" do
-        
+        pending
       end
       
       it "should paginate the ideas" do
-        
+        pending
       end
     end
 
