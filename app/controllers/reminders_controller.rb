@@ -1,23 +1,11 @@
 class RemindersController < ApplicationController
-  before_filter :authenticate, :only => [:create, :destroy, :remind_me_too]
+  before_filter :authenticate, :only => [:index, :create, :destroy, :remind_me_too]
   before_filter :authorized_user, :only => :destroy
   before_filter :correct_user, :only => [:edit, :update]
   
-  def remind_me_too
-    @idea = Idea.find_by_id(params[:idea_id])
-    if redirect_unless_public_idea @idea
-      return
-    end
-    @title = "Remind me too"
-    @reminder = Reminder.new
-  end
-  
-  def destroy
-    @reminder.destroy
-    respond_to do |format|
-       format.html { redirect_back_or root_path }
-       format.js
-     end
+  def index
+    @reminders = current_user.reminders.includes(:idea).all
+    @date = params[:month] ? Date.parse(params[:month].gsub('-', '/')) : Date.today
   end
   
   def create
@@ -34,6 +22,23 @@ class RemindersController < ApplicationController
       return
     end
     render :remind_me_too
+  end
+  
+  def destroy
+    @reminder.destroy
+    respond_to do |format|
+       format.html { redirect_back_or root_path }
+       format.js
+     end
+  end
+  
+  def remind_me_too
+    @idea = Idea.find_by_id(params[:idea_id])
+    if redirect_unless_public_idea @idea
+      return
+    end
+    @title = "Remind me too"
+    @reminder = Reminder.new
   end
   
   private

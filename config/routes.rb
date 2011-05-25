@@ -16,7 +16,7 @@ PersonalLog::Application.routes.draw do
       get :users
     end
   end
-  resources :reminders, :only => [:create, :destroy]
+  resources :reminders, :only => [:index, :create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :reset_passwords,
             :path => 'reset-password',

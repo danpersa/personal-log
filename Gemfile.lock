@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/jchunky/table_builder.git
+  revision: 861e57bc1c1cddcf877db950fb400226be15ea71
+  specs:
+    table_builder (0.0.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -29,7 +35,7 @@ GEM
       activesupport (= 3.0.7)
     activesupport (3.0.7)
     annotate-models (1.0.4)
-    arel (2.0.9)
+    arel (2.0.10)
     builder (2.1.2)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -51,7 +57,7 @@ GEM
     mysql2 (0.2.6)
     nokogiri (1.4.4)
     polyglot (0.3.1)
-    rack (1.2.2)
+    rack (1.2.3)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
     rack-test (0.5.7)
@@ -69,20 +75,20 @@ GEM
       activesupport (= 3.0.7)
       rake (>= 0.8.7)
       thor (~> 0.14.4)
-    rake (0.8.7)
-    rspec (2.5.0)
-      rspec-core (~> 2.5.0)
-      rspec-expectations (~> 2.5.0)
-      rspec-mocks (~> 2.5.0)
-    rspec-core (2.5.1)
-    rspec-expectations (2.5.0)
+    rake (0.9.0)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.3)
+    rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.5.0)
-    rspec-rails (2.5.0)
+    rspec-mocks (2.6.0)
+    rspec-rails (2.6.0)
       actionpack (~> 3.0)
       activesupport (~> 3.0)
       railties (~> 3.0)
-      rspec (~> 2.5.0)
+      rspec (~> 2.6.0)
     thor (0.14.6)
     transitions (0.0.9)
     treetop (1.4.9)
@@ -106,6 +112,7 @@ DEPENDENCIES
   rails (= 3.0.7)
   rspec
   rspec-rails
+  table_builder (= 0.0.3)!
   transitions
   webrat
   will_paginate (~> 3.0.pre2)

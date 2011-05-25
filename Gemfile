@@ -10,6 +10,7 @@ gem "transitions", :require => ["transitions", "active_record/transitions"]
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'faker'
+gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git'
 
 # Use unicorn as the web server
 # gem 'unicorn'

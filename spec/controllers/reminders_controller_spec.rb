@@ -22,6 +22,12 @@ describe RemindersController do
         post :create
       end
     end
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        get :index
+      end
+    end
   end
   
   describe "GET 'remind_me_too'" do
@@ -51,6 +57,7 @@ describe RemindersController do
     end
     
     describe "failure" do
+      
       describe "idea is not public and not your own" do
         
         it_should_behave_like "redirect with flash" do
@@ -79,6 +86,7 @@ describe RemindersController do
     describe "success" do
       
       describe "public idea" do
+        
         before(:each) do
           test_sign_in(Factory(:user, :email => "user@example.net"))
           public_privacy = Factory(:privacy)
@@ -133,7 +141,6 @@ describe RemindersController do
       end
     end
     
-    
     describe "failure" do
       describe "idea is not public and not your own" do
         it_should_behave_like "redirect with flash" do
@@ -187,5 +194,29 @@ describe RemindersController do
         end.should change(Reminder, :count).by(-1)
       end
     end
+  end
+  
+  describe "GET 'index'" do
+    
+    describe "success" do
+      
+      before(:each) do
+        user = Factory(:user)
+        test_sign_in user
+      end
+      
+      it "should return a response" do
+        get :index
+        response.should be_successful
+      end
+      
+      it "should have a next and a previous month" do
+        get :index
+        response.should have_selector("a", :content => ">") 
+        response.should have_selector("a", :content => "<")
+      end
+      
+    end
+    
   end
 end
