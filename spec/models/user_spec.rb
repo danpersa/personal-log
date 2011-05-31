@@ -161,6 +161,30 @@ describe User do
     end
   end
   
+  describe "idea list associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+      @idea_list1 = Factory(:idea_list, :user => @user)
+      @idea_list2 = Factory(:idea_list, :user => @user)
+    end
+
+    it "should have a idea_lists attribute" do
+      @user.should respond_to(:idea_lists)
+    end
+
+    it "should have the right idea lists" do
+      @user.idea_lists.should == [@idea_list1, @idea_list2]
+    end
+
+    it "should destroy associated idea_lists" do
+      @user.destroy
+      [@idea_list1, @idea_list2].each do |idea_list|
+        IdeaList.find_by_id(idea_list.id).should be_nil
+      end
+    end
+  end
+  
   describe "reminder associations" do
     before(:each) do
       @privacy = Factory(:privacy)

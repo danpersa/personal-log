@@ -4,8 +4,7 @@ describe Idea do
 
   before(:each) do
     @user = Factory(:user)
-    @attr = { :content => "value for content"
-    }
+    @attr = { :content => "value for content" }
   end
 
   it "should create a new instance given valid attributes" do

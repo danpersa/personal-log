@@ -1,7 +1,7 @@
 class CreateIdeaLists < ActiveRecord::Migration
   def self.up
     create_table :idea_lists do |t|
-      t.string :name
+      t.string  :name
       t.integer :user_id
 
       t.timestamps

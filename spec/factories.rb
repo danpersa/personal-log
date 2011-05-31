@@ -43,3 +43,8 @@ Factory.define :reminder do |reminder|
   reminder.association :user
   reminder.association :privacy
 end
+
+Factory.define :idea_list do |idea_list|
+  idea_list.name "My Ideas List"
+  idea_list.association :user
+end
