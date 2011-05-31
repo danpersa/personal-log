@@ -20,6 +20,10 @@ Factory.sequence :email do |n|
   "person-#{n}@example.com"
 end
 
+Factory.sequence :idea_list_name do |n|
+  "idea_list_name#{n}"
+end
+
 Factory.define :idea do |idea|
   idea.content "Foo bar"
   idea.association :user
@@ -45,6 +49,11 @@ Factory.define :reminder do |reminder|
 end
 
 Factory.define :idea_list do |idea_list|
-  idea_list.name "My Ideas List"
+  idea_list.name Factory.next(:idea_list_name)
   idea_list.association :user
+end
+
+Factory.define :idea_list_ownership do |idea_list_ownership|
+  idea_list_ownership.association :idea
+  idea_list_ownership.association :idea_list
 end

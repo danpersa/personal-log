@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110530125721) do
+ActiveRecord::Schema.define(:version => 20110531104817) do
+
+  create_table "idea_list_ownerships", :force => true do |t|
+    t.integer  "idea_list_id"
+    t.integer  "idea_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "idea_list_ownerships", ["idea_id"], :name => "index_idea_list_ownerships_on_idea_id"
+  add_index "idea_list_ownerships", ["idea_list_id"], :name => "index_idea_list_ownerships_on_idea_list_id"
 
   create_table "idea_lists", :force => true do |t|
     t.string   "name"

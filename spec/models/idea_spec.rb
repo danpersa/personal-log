@@ -11,6 +11,21 @@ describe Idea do
     @user.ideas.create!(@attr)
   end
   
+  describe "validations" do
+
+    it "should require a user id" do
+      Idea.new(@attr).should_not be_valid
+    end
+
+    it "should require nonblank content" do
+      @user.ideas.build(@attr.merge(:content => "  ")).should_not be_valid
+    end
+
+    it "should reject long content" do
+      @user.ideas.build(@attr.merge(:content => "a" * 141)).should_not be_valid
+    end
+  end
+  
 
   describe "user associations" do
 
@@ -44,19 +59,56 @@ describe Idea do
       Reminder.find_by_id(@reminder.id).should be_nil
     end
   end
+  
+  describe "idea lists associations" do
 
-  describe "validations" do
-
-    it "should require a user id" do
-      Idea.new(@attr).should_not be_valid
+    before(:each) do
+      @idea_list1 = Factory(:idea_list, :user => @user)
+      @idea_list2 = Factory(:idea_list, :user => @user, :name => "name 2")
+      @idea = @user.ideas.create(@attr)
+      idea_list_ownership1 = Factory(:idea_list_ownership, :idea_list => @idea_list1, :idea => @idea)
+      idea_list_ownership2 = Factory(:idea_list_ownership, :idea_list => @idea_list2, :idea => @idea)
     end
 
-    it "should require nonblank content" do
-      @user.ideas.build(@attr.merge(:content => "  ")).should_not be_valid
+    it "should have an idea_lists attribute" do
+      @idea.should respond_to(:idea_lists)
     end
 
-    it "should reject long content" do
-      @user.ideas.build(@attr.merge(:content => "a" * 141)).should_not be_valid
+    it "should have the right idea list" do
+      @idea.idea_lists.should == [@idea_list1, @idea_list2]
+    end
+
+    it "should not destroy associated idea lists" do
+      @idea.destroy
+      [@idea_list1, @idea_list2].each do |idea_list|
+        IdeaList.find_by_id(idea_list.id).should_not be_nil
+      end
+    end
+  end
+  
+  describe "idea list ownership associations" do
+
+    before(:each) do
+      idea_list1 = Factory(:idea_list, :user => @user)
+      idea_list2 = Factory(:idea_list, :user => @user, :name => "name 3")
+      @idea = @user.ideas.create(@attr)
+      @idea_list_ownership1 = Factory(:idea_list_ownership, :idea_list => idea_list1, :idea => @idea)
+      @idea_list_ownership2 = Factory(:idea_list_ownership, :idea_list => idea_list2, :idea => @idea)
+    end
+
+    it "should have an idea_list_ownerships attribute" do
+      @idea.should respond_to(:idea_list_ownerships)
+    end
+
+    it "should have the right idea list ownerships" do
+      @idea.idea_list_ownerships.should == [@idea_list_ownership1, @idea_list_ownership2]
+    end
+
+    it "should destroy associated idea list ownerships" do
+      @idea.destroy
+      [@idea_list_ownership1, @idea_list_ownership2].each do |idea_list_ownership|
+        IdeaListOwnership.find_by_id(idea_list_ownership.id).should be_nil
+      end
     end
   end
   

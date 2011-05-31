@@ -13,12 +13,16 @@
 
 class Idea < ActiveRecord::Base
   
-  attr_accessible :content
+  attr_accessible :content, :idea_list_tokens
   #attr_accessor :user_id
   #, :reminders_attributes
+  attr_reader :idea_list_tokens
 
   belongs_to :user
   has_many   :reminders, :dependent => :destroy
+  has_many   :idea_list_ownerships, :dependent => :destroy
+  has_many   :idea_lists, :through => :idea_list_ownerships
+
   #accepts_nested_attributes_for :reminders
 
   validates :content, :presence => true, :length => { :maximum => 140 }
@@ -51,6 +55,10 @@ class Idea < ActiveRecord::Base
   # current idea
   def public_users(logged_user)
     User.users_with_public_or_own_reminders_for_idea(self, logged_user)
+  end
+  
+  def idea_list_tokens=(ids)
+    self.idea_list_ids = ids.split(",")
   end
   
   private

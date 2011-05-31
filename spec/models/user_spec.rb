@@ -166,7 +166,7 @@ describe User do
     before(:each) do
       @user = User.create(@attr)
       @idea_list1 = Factory(:idea_list, :user => @user)
-      @idea_list2 = Factory(:idea_list, :user => @user)
+      @idea_list2 = Factory(:idea_list, :user => @user, :name => "name 1")
     end
 
     it "should have a idea_lists attribute" do

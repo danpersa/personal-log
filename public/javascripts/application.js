@@ -12,4 +12,12 @@ $(function(){
   );
   
   $("#reminder_reminder_date").datepicker({ dateFormat: 'mm/dd/yy', minDate: new Date()});
+  
+  $("#idea_idea_list_tokens").tokenInput("/idea_lists.json", {
+    crossDomain: false,
+    prePopulate: $("#idea_idea_list_tokens").data("pre"),
+    preventDuplicates: true,
+    hintText: "Type in the name of the list",
+    theme: "facebook"
+  });
 });
