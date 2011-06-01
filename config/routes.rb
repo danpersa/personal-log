@@ -18,7 +18,8 @@ PersonalLog::Application.routes.draw do
     end
   end
   
-  resources :idea_lists, :only => [:index]
+  resources :idea_lists, :only => [:index, :create, :update, :destroy],
+            :path => 'idea-lists'
   
   resources :reminders, :only => [:index, :create, :destroy]
   resources :relationships, :only => [:create, :destroy]

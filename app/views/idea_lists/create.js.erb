@@ -1,0 +1,35 @@
+var el = $('#new_idea_list');
+function updateErrors(field, t ) {
+  el.find('#idea_list_' + field).addClass( "ui-state-error" );
+  el.find('#' + field + '_errors')
+    .html( t )
+    .addClass( "ui-state-highlight" );
+  setTimeout(function() {
+    el.find('#' + field + '_errors').removeClass( "ui-state-highlight", 1500 );
+  }, 500 );
+}
+
+var el = $('#new_idea_list');
+
+<% if @idea_list.errors.any? %>
+
+  // Create a list of errors
+  var errors = $('<div/>');
+
+  <% @idea_list.errors.keys.each do |field_error_key| %>
+    <% @idea_list.errors[field_error_key].each do |error| %>
+      errors.append('<%= escape_javascript( error ) %><br/>');
+    <% end %>
+    updateErrors('<%=field_error_key%>', errors)
+  <% end %>
+
+<% else %>
+
+  // We could also render a partial to display the comment here
+  $('#idea-list').append("<li><%= escape_javascript(@idea_list.name) %></li>");
+
+  // Clear form
+  el.find('input:text,textarea').val('');
+  el.find('.errors').empty();
+  $("#dialog-form").dialog( "close" );
+<% end %>

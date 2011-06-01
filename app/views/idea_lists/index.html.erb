@@ -1,0 +1,19 @@
+<h1>My idea lists</h1>
+
+<button id="create-idea-list">Create new idea list</button>
+<p/>
+<%= will_paginate %>
+<ul class="idea-list" id="idea-list">
+  <%= render @idea_lists %>
+</ul>
+<%= will_paginate %>
+
+<div id="dialog-form" title="Create new idea list">
+  <%= form_for(@idea_list, :remote => true) do |f| %>
+  <fieldset>
+    <%= f.label :name, "Name" %>
+    <%= f.text_field(:name, :class => "text ui-widget-content ui-corner-all")  %>
+    <div id="name_errors" class="errors"></div>
+  </fieldset>
+  <% end %>
+</div>
