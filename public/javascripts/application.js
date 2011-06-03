@@ -2,6 +2,8 @@
 // This file is automatically included by javascript_include_tag :defaults
 $( function() {
 
+  $("button, input:submit").button();
+
   $('div.hover').hover( function() {
     $(this).addClass('ui-state-hover');
   }, function() {
@@ -15,6 +17,13 @@ $( function() {
     $(this).find("div.icon-button").addClass('invisible');
   }
   );
+  
+  $("#reminder_privacy_id").selectmenu({
+    transferClasses: true,
+    style: "dropdown",
+    width: 100
+  });
+  
 
   $("#reminder_reminder_date").datepicker({
     dateFormat: 'mm/dd/yy',
