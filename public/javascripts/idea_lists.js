@@ -3,7 +3,7 @@ $( function() {
   var idea_list_name = $("#idea_list_name"),
   allFields = $([]).add(idea_list_name);
 
-  $( "#dialog-form" ).dialog({
+  $("#dialog-form").dialog({
     autoOpen: false,
     height: 230,
     width: 400,

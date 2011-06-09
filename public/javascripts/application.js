@@ -30,3 +30,19 @@ $( function() {
     minDate: new Date()
   });
 });
+
+function addNotification(message, styleClass) {
+  $("#main-section").prepend(
+    '<div class="flash ' + styleClass + '">' + message + '</div>'
+  );
+}
+
+function addNotificationNotice(message) {
+  addNotification(message, "notice");
+}
+
+function addNotificationSuccess(message) {
+  addNotification(message, "success");
+}
+
+

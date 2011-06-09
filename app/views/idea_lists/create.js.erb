@@ -25,8 +25,14 @@ var el = $('#new_idea_list');
 
 <% else %>
 
+  addNotificationSuccess("Idea list successfully created");
+
   // We could also render a partial to display the comment here
-  $('#idea-list').append("<li><%= escape_javascript(@idea_list.name) %></li>");
+  $('#idea-list').prepend('<li id="idea-list-<%=@idea_list.id%>"><%= link_to @idea_list.name, @idea_list %> | <%= link_to "delete", @idea_list, 
+        :method => :delete, 
+        :remote => true, 
+        :confirm => "You sure?", 
+        :title => "Delete #{@idea_list.name}" %></li>');
 
   // Clear form
   el.find('input:text,textarea').val('');

@@ -1,7 +1,7 @@
-<li>
+<li id="idea-list-<%=idea_list.id%>">
   <%= link_to idea_list.name, idea_list %>
-  | <%= link_to "delete", idea_list, :method => :delete, :confirm => "You sure?",
-                                :title => "Delete #{idea_list.name}" %>
-  | 
+  | <%= link_to "delete", idea_list, :method => :delete,
+                                     :remote => true,
+                                     :confirm => "You sure?",
+                                     :title => "Delete #{idea_list.name}" %>
 </li>
-
