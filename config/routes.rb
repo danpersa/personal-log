@@ -11,15 +11,16 @@ PersonalLog::Application.routes.draw do
 
   resources :sessions, :only => [:new, :create, :destroy]
   
-  resources :ideas, :only => [:create, :destroy, :show, :update] do
+  resources :ideas, :only => [:show, :create, :update, :destroy] do
     member do
       # the list of users that shares the idea
       get :users
     end
   end
   
-  resources :idea_lists, :only => [:index, :create, :update, :destroy],
-            :path => 'idea-lists'
+  resources :idea_lists, :only => [:index, :show, :create, :update, :destroy],
+            :path => 'idea-lists',
+            :path_names => {:update => ''}
   
   resources :reminders, :only => [:index, :create, :destroy]
   resources :relationships, :only => [:create, :destroy]

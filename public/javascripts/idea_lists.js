@@ -22,7 +22,7 @@ $( function() {
     },
     close: function() {
       allFields.val("").removeClass("ui-state-error");
-      el.find('.errors').empty();
+      $('.errors').empty();
     }
   });
 
@@ -32,4 +32,17 @@ $( function() {
     $("#dialog-form").dialog("open");
   });
   
+  // $(".edit-idea-list")
+  // .button()
+  // .click(function() {
+    // $("#idea_list_name").
+    // $("#dialog-form").dialog("open");
+  // });
+  
 });
+
+function fillIdeaListForm(id, name) {
+  $("#idea_list_id").val(id);
+  $("#idea_list_name").val(name);
+  $("#dialog-form").dialog("open");
+}

@@ -26,7 +26,7 @@ describe ProfilesController do
     it_should_behave_like "deny access unless signed in" do
       let(:request_action) do
         user = Factory(:activated_user)
-        post :update, :user_id => user.id
+        put :update, :user_id => user.id
       end
     end
   end

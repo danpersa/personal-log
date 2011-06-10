@@ -4,4 +4,6 @@
                                      :remote => true,
                                      :confirm => "You sure?",
                                      :title => "Delete #{idea_list.name}" %>
+  | <button id="edit-idea-list-<%=idea_list.id%>" class="edit-idea-list" onclick="fillIdeaListForm('<%=idea_list.id%>', '<%=idea_list.name%>')">Edit</button>
+<p/>
 </li>

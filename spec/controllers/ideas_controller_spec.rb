@@ -5,22 +5,149 @@ describe IdeasController do
 
   describe "access control" do
 
-    it_should_behave_like "deny access unless signed in" do
-      let(:request_action) do
-        post :create
+    describe "authentication" do
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          post :create
+        end
+      end
+      
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          delete :destroy, :id => 1
+        end
+      end
+      
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
+          get :show, :id => 1
+        end
       end
     end
     
-    it_should_behave_like "deny access unless signed in" do
-      let(:request_action) do
-        delete :destroy, :id => 1
+    describe "own idea" do
+      
+      before(:each) do
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+        @idea = Factory(:idea, :user => @user)
+      end
+      
+      it "should deny access if user does not own the idea" do
+        delete :destroy, :id => @idea
+        response.should redirect_to(root_path)
+      end
+    end
+  end
+  
+    describe "GET 'show'" do
+ 
+    describe "success" do
+
+      before(:each) do
+        @public_privacy = Factory(:privacy)
+        @user = Factory(:user)
+        @idea = Factory(:idea, :user => @user)
+      end
+
+      describe "should allow access" do
+        
+        before(:each) do
+          private_privacy = Factory(:privacy, :name => "private")
+          private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
+        end
+
+        it "to own private idea" do
+          test_sign_in(@user)
+          get :show, :id => @idea
+          response.should be_successful
+        end
+
+        it "to another user's public idea for which you have reminders" do
+          public_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+          # now the idea is public
+          another_user = Factory(:user, :email => Factory.next(:email))
+          Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)
+          test_sign_in(another_user)
+          get :show, :id => @idea
+          response.should be_successful
+        end  
+      end
+      
+      it "should show the idea" do
+        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should have_selector("span.title", :content => @idea.content)
+      end
+      
+      it "should have a 'create new reminder' link if the current user alredy shares the idea" do
+        # we make the idea public
+        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+        test_sign_in(@user)
+        get :users, :id => @idea
+        response.should have_selector("a", :content => "Create new reminder")
+      end
+      
+      it "should have a 'users sharing this idea' link" do
+        # we create a reminder for the idea
+        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should have_selector("a", :content => "Users sharing this idea")
+      end
+      
+      it "should redirect to idea's users page if the logged user does not have any reminders" do
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should redirect_to users_idea_path(@idea)
+      end
+      
+      it "should have a create new reminder link" do
+        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
+        test_sign_in(@user)
+        get :show, :id => @idea
+        response.should have_selector("a", :content => "Create new reminder")
+      end
+      
+      it "should have an element for each of the user's reminder" do
+        reminders = []
+        private_privacy = Factory(:privacy, :name => "private")
+        2.times do
+          reminders << Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)  
+        end
+        reminders << Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
+
+        test_sign_in(@user)
+        get :show, :id => @idea
+        reminders[0..2].each do |reminder|
+          response.should have_selector("span.content", :content => reminder.reminder_date.to_s)
+        end
       end
     end
     
-    it_should_behave_like "deny access unless signed in" do
-      let(:request_action) do
-        get :show, :id => 1
+    describe "fail" do
+
+      before(:each) do
+        @private_privacy = Factory(:privacy, :name => "private")
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+        @idea = Factory(:idea, :user => @user)
+        @private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @private_privacy)
       end
+
+      it "should deny access if the user is trying to access other user's private idea" do
+        get :show, :id => @idea
+        response.should redirect_to(root_path)
+      end
+      
+      it "should deny access if the user is trying to access an unexisting idea" do
+        get :show, :id => 99999
+        response.should redirect_to(root_path)
+      end
+      
     end
   end
   
@@ -28,6 +155,31 @@ describe IdeasController do
 
     before(:each) do
       @user = test_sign_in(Factory(:user))
+    end
+
+    describe "success" do
+        
+      before(:each) do
+        @privacy = Factory(:privacy)
+        @attr = { :content => "Lorem ipsum" }
+        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
+      end
+       
+      it "should create an idea" do
+        lambda do
+          post :create, :idea => @attr, :reminder => @reminder_attr
+        end.should change(Idea, :count).by(1)
+      end
+    
+      it "should redirect to the home page" do
+        post :create, :idea => @attr, :reminder => @reminder_attr
+        response.should redirect_to(root_path)
+      end
+ 
+      it "should have a flash message" do
+        post :create, :idea => @attr, :reminder => @reminder_attr
+        flash[:success].should =~ /idea created/i
+      end
     end
 
     describe "failure" do
@@ -55,31 +207,14 @@ describe IdeasController do
         response.should render_template('pages/home')
       end
     end
-
-    describe "success" do
-        
-      before(:each) do
-        @privacy = Factory(:privacy)
-        @attr = { :content => "Lorem ipsum" }
-        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
-      end
-       
-      it "should create an idea" do
-        lambda do
-          post :create, :idea => @attr, :reminder => @reminder_attr
-        end.should change(Idea, :count).by(1)
-      end
+  end
+  
+  describe "PUT 'update'" do
     
-      it "should redirect to the home page" do
-        post :create, :idea => @attr, :reminder => @reminder_attr
-        response.should redirect_to(root_path)
-      end
- 
-      it "should have a flash message" do
-        post :create, :idea => @attr, :reminder => @reminder_attr
-        flash[:success].should =~ /idea created/i
-      end
+    it "should update tokens" do
+      pending
     end
+    
   end
 
   describe "DELETE 'destroy'" do
@@ -108,19 +243,8 @@ describe IdeasController do
 
     describe "failure" do
 
-      before(:each) do
-        @user = Factory(:user)
-        wrong_user = Factory(:user, :email => Factory.next(:email))
-        test_sign_in(wrong_user)
-        @idea = Factory(:idea, :user => @user)
-      end
-
-      it "should deny access if user does not own the idea" do
-        delete :destroy, :id => @idea
-        response.should redirect_to(root_path)
-      end
-      
       it "should deny access if the idea does not exist" do
+        test_sign_in(Factory(:user))
         delete :destroy, :id => 9999
         response.should redirect_to(root_path)
       end
@@ -231,115 +355,4 @@ describe IdeasController do
       end
     end
   end
-  
-  describe "GET 'show'" do
-    
-    describe "fail" do
-
-      before(:each) do
-        @private_privacy = Factory(:privacy, :name => "private")
-        @user = Factory(:user)
-        wrong_user = Factory(:user, :email => Factory.next(:email))
-        test_sign_in(wrong_user)
-        @idea = Factory(:idea, :user => @user)
-        @private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @private_privacy)
-      end
-
-      it "should deny access if the user is trying to access other user's private idea" do
-        get :show, :id => @idea
-        response.should redirect_to(root_path)
-      end
-      
-      it "should deny access if the user is trying to access an unexisting idea" do
-        get :show, :id => 99999
-        response.should redirect_to(root_path)
-      end
-      
-    end
-    
-    describe "success" do
-
-      before(:each) do
-        @public_privacy = Factory(:privacy)
-        @user = Factory(:user)
-        @idea = Factory(:idea, :user => @user)
-      end
-
-      describe "should allow access" do
-        
-        before(:each) do
-          private_privacy = Factory(:privacy, :name => "private")
-          private_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
-        end
-
-        it "to own private idea" do
-          test_sign_in(@user)
-          get :show, :id => @idea
-          response.should be_successful
-        end
-
-        it "to another user's public idea for which you have reminders" do
-          public_reminder = Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-          # now the idea is public
-          another_user = Factory(:user, :email => Factory.next(:email))
-          Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)
-          test_sign_in(another_user)
-          get :show, :id => @idea
-          response.should be_successful
-        end  
-      end
-      
-      it "should show the idea" do
-        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("span.title", :content => @idea.content)
-      end
-      
-      it "should have a 'create new reminder' link if the current user alredy shares the idea" do
-        # we make the idea public
-        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :users, :id => @idea
-        response.should have_selector("a", :content => "Create new reminder")
-      end
-      
-      it "should have a 'users sharing this idea' link" do
-        # we create a reminder for the idea
-        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("a", :content => "Users sharing this idea")
-      end
-      
-      it "should redirect to idea's users page if the logged user does not have any reminders" do
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should redirect_to users_idea_path(@idea)
-      end
-      
-      it "should have a create new reminder link" do
-        Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("a", :content => "Create new reminder")
-      end
-      
-      it "should have an element for each of the user's reminder" do
-        reminders = []
-        private_privacy = Factory(:privacy, :name => "private")
-        2.times do
-          reminders << Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)  
-        end
-        reminders << Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
-
-        test_sign_in(@user)
-        get :show, :id => @idea
-        reminders[0..2].each do |reminder|
-          response.should have_selector("span.content", :content => reminder.reminder_date.to_s)
-        end
-      end
-    end
-  end
-  
 end
