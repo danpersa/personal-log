@@ -5,7 +5,7 @@ class IdeaListsController < ApplicationController
   respond_to :html, :js
   
   def index
-    @idea_lists = IdeaList.where("name like ?", "%#{params[:q]}%").owned_by(current_user)
+    @idea_lists = IdeaList.where("lower(name) like lower(?)", "%#{params[:q]}%").owned_by(current_user)
     @idea_list = IdeaList.new
     respond_to do |format|
       format.html {@idea_lists = @idea_lists.paginate(:page => params[:page])}
