@@ -36,6 +36,10 @@ function addNotification(message, styleClass) {
   $("#main-section").prepend(
     '<div class="flash ' + styleClass + '">' + message + '</div>'
   );
+  
+  setTimeout(function() {
+    $(".flash:first").fadeOut();
+  }, 3000);
 }
 
 function addNotificationNotice(message) {

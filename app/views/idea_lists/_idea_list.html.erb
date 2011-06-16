@@ -1,10 +1,3 @@
 <tr id="idea-list-<%=idea_list.id%>">
-  <td><%= link_to idea_list.name, idea_list %></td>
-  <td>
-    <%= link_to "delete", idea_list, :method => :delete,
-                                     :remote => true,
-                                     :confirm => "You sure?",
-                                     :title => "Delete #{idea_list.name}" %>
-  </td>
-  <td><button id="edit-idea-list-<%=idea_list.id%>" class="edit-idea-list" onclick="fillIdeaListForm('<%=idea_list.id%>', '<%=idea_list.name%>')">Edit</button></td>
+  <%= render :partial => "idea_list_content", :object => idea_list, :as => :idea_list %>
 </tr>

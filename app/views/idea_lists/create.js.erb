@@ -16,11 +16,8 @@ var el = $('#new_idea_list');
   addNotificationSuccess("Idea list successfully created");
 
   // We could also render a partial to display the idea list here
-  $('#idea-list').prepend('<li id="idea-list-<%=@idea_list.id%>"><%= link_to @idea_list.name, @idea_list %> | <%= link_to "delete", @idea_list, 
-        :method => :delete, 
-        :remote => true, 
-        :confirm => "You sure?", 
-        :title => "Delete #{@idea_list.name}" %></li>');
+  $('#idea-list').prepend('<%= escape_javascript(render(:partial => "idea_list", :object => @idea_list)) %>');
+  $("button, input:submit").button();
 
   // Clear form
   el.find('input:text,textarea').val('');
