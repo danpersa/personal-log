@@ -6,7 +6,7 @@
   <td class="gravatar">
     <%= link_to gravatar_for(users_for_idea.first), users_for_idea.first %>
   </td>
-  <td class="idea">
+  <td class="item">
 
     <% users_for_idea.each do |user| %>
       <span class="user">
@@ -22,7 +22,7 @@
     </span>
 
     <% unless current_user_id?(feed_item_idea.user_id) %>
-    <span class="idea-toolbar">
+    <span class="item-toolbar">
       <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> · 
     </span>
     <% end %>

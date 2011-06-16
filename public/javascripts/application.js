@@ -21,7 +21,8 @@ $( function() {
   $("#reminder_privacy_id").selectmenu({
     transferClasses: true,
     style: "dropdown",
-    width: 100
+    width: 100,
+    menuWidth: 100
   });
   
 
@@ -43,6 +44,16 @@ function addNotificationNotice(message) {
 
 function addNotificationSuccess(message) {
   addNotification(message, "success");
+}
+
+function updateErrors(form, field, prefix, t) {
+  form.find('#' + prefix + field).addClass( "ui-state-error" );
+  form.find('#' + prefix + field + '_errors')
+    .html(t)
+    .addClass( "ui-state-highlight" );
+  setTimeout(function() {
+    form.find('#' + prefix + field + '_errors').removeClass( "ui-state-highlight", 500 );
+  }, 250 );
 }
 
 

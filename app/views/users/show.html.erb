@@ -5,7 +5,7 @@
 <%= render 'follow_form' if signed_in? %>
 <% unless @reminders.empty? %>
   <h3 class="idea">...wants to remind to...</h3>
-  <table class="ideas" summary="User reminders">
+  <table class="items" summary="User reminders">
     <%= render @reminders %>
   </table>
   <%= will_paginate @reminders %>

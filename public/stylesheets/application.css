@@ -1,3 +1,7 @@
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* General */
 .container {
   width: 710px;
 }
@@ -17,7 +21,6 @@ header img {
 
 section {
   margin-top: 1em;
-  font-size: 120%;
   padding: 20px;
   background: #fff;
 }
@@ -38,8 +41,11 @@ footer nav {
   float: none;
 }
 
-/* Links */
+b {
+  font-weight: bold;
+}
 
+/* Links */
 a {
   color: #09c;
   text-decoration: none;
@@ -56,7 +62,6 @@ a:visited {
 
 
 /* Navigation */
-
 nav {
   float: right;
 }
@@ -91,41 +96,20 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Sign up button */
-
-a.signup_button {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  text-align: center;
-  width: 190px;
-  color: #fff;
-  background: #006400;
-  font-size: 150%;
-  font-weight: bold;
-  padding: 20px;
-}
-
 /* Round corners */
-
 .round {
   -moz-border-radius:    10px;
   -webkit-border-radius: 10px;
   border-radius:         10px;
 }
 
-/* User show page */
-
-table.profile {
-  width: 100%;
-  margin-bottom: 0;
-}
-
+/* Main table column */
 td.main {
   width: 70%;
   padding: 1em;
 }
 
+/* User info column */
 td.sidebar {
   width: 30%;
   padding: 1em;
@@ -133,275 +117,63 @@ td.sidebar {
   background: #ffc;
 }
 
-td.halfbox {
-  width: 50%;
-  vertical-align: top;
+td.sidebar div.sidebar-user-info {
+  font-size: 80%;
 }
 
-div.halfbox-one {
-  background: #fdf;
-  padding: 1em;
-  margin-right: 5px;
-  height: 100px;
+td.sidebar div.sidebar-user-info-item {
+  margin-bottom: 5px;
 }
 
-div.halfbox-two {
-  background: #ffc;
-  padding: 1em;
-  margin-left: 5px;
-  height: 100px;
+td.sidebar div.user_info img {
+  padding-right: 0.1em;
 }
 
-div.halfbox-three {
-  background: #ddd;
-  padding: 1em;
-  margin-right: 5px;
-  height: 100px;
+td.sidebar div.user_info a {
+  text-decoration: none;
 }
 
-div.halfbox-four {
-  background: #deb;
-  padding: 1em;
-  margin-left: 5px;
-  height: 100px;
+td.sidebar div.user_info span.user_name {
+  position: absolute;
 }
 
-div.halfbox-five {
-  background: #fbe;
-  padding: 1em;
-  margin-left: 5px;
-  height: 100px;
+td.sidebar div.user_info span.ideas {
+  font-size: 80%;
 }
 
-div.halfbox-six {
-  background: #def;
-  padding: 1em;
-  margin-left: 5px;
-  height: 100px;
-}
-
-td.box-one {
-  width: 100%;
-  padding: 1em;
-  vertical-align: top;
-  background: #fab;
-}
-
-td.box-two {
-  width: 100%;
-  padding: 1em;
-  vertical-align: top;
-  background: #bea;
-}
-
-/* For the form */
-div.field, div.actions {
-  margin-bottom: 10px;
-}
-
-.field_with_errors {
-  margin-top: 10px;
-  padding: 2px;
-  background-color: red;
-  display: table;
-}
-
-.field_with_errors label {
-  color: #fff;
-}
-
-#error_explanation {
-  width: 400px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
-}
-
-#error_explanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  background-color: #c00;
-  color: #fff;
-}
-
-#error_explanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 5px;
-}
-
-#error_explanation ul li {
-  font-size: 12px;
-  list-style: square;
-}
-
-ul.users {
+/* General table with some items */
+table.items {
   margin-top: 1em;
 }
 
-.users li {
-  list-style: none;
-}
-
-/* Ideas */
-h1.idea {
-  margin-bottom: 0.3em;
-}
-
-span.title {
-  font-size: 22px;
-  margin-right: 0.3em;
-}
-
-span.field {
-  margin-right: 0.3em;
-}
-
-table.ideas {
-  margin-top: 1em;
-}
-
-table.ideas tr {
+table.items tr {
   height: 65px;
 }
 
-table.ideas tr td.gravatar {
+table.items tr td.gravatar {
   border-top: 1px solid #ccc;
   vertical-align: top;
   width: 50px;
 }
 
-table.ideas tr td.idea {
+table.items tr td.item {
   border-top: 1px solid #ccc;
   vertical-align: top;
   padding-top: 10px;
 }
 
-table.ideas tr td.idea span.timestamp {
+table.items tr td.item span.timestamp {
   display: block;
   font-size: 85%;
   color: #666;
 }
 
-.idea-toolbar {
+table.items tr td.item span.item-toolbar {
   font-size: 75%;
 }
 
-div.user_info img {
-  padding-right: 0.1em;
-}
-
-div.user_info a {
-  text-decoration: none;
-}
-
-div.user_info span.user_name {
-  position: absolute;
-}
-
-div.user_info span.ideas {
-  font-size: 80%;
-}
-
-form.new_idea {
-  margin-bottom: 2em;
-}
-
-form.new_idea textarea {
-  height: 4em;
-  width: 415px;
-  margin-bottom: 0;
-}
-
-form.new_idea #reminder_reminder_date {
-  width: 160px;
-
-}
-
-
-
-div.icon-button {
+table.items tr td.item div.icon-button {
   width: 17px;
 }
 
-div.sidebar-user-info {
-  font-size: 80%;
-}
 
-div.sidebar-user-info-item {
-  margin-bottom: 5px;
-}
-
-b {
-  font-weight: bold;
-}
-
-/* calendar */
-
-#calendar table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#calendar td,
-#calendar th {
-  font-family: "Lucida Grande",arial,helvetica,sans-serif;
-  font-size: 10px;
-  padding: 6px;
-  border: 1px solid #999;
-}
-
-#calendar th {
-  background: #DDD;
-  color: #666;
-  text-align: center;
-  width: 14.2857142857143%;
-}
-
-#calendar td {
-  background: #FFF;
-  color: #777;
-  height: 80px;
-  vertical-align: top;
-  font-size: 16px;
-}
-
-#calendar .notmonth {
-  color: #CCC;
-}
-
-#calendar #month {
-  margin: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-}
-
-#calendar #month a, #calendar #month a:hover {
-  text-decoration: none;
-  padding: 0 10px;
-  color: #999;
-}
-
-#calendar .today {
-  background-color: #D7F2FF;
-}
-
-#calendar ul {
-  margin: 0;
-  margin-top: 5px;
-  padding: 0;
-  list-style: none;
-}
-
-#calendar li {
-  margin: 0;
-  padding: 0;
-  font-size: 11px;
-  text-align: left;
-}

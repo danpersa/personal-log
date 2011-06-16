@@ -2,7 +2,7 @@
   <td class="gravatar">
     <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   </td>
-  <td class="idea">
+  <td class="item">
     <span class="user">
       <%= link_to feed_item.user.display_name, feed_item.user %>
     </span>
@@ -11,13 +11,13 @@
       Posted <%= time_ago_in_words(feed_item.created_at) %> ago as <%= feed_item.privacy.name %>
     </span>
     <% unless current_user?(feed_item.user) %>
-    <span class="idea-toolbar">
+    <span class="item-toolbar">
       <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item.id) %> · 
     </span>
     <% end %>
   </td>
   <% if current_user?(feed_item.user) %>
-  <td class="idea">
+  <td class="item">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "delete", feed_item, :method => :delete,
                                          :confirm => "You sure?",
@@ -27,6 +27,6 @@
     </div>
   </td>
   <% else %>
-  <td class="idea"></td>
+  <td class="item"></td>
   <% end %>
 </tr>

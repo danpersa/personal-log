@@ -1,17 +1,17 @@
 <tr class="show-close-button">
-  <td class="idea">
+  <td class="item">
     <span class="content"><%= reminder.idea.content %> on <%= reminder.reminder_date %></span>
     <span class="timestamp">
       Posted <%= time_ago_in_words(reminder.created_at) %> ago.
     </span>
     <% unless current_user?(reminder.user) %>
-    <span class="idea-toolbar">
+    <span class="item-toolbar">
       <%= link_to "Remind me too", remind_me_too_path(:idea_id => reminder.idea.id) %> · 
     </span>
     <% end %>
   </td>
   <% if current_user?(reminder.user) %>
-  <td class="idea">
+  <td class="item">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "delete", reminder, :method => :delete,
                                          :confirm => "You sure?",

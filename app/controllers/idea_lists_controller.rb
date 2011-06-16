@@ -38,7 +38,7 @@ class IdeaListsController < ApplicationController
   
   def update
     # the idea list is searched in the own_idea_list before interceptor
-    if @idea_list.update_attributes(params[:idea_list])
+    if @idea_list.update_attributes params[:edit_idea_list]
       flash[:success] = "Idea list successfully updated"
     else
       flash[:notice] = "Idea list wasn't updated"

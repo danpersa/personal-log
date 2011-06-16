@@ -1,0 +1,104 @@
+/* Sign up button */
+a.signup_button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+  width: 190px;
+  color: #fff;
+  background: #006400;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 20px;
+}
+
+/* Home page for guests */
+td.halfbox {
+  width: 50%;
+  vertical-align: top;
+}
+
+div.halfbox-one {
+  background: #fdf;
+  padding: 1em;
+  margin-right: 5px;
+  height: 100px;
+}
+
+div.halfbox-two {
+  background: #ffc;
+  padding: 1em;
+  margin-left: 5px;
+  height: 100px;
+}
+
+div.halfbox-three {
+  background: #ddd;
+  padding: 1em;
+  margin-right: 5px;
+  height: 100px;
+}
+
+div.halfbox-four {
+  background: #deb;
+  padding: 1em;
+  margin-left: 5px;
+  height: 100px;
+}
+
+div.halfbox-five {
+  background: #fbe;
+  padding: 1em;
+  margin-left: 5px;
+  height: 100px;
+}
+
+div.halfbox-six {
+  background: #def;
+  padding: 1em;
+  margin-left: 5px;
+  height: 100px;
+}
+
+td.box-one {
+  width: 100%;
+  padding: 1em;
+  vertical-align: top;
+  background: #fab;
+}
+
+td.box-two {
+  width: 100%;
+  padding: 1em;
+  vertical-align: top;
+  background: #bea;
+}
+
+/* Ideas */
+h1.idea {
+  margin-bottom: 0.3em;
+}
+
+span.title {
+  font-size: 22px;
+  margin-right: 0.3em;
+}
+
+span.field {
+  margin-right: 0.3em;
+}
+
+form.new_idea {
+  margin-bottom: 2em;
+}
+
+form.new_idea textarea {
+  height: 4em;
+  width: 415px;
+  margin-bottom: 0;
+}
+
+form.new_idea #reminder_reminder_date {
+  width: 160px;
+}
+
