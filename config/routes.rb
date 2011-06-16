@@ -17,9 +17,8 @@ PersonalLog::Application.routes.draw do
       get :users
     end
   end
-  
-  match '/idea-lists/update',             :to => 'idea_lists#update'
-  resources :idea_lists, :only => [:index, :show, :create, :destroy],
+
+  resources :idea_lists, :only => [:index, :show, :new, :create, :edit, :update, :destroy],
             :path => 'idea-lists'
   
   

@@ -1,8 +1,8 @@
-  <td><%= link_to idea_list.name, idea_list %></td>
-  <td>
+  <td class="item"><%= link_to idea_list.name, idea_list %></td>
+  <td class="item">
     <%= link_to "delete", idea_list, :method => :delete,
                                      :remote => true,
                                      :confirm => "You sure?",
                                      :title => "Delete #{idea_list.name}" %>
   </td>
-  <td><button id="edit-idea-list-<%=idea_list.id%>" class="edit-idea-list" onclick="fillIdeaListForm(&#39;<%=idea_list.id%>&#39;, &#39;<%=idea_list.name%>&#39;)">Edit</button></td>
+  <td class="item"><%= link_to "Edit", edit_idea_list_path(idea_list), :remote => true %></td>

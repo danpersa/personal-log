@@ -38,5 +38,5 @@ PersonalLog::Application.configure do
   }
   
   # uncomment when generating sample data using rake db:populate
-  config.action_mailer.delivery_method = :test
+  # config.action_mailer.delivery_method = :test
 end

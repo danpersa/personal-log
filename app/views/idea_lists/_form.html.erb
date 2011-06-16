@@ -1,0 +1,7 @@
+<%= form_for(@idea_list, :remote => true) do |f| %>
+<fieldset>
+  <%= f.label :name, "Name" %>
+  <%= f.text_field(:name, :class => "text ui-widget-content ui-corner-all")  %>
+  <div id="idea_list_name_errors" class="errors"></div>
+</fieldset>
+<% end %>

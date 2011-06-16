@@ -1,4 +1,4 @@
-var el = $('#edit_idea_list');
+var el = $("#edit_idea_list_<%=@idea_list.id%>");
 <% if @idea_list.errors.any? %>
 
   // Create a list of errors
@@ -8,7 +8,7 @@ var el = $('#edit_idea_list');
     <% @idea_list.errors[field_error_key].each do |error| %>
       errors.append('<%= escape_javascript(error) %><br/>');
     <% end %>
-    updateErrors(el, '<%=field_error_key%>', 'edit_idea_list_', errors)
+    updateErrors(el, '<%=field_error_key%>', 'idea_list_', errors);
   <% end %>
 
 <% else %>
@@ -22,5 +22,6 @@ var el = $('#edit_idea_list');
   // Clear form
   el.find('input:text,textarea').val('');
   el.find('.errors').empty();
-  $("#edit-idea-list-dialog-form").dialog( "close" );
+  $("#idea_list_dialog").dialog("close");
+  $("#idea_list_dialog").dialog("destroy");
 <% end %>

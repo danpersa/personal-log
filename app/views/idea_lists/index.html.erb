@@ -1,33 +1,11 @@
 <h1>My idea lists</h1>
 
-<button id="create-idea-list">Create new idea list</button>
+<%= link_to "Create new idea list", new_idea_list_path, :remote => true %>
 <p/>
 <%= will_paginate %>
-<table class="idea-list" id="idea-list">
+<table class="items" id="idea-list">
   <%= render @idea_lists %>
 </table>
 <%= will_paginate %>
 
-<div id="new-idea-list-dialog-form" title="Create new idea list">
-  <%= form_for(@idea_list, :remote => true) do |f| %>
-  <fieldset>
-    <%= f.hidden_field :id %>
-    <%= f.label :name, "Name" %>
-    <%= f.text_field(:name, :class => "text ui-widget-content ui-corner-all")  %>
-    <div id="idea_list_name_errors" class="errors"></div>
-  </fieldset>
-  <% end %>
-</div>
-
-<div id="edit-idea-list-dialog-form" title="Edit idea list">
-  <%= form_tag({:controller => :idea_lists, :action => :update}, :remote => true, :class => "edit_idea_list", :id => "edit_idea_list") do %>
-  <fieldset>
-    <input id="edit_idea_list_id" name="id" type="hidden" />
-    <!-- <%= hidden_field :edit_idea_list, :id %> -->
-    <%= label :edit_idea_list, :name, "Name" %>
-    <%= text_field :edit_idea_list, :name, :class => "text ui-widget-content ui-corner-all" %>
-    <div id="edit_idea_list_name_errors" class="errors"></div>
-  </fieldset>  
-<% end %>
-
-</div>
+<div id="idea_list_dialog" title="Edit idea list" ></div>

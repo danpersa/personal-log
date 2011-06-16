@@ -1,0 +1,20 @@
+$("#idea_list_dialog").html("<%= escape_javascript(render(:partial => "form"))%>");
+$("#idea_list_dialog").dialog({
+    autoOpen: false,
+    height: 140,
+    width: 400,
+    modal: true,
+    resizable: false,
+    buttons: {
+      "Create": function() {
+        $("#new_idea_list").submit();
+      },
+      Cancel: function() {
+        $(this).dialog("close");
+      }
+    },
+    close: function() {
+      $(this).dialog("destroy");
+    }
+  });
+$("#idea_list_dialog").dialog("open");

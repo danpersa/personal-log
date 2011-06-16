@@ -1,6 +1,6 @@
 class IdeaListsController < ApplicationController
-  before_filter :authenticate, :only => [:index, :show, :create, :update, :destroy]
-  before_filter :own_idea_list, :only => [:show, :update, :destroy]
+  before_filter :authenticate, :only => [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_filter :own_idea_list, :only => [:show, :edit, :update, :destroy]
   
   respond_to :html, :js
   
@@ -18,6 +18,13 @@ class IdeaListsController < ApplicationController
   
   def show
     
+  end
+  
+  def new
+    @idea_list = IdeaList.new
+  end
+  
+  def edit
   end
   
   def create
@@ -38,7 +45,7 @@ class IdeaListsController < ApplicationController
   
   def update
     # the idea list is searched in the own_idea_list before interceptor
-    if @idea_list.update_attributes params[:edit_idea_list]
+    if @idea_list.update_attributes params[:idea_list]
       flash[:success] = "Idea list successfully updated"
     else
       flash[:notice] = "Idea list wasn't updated"
