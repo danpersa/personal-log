@@ -4,6 +4,6 @@
 </h1>
 
 <% unless @own_ideas.empty? %>
-  <h3 class="idea">...has the next ideas...</h3>
+  <h3 class="idea">...has the next ideas in <%= @idea_list.name %>...</h3>
   <%= render 'ideas/own_ideas' %>
 <% end %>
