@@ -38,7 +38,7 @@ class Idea < ActiveRecord::Base
   
   scope :owned_by, lambda { |user| where('ideas.user_id = :user_id', :user_id => user).ideas_order }
   
-  scope :contained_in_list, lambda { |idea_list| where('ideas.idea_list_id = :idea_list_id', :idea_list_id => idea_list) }
+  scope :contained_in_list, lambda { |idea_list| where('exists (select * from idea_list_ownerships ilo where ilo.idea_list_id = :idea_list_id and ilo.idea_id = ideas.id)', :idea_list_id => idea_list) }
 
   # the idea is public if it has at least one public reminder
   def public?
