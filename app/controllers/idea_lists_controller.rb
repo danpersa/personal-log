@@ -17,7 +17,9 @@ class IdeaListsController < ApplicationController
   end
   
   def show
-    
+    @user = current_user
+    @idea_list = IdeaList.find_by_id(params[:id])
+    @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:page => params[:page])
   end
   
   def new

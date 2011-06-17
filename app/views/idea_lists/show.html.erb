@@ -1,0 +1,9 @@
+<h1>
+  <%= gravatar_for(@user) %>
+  <span id="profile-display-name"><%= @user.display_name %></span>
+</h1>
+
+<% unless @own_ideas.empty? %>
+  <h3 class="idea">...has the next ideas...</h3>
+  <%= render 'ideas/own_ideas' %>
+<% end %>
