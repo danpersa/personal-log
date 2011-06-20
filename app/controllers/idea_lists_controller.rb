@@ -5,6 +5,7 @@ class IdeaListsController < ApplicationController
   respond_to :html, :js
   
   def index
+    @user = current_user
     @idea_lists = IdeaList.where("lower(name) like lower(?)", "%#{params[:q]}%").owned_by(current_user)
     @idea_list = IdeaList.new
     @edit_idea_list = IdeaList.new
@@ -23,50 +24,60 @@ class IdeaListsController < ApplicationController
   end
   
   def new
+    @user = current_user
     @idea_list = IdeaList.new
-  end
-  
-  def edit
   end
   
   def create
     @idea_list = IdeaList.new(params[:idea_list])
     @idea_list.user = current_user
 
-    if @idea_list.save
-      flash[:success] = "Idea list successfully created"
-    else
-      flash[:notice] = "Idea list wasn't created"
-    end
-
     respond_to do |format|
-      format.html { redirect_to idea_lists_path }
-      format.js { respond_with( @idea_list, :layout => !request.xhr? ) }        
+      if @idea_list.save
+        format.html {
+          flash[:success] = "Idea list successfully created"
+          redirect_to idea_lists_path
+        }
+      else
+        format.html { render :new }        
+      end
+      format.js { respond_with( @idea_list, :layout => !request.xhr? ) }
     end
   end
   
-  def update
-    # the idea list is searched in the own_idea_list before interceptor
-    if @idea_list.update_attributes params[:idea_list]
-      flash[:success] = "Idea list successfully updated"
-    else
-      flash[:notice] = "Idea list wasn't updated"
-    end
     
+  def edit
+    @user = current_user
+  end
+  
+  def update
     respond_to do |format|
-      format.html { redirect_to idea_lists_path }
+      # the idea list is searched in the own_idea_list before interceptor
+      if @idea_list.update_attributes params[:idea_list]
+        format.html {
+          flash[:success] = "Idea list successfully updated" 
+          redirect_to idea_lists_path 
+        }
+      else
+        format.html { render :edit }
+      end
       format.js { respond_with( @idea_list, :layout => !request.xhr? ) }        
     end
   end
   
   def destroy
-    if @idea_list.destroy
-      flash[:success] = "Idea list successfully deleted"
-    end
     respond_to do |format|
-       format.html { redirect_to idea_lists_path }
-       format.js
-     end
+      if @idea_list.destroy
+        format.html {
+          flash[:success] = "Idea list successfully deleted"
+          redirect_to idea_lists_path 
+        }
+      else
+        flash[:notice] = "Idea list was not successfully deleted"
+        format.html { redirect_to idea_lists_path }
+      end
+      format.js
+    end
   end
   
   private

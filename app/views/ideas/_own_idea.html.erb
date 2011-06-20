@@ -8,14 +8,14 @@
   <% if current_user?(own_idea.user) %>
   <td class="item">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "delete", own_idea, :method => :delete,
+        <%= link_to "destroy", own_idea, :method => :delete,
                                         :confirm => "You sure?",
-                                        :title => "Remove post",
+                                        :title => "Remove idea",
                                         :class => "ui-icon ui-icon-close"%>
     </div>
-    <p/>
+    <br/><br/>
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "get", own_idea, :method => :get, :class => "ui-icon ui-icon-search"%>
+        <%= link_to "show", own_idea, :method => :get, :class => "ui-icon ui-icon-search"%>
     </div>
   </td>
   <% end %>

@@ -147,9 +147,8 @@ describe IdeaListsController do
         end.should_not change(IdeaList, :count)
       end
       
-      it "should have a flash message" do
-        post :create, :idea_list => @attr
-        flash[:notice].should =~ /idea list wasn't created/i
+      it "should have validation errors" do
+        pending
       end
     end
   end
@@ -204,9 +203,8 @@ describe IdeaListsController do
         end.should_not change(IdeaList, :count)
       end
       
-      it "should have a flash message" do
-        put :update, :id => @idea_list.id, :idea_list => @attr
-        flash[:notice].should =~ /idea list wasn't updated/i
+      it "should have validation errors" do
+        pending
       end
     end
   end

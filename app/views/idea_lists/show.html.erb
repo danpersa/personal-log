@@ -7,3 +7,7 @@
   <h3 class="idea">...has the next ideas in <%= @idea_list.name %>...</h3>
   <%= render 'ideas/own_ideas' %>
 <% end %>
+
+<% content_for :sidebar do %>
+  <%= render 'shared/sidebar' %>
+<% end %>

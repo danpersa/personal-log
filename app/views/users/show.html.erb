@@ -12,25 +12,5 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render 'shared/user_info' %>
-  <%= render 'shared/stats' %>
-  <div class="sidebar-user-info">
-    <% unless @user.profile.nil? %>
-      <% unless @user.profile.email.empty? %>
-      <div class="sidebar-user-info-item">
-        <strong>Email:</strong> <%= @user.profile.email %>
-      </div>
-      <% end %>
-      <% unless @user.profile.location.empty? %>
-      <div class="sidebar-user-info-item">
-        <strong>Location:</strong> <%= @user.profile.location %>
-      </div>
-      <% end %>
-      <% unless @user.profile.website.empty? %>
-      <div class="sidebar-user-info-item">
-        <strong>Website:</strong> <%= @user.profile.website %>
-      </div>
-      <% end %>
-    <% end %>    
-  </div>
+  <%= render 'shared/sidebar' %>
 <% end %>

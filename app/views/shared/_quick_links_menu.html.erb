@@ -1,4 +1,6 @@
+<% if signed_in? and (@user.id == current_user.id) %>
 <ul>
   <li><%= link_to "My calendar", reminders_path %></li>
   <li><%= link_to "My idea lists", idea_lists_path %></li>
 </ul>
+<% end %>

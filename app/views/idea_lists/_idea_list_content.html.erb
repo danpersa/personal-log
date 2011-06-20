@@ -1,8 +1,14 @@
   <td class="item"><%= link_to idea_list.name, idea_list %></td>
   <td class="item">
-    <%= link_to "delete", idea_list, :method => :delete,
-                                     :remote => true,
-                                     :confirm => "You sure?",
-                                     :title => "Delete #{idea_list.name}" %>
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "destroy", idea_list, :method => :delete,
+                                         :remote => true,
+                                         :confirm => "You sure?",
+                                         :title => "Delete #{idea_list.name}",
+                                         :class => "ui-icon ui-icon-close"%>
+    </div>
+    <br/><br/>
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "edit", edit_idea_list_path(idea_list), :remote => true, :title => "Edit #{idea_list.name}", :class => "ui-icon ui-icon-search"%>
+    </div>
   </td>
-  <td class="item"><%= link_to "Edit", edit_idea_list_path(idea_list), :remote => true %></td>

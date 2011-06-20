@@ -10,12 +10,7 @@
     <% end %>
     </td>
     <td class="sidebar round">
-    <strong>Name</strong> <%= @user.name %>
-    <br />
-    <strong>URL</strong> <%= link_to user_path(@user), @user %>
-    <br />
-    <strong>Ideas</strong> <%= @user.ideas.count %>
-    <%= render 'shared/stats' %>
+    <%= render 'shared/sidebar' %>
     <% unless @users.empty? %>
     <% @users.each do |user| %>
     <%= link_to gravatar_for(user, :size => 30), user %>

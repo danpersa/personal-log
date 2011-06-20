@@ -14,11 +14,6 @@
 
 <%= render 'reminders/simple_reminders' %>
 
-<% content_for :sidebar do %>
-  <%= render 'shared/user_info' %>
-  <%= render 'shared/stats' %>
-<% end %>
-
 <span>
 <%= form_for @idea do |f| %>
   The idea is part of the following lists:
@@ -27,3 +22,8 @@
   <%= f.submit "Update lists" %>
 <% end %>
 </span>
+
+
+<% content_for :sidebar do %>
+  <%= render 'shared/sidebar' %>
+<% end %>
