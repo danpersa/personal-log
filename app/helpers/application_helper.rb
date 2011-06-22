@@ -40,4 +40,18 @@ module ApplicationHelper
     @has_next_page = has_next_page(next_feed_item)
     return r
   end
+  
+  def errors_for_field(object, field)
+    html = String.new
+    unless object.errors.blank?
+      html << "<div id='#{object.class.name.underscore.downcase}_#{field}_errors' class='errors'>\n"  
+      html << "\t\t<ul>\n"
+      object.errors[field].each do |error|
+        html << "\t\t\t<li>#{error}</li>\n" 
+      end
+      html << "\t\t</ul>\n"
+      html << "\t</div>\n"
+    end
+    return html.html_safe
+  end
 end

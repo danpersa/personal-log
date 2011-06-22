@@ -21,9 +21,6 @@ PersonalLog::Application.routes.draw do
   resources :idea_lists, :only => [:index, :show, :new, :create, :edit, :update, :destroy],
             :path => 'idea-lists'
   
-  
-  
-  
   resources :reminders, :only => [:index, :create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :reset_passwords,

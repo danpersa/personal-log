@@ -41,7 +41,7 @@ describe IdeasController do
     end
   end
   
-    describe "GET 'show'" do
+  describe "GET 'show'" do
  
     describe "success" do
 

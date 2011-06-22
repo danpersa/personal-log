@@ -1,0 +1,9 @@
+<%= form_for(@idea_list) do |f| %>
+<fieldset>
+  <%= f.label :name, "Name" %>
+  <%= f.text_field(:name, :class => "text ui-widget-content ui-corner-all")  %>
+  <%= errors_for_field(@idea_list, :name) %>
+  <div id="idea_list_name_errors" class="errors"></div>
+  <%= f.submit %>
+</fieldset>
+<% end %>

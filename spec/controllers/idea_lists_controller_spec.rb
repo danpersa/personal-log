@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe IdeaListsController do
+  render_views
+  
+  before(:each) do
+    @base_title = "Remind me to live"
+  end
 
   describe "access control" do
     describe "authentication" do
@@ -52,6 +57,11 @@ describe IdeaListsController do
         put :update, :id => @idea_list
         response.should redirect_to(idea_lists_path)
       end
+      
+      it "should deny access if user does not own the idea" do
+        get :edit, :id => @idea_list
+        response.should redirect_to(idea_lists_path)
+      end
 
      it "should deny access if user does not own the idea" do
         delete :destroy, :id => @idea_list
@@ -84,15 +94,80 @@ describe IdeaListsController do
   
   describe "GET 'index'" do
     
-    it "should work" do
-      pending
+    describe "success" do
+      before(:each) do
+        @user = Factory(:user)
+        @idea = Factory(:idea, :user => @user)
+        @idea_list = Factory(:idea_list, :user => @idea.user)
+        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        test_sign_in(@user)
+      end
+    
+      it_should_behave_like "successful get request" do
+        let(:action) do
+          get :index
+          @title = @base_title + " | My idea lists"
+        end
+      end
+      
+      it "have an element containing the user's display name" do
+        get :index
+        response.should have_selector("h1", :content => "My idea lists")
+      end
+      
+      it "have a link containing for creating new idea lists" do
+        get :index
+        response.should have_selector("a", :content => "Create new idea list" )
+      end
+      
+      it "have a list containing the ideas from the idea list" do
+        get :index
+        response.should have_selector("a", :content => @idea_list.name)
+      end
     end
   end
   
   describe "GET 'show'" do
     
-    it "should work" do
-      pending
+    describe "success" do
+      before(:each) do
+        @user = Factory(:user)
+        @idea = Factory(:idea, :user => @user)
+        @idea_list = Factory(:idea_list, :user => @idea.user)
+        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        test_sign_in(@user)
+      end
+      
+      it_should_behave_like "successful get request" do
+        let(:action) do
+          get :show, :id => @idea_list
+          @title = @base_title + " | Show idea list"
+        end
+      end
+      
+      it "have an element containing the user's display name" do
+        get :show, :id => @idea_list
+        response.should have_selector("span", :content => @user.display_name)
+      end
+      
+      it "have an element containing the user's ideas" do
+        get :show, :id => @idea_list
+        response.should have_selector("span", :content => @idea.content)
+      end
+    end
+  end
+  
+  describe "GET 'new'" do
+
+    before(:each) do
+      @user = test_sign_in(Factory(:user))
+    end
+
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :new
+        @title = @base_title + " | Create idea list"
+      end
     end
   end
   
@@ -146,9 +221,20 @@ describe IdeaListsController do
           post :create, :idea_list => { :name => "the list" }
         end.should_not change(IdeaList, :count)
       end
-      
-      it "should have validation errors" do
-        pending
+    end
+  end
+
+  describe "GET 'edit'" do
+
+    before(:each) do
+      @user = test_sign_in(Factory(:user))
+      @idea_list = @user.idea_lists.create!({:name => "name"})
+    end
+
+    it_should_behave_like "successful get request" do
+      let(:action) do
+        get :edit, :id => @idea_list.id
+        @title = @base_title + " | Update idea list"
       end
     end
   end
@@ -201,10 +287,6 @@ describe IdeaListsController do
         lambda do
           put :update, :id => @idea_list.id, :idea_list => { :name => "the list" }
         end.should_not change(IdeaList, :count)
-      end
-      
-      it "should have validation errors" do
-        pending
       end
     end
   end

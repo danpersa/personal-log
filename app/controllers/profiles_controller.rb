@@ -38,7 +38,7 @@ class ProfilesController < ApplicationController
         return
       else
         @title = "Update public profile"
-        render 'edit'
+        render :edit
       end
     else
       redirect_to_edit_with_flash

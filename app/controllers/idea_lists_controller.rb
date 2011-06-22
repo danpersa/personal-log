@@ -11,6 +11,7 @@ class IdeaListsController < ApplicationController
     @edit_idea_list = IdeaList.new
     @edit_idea_list.id = 0;
     @edit_idea_list.name = "";
+    @title = "My idea lists"
     respond_to do |format|
       format.html {@idea_lists = @idea_lists.paginate(:page => params[:page])}
       format.json { render :json => @idea_lists.map(&:attributes) }
@@ -21,11 +22,13 @@ class IdeaListsController < ApplicationController
     @user = current_user
     @idea_list = IdeaList.find_by_id(params[:id])
     @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:page => params[:page])
+    @title = "Show idea list"
   end
   
   def new
     @user = current_user
     @idea_list = IdeaList.new
+    @title = "Create idea list"
   end
   
   def create
@@ -39,15 +42,18 @@ class IdeaListsController < ApplicationController
           redirect_to idea_lists_path
         }
       else
-        format.html { render :new }        
+        format.html {
+          @title = "Create idea list"
+          render :new 
+        }
       end
       format.js { respond_with( @idea_list, :layout => !request.xhr? ) }
     end
   end
-  
     
   def edit
     @user = current_user
+    @title = "Update idea list"
   end
   
   def update
@@ -59,7 +65,10 @@ class IdeaListsController < ApplicationController
           redirect_to idea_lists_path 
         }
       else
-        format.html { render :edit }
+        format.html {
+          @title = "Update idea list" 
+          render :edit 
+        }
       end
       format.js { respond_with( @idea_list, :layout => !request.xhr? ) }        
     end
