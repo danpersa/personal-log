@@ -29,6 +29,7 @@ class IdeaListsController < ApplicationController
     @user = current_user
     @idea_list = IdeaList.new
     @title = "Create idea list"
+    respond_with_remote_form
   end
   
   def create
@@ -70,7 +71,10 @@ class IdeaListsController < ApplicationController
           render :edit 
         }
       end
-      format.js { respond_with( @idea_list, :layout => !request.xhr? ) }        
+      format.js {
+        @hide_buttons = true
+        respond_with( @idea_list, :layout => !request.xhr? )
+      }
     end
   end
   
@@ -94,6 +98,16 @@ class IdeaListsController < ApplicationController
   def own_idea_list
     @idea_list = IdeaList.find_by_id(params[:id])
     redirect_to idea_lists_path unless not @idea_list.nil? and current_user?(@idea_list.user)
+  end
+  
+  def respond_with_remote_form
+    respond_to do |format|
+      format.html
+      format.js {
+        @hide_buttons = true
+        @remote = true 
+      }
+    end
   end
   
 end

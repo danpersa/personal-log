@@ -43,15 +43,29 @@ module ApplicationHelper
   
   def errors_for_field(object, field)
     html = String.new
+    html << "<div id='#{object.class.name.underscore.downcase}_#{field}_errors' class='errors'>\n"
     unless object.errors.blank?
-      html << "<div id='#{object.class.name.underscore.downcase}_#{field}_errors' class='errors'>\n"  
       html << "\t\t<ul>\n"
       object.errors[field].each do |error|
         html << "\t\t\t<li>#{error}</li>\n" 
       end
       html << "\t\t</ul>\n"
-      html << "\t</div>\n"
     end
+    html << "\t</div>\n"
     return html.html_safe
+  end
+  
+  def remote?
+    if (@remote == true)
+      return true
+    end 
+    return false
+  end
+  
+  def hide_buttons?
+    if (not @hide_buttons.nil?) and (@hide_buttons == true)
+      return true
+    end 
+    false
   end
 end
