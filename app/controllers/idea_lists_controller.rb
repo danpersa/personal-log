@@ -101,14 +101,4 @@ class IdeaListsController < ApplicationController
     redirect_to idea_lists_path unless not @idea_list.nil? and current_user?(@idea_list.user)
   end
   
-  def respond_with_remote_form
-    respond_to do |format|
-      format.html
-      format.js {
-        @hide_buttons = true
-        @remote = true 
-      }
-    end
-  end
-  
 end

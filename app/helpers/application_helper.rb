@@ -68,4 +68,28 @@ module ApplicationHelper
     end 
     false
   end
+  
+  def submit_button_name
+    if (@submit_button_name.blank?)
+      return "Post"
+    end
+    @submit_button_name
+  end
+  
+  def respond_with_remote_form
+    respond_to do |format|
+      format.html
+      format.js {
+        @hide_buttons = true
+        @remote = true 
+      }
+    end
+  end
+  
+  def file_exists?(path)
+    if (not path.blank?) and FileTest.exists?("#{RAILS_ROOT}/#{path}")
+      return true
+    end
+    false
+  end
 end

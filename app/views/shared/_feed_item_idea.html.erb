@@ -23,7 +23,7 @@
 
     <% unless current_user_id?(feed_item_idea.user_id) %>
     <span class="item-toolbar">
-      <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> · 
+      <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id), :remote => true %> ·
     </span>
     <% end %>
   </td>

@@ -19,10 +19,10 @@ form.generic_form fieldset:last-of-type {
 }
 
 form.generic_form legend {
-  color: #777777;
+  color: #91A9DA;
   font-size: 16px;
   padding-bottom: 10px;
-  text-shadow: 0 1px -1px #BBBBBB;
+  text-shadow: 0 1px -1px #F3E5F9;
 }
 
 /* form.generic_form > fieldset > legend:before {

@@ -3,6 +3,8 @@ class RemindersController < ApplicationController
   before_filter :authorized_user, :only => :destroy
   before_filter :correct_user, :only => [:edit, :update]
   
+  respond_to :html, :js
+  
   def index
     @reminders = current_user.reminders.includes(:idea).all
     @date = params[:month] ? Date.parse(params[:month].gsub('-', '/')) : Date.today
@@ -16,12 +18,19 @@ class RemindersController < ApplicationController
     end
     @reminder = current_user.reminders.build(params[:reminder])
     @reminder.idea = @idea
-    if @reminder.save
-      flash[:success] = "Reminder successfully created!"
-      redirect_to root_path
-      return
+    respond_to do |format|
+      if @reminder.save
+        format.html {
+          flash[:success] = "Reminder successfully created!"
+          redirect_to root_path
+        }
+      else
+        format.html {
+          render :remind_me_too
+        }
+      end
+      format.js { respond_with( @reminder, :layout => !request.xhr? ) }
     end
-    render :remind_me_too
   end
   
   def destroy
@@ -39,6 +48,8 @@ class RemindersController < ApplicationController
     end
     @title = "Remind me too"
     @reminder = Reminder.new
+    @submit_button_name = "Create reminder"
+    respond_with_remote_form
   end
   
   private

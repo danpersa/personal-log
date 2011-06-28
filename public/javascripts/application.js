@@ -28,7 +28,7 @@ $( function() {
   });
   
 
-  $("#reminder_reminder_date").datepicker({
+  $("#reminder_reminder_date .date_field").datepicker({
     dateFormat: 'mm/dd/yy',
     minDate: new Date()
   });

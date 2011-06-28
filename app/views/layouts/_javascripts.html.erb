@@ -15,7 +15,9 @@
   <%= javascript_include_tag "jquery.ui.selectmenu" %>
   
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "#{params[:controller].parameterize}" %>
+  <% if file_exists? "public/javascripts/#{params[:controller].parameterize}.js" %>
+    <%= javascript_include_tag "#{params[:controller].parameterize}" %>
+  <% end %>
 
 
   <!-- end scripts-->

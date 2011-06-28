@@ -20,8 +20,9 @@
   <%= stylesheet_link_tag 'application', :media => 'screen, projection' %>
   <%= stylesheet_link_tag 'alerts', :media => 'screen, projection' %>
   
-  
-  <%= stylesheet_link_tag "#{params[:controller].parameterize}", :media => 'screen, projection' %>
+  <% if file_exists? "public/stylesheets/#{params[:controller].parameterize}.css" %>
+    <%= stylesheet_link_tag "#{params[:controller].parameterize}", :media => 'screen, projection' %>
+  <% end %>
   
   
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
