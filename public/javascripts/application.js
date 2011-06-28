@@ -2,7 +2,9 @@
 // This file is automatically included by javascript_include_tag :defaults
 $( function() {
 
-  $("button, input:submit").button();
+  //$("button, input:submit").button();
+  $("#reminder_post").button();
+  
 
   $('div.hover').hover( function() {
     $(this).addClass('ui-state-hover');

@@ -1,26 +1,30 @@
 <h1>Update public profile</h1>
-
-<%= form_for(@profile, :url => user_profile_path(current_user), :method => :post) do |f| %>
+<%= form_for(@profile, :url => user_profile_path(current_user), :method => :post, :html => { :class => "generic_form"} ) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :website %><br />
-    <%= f.text_field :website, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="actions">
+  <fieldset>
+    <legend>Your details</legend>
+    <ol>
+      <li>
+        <%= f.label :name %>
+        <%= f.text_field :name, :placeholder => "Name", :autofocus => :true %>
+      </li>
+      <li>
+        <%= f.label :email %>
+        <%= f.email_field :email, :placeholder => "example@domain.com"%>
+      </li>
+      <li>
+        <%= f.label :location %>
+        <%= f.text_field :location, :placeholder => "Eg. Romania" %>
+      </li>
+      <li>
+        <%= f.label :website %>
+        <%= f.url_field :website, :placeholder => "http://www.example.com" %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset>
     <%= f.submit "Update public profile" %>
-  </div>
+  </fieldset>
 <% end %>
 
 <% content_for :sidebar do %>

@@ -1,10 +1,17 @@
-<%= form_for(@idea_list, :remote => remote?) do |f| %>
-<fieldset>
-  <%= f.label :name, "Name" %>
-  <%= f.text_field(:name, :class => "text ui-widget-content ui-corner-all")  %>
-  <%= errors_for_field(@idea_list, :name) %>
+<%= form_for(@idea_list, :remote => remote?, :html => { :class => "generic_form"}) do |f| %>
+  <fieldset>
+    <legend>Idea list details</legend>
+    <ol>
+      <li>
+        <%= f.label :name, "Name" %>
+        <%= f.text_field :name, :autofocus => :true  %>
+        <%= errors_for_field(@idea_list, :name) %>
+      </li>
+    </ol>
+  </fieldset>
   <% unless hide_buttons? %>
-  <%= f.submit %>
+  <fieldset>
+    <%= f.submit %>
+  </fieldset>
   <% end %>
-</fieldset>
 <% end %>

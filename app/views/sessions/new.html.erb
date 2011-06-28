@@ -1,17 +1,21 @@
 <h1>Sign in</h1>
 
-<%= form_for(:session, :url => sessions_path) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="actions">
+<%= form_for(:session, :url => sessions_path, :html => { :class => "generic_form"}) do |f| %>
+  <fieldset>
+    <ol>
+      <li>
+        <%= f.label :email %>
+        <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => :true %>
+      </li>
+      <li>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset>
     <%= f.submit "Sign in" %>
-  </div>
+  </fieldset>
 <% end %>
 
 <p>New user? <%= link_to "Sign up now!", signup_path %></p>

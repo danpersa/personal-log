@@ -1,17 +1,21 @@
 <h1>Settings</h1>
-<%= form_for(@user) do |f| %>
+<%= form_for(@user, :html => { :class => "generic_form"}) do |f| %>
 <%= render 'shared/error_messages', :object => f.object %>
-<div class="field">
-  <%= f.label :name %><br />
-  <%= f.text_field :name, :class => "text ui-widget-content ui-corner-all" %>
-</div>
-<div class="field">
-  <%= f.label :email %><br />
-  <%= f.text_field :email, :class => "text ui-widget-content ui-corner-all" %>
-</div>
-<div class="actions">
+<fieldset>
+  <legend>Username and email</legend>
+  <ol>
+    <li>
+      <%= f.label :name %>
+      <%= f.text_field :name, :placeholder => "Name" %>
+    </li>
+    <li>
+      <%= f.label :email %>
+      <%= f.email_field :email, :placeholder => "example@domain.com" %>
+    </li>
+</fieldset>
+<fieldset>
   <%= f.submit "Update" %>
-</div>
+</fieldset>
 <% end %>
 <div>
   <%= gravatar_for @user %>

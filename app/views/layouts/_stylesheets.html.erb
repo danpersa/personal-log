@@ -16,9 +16,10 @@
   <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
   <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%><![endif]-->
   
-  
+  <%= stylesheet_link_tag 'generic_form', :media => 'screen, projection' %>
   <%= stylesheet_link_tag 'application', :media => 'screen, projection' %>
   <%= stylesheet_link_tag 'alerts', :media => 'screen, projection' %>
+  
   
   <%= stylesheet_link_tag "#{params[:controller].parameterize}", :media => 'screen, projection' %>
   

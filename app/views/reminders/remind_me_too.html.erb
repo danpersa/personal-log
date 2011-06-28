@@ -1,19 +1,23 @@
-<h1 class="idea">Remind me to</h1>
-<span class="title"><%= @idea.content %></span>
-<%= form_tag :controller => :reminders,  :action => :create do %>
+<%= form_tag({:controller => :reminders,  :action => :create}, { :class => "generic_form"}) do %>
   <%= render 'shared/error_messages', :object => @reminder %>
-  <div class="field">
+  <fieldset>
     <%= hidden_field :idea, :id %>
-  </div>
-  <span class="title">on</span>
-  <span class="field">
-    <%= text_field :reminder, :reminder_date, :class => "text ui-widget-content ui-corner-all" %>
-  </span>
-  <span class="title">as</span>
-  <span class="field">
-    <%= collection_select(:reminder, :privacy_id, Privacy.all, :id, :name) %>
-  </span>
-  <span class="actions">
+    <legend>Remind me to</legend>
+    <ol>
+      <li>
+        <span class="title"><%= @idea.content %></span>
+      </li>  
+      <li>
+        <%= label_tag :reminder_reminder_date, "on" %>
+        <%= text_field :reminder, :reminder_date, :placeholder => "Reminder date" %>
+      </li>
+      <li>
+        <%= label_tag :reminder_privacy_id, "as" %>
+        <%= collection_select(:reminder, :privacy_id, Privacy.all, :id, :name) %>
+      </li>
+  </ol>
+  </fieldset>
+  <fieldset>
     <%= submit_tag "Post" %>
-  </span>  
+  </fieldset>
 <% end %>

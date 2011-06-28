@@ -176,4 +176,8 @@ table.items tr td.item div.icon-button {
   width: 17px;
 }
 
+/* fix for captcha */
+#recaptcha_instructions_image {
+  font-size: 110%;
+}
 

@@ -1,22 +1,27 @@
 <h1>Change password</h1>
 
-<%= form_for(@change_password) do |f| %>
+<%= form_for(@change_password, :html => { :class => "generic_form"}) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-  <div class="field">
-    <%= f.label :old_password, "Old password" %><br />
-    <%= f.password_field :old_password, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <%= f.password_field :password, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmation" %><br />
-    <%= f.password_field :password_confirmation, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="actions">
+  <fieldset>
+    <legend>Change the old password with a new one</legend>
+    <ol>
+      <li>
+        <%= f.label :old_password, "Old password" %>
+        <%= f.password_field :old_password, :autofocus => "true", :required => :true %>
+      </li>
+      <li>
+        <%= f.label :password, "New password" %>
+        <%= f.password_field :password, :required => :true %>
+      </li>
+      <li>
+        <%= f.label :password_confirmation, "Confirmation" %>
+        <%= f.password_field :password_confirmation, :required => :true %>
+      </li>
+  </ol>
+  </fieldset>
+  <fieldset>
     <%= f.submit "Change password" %>
-  </div>
+  </fieldset>
 <% end %>
 
 <% content_for :sidebar do %>

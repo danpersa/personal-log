@@ -1,0 +1,135 @@
+form.generic_form {
+  background: #E5ECF9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  counter-reset: fieldsets;
+  padding: 20px;
+  width: 400px;
+}
+
+form.generic_form fieldset {
+  border: none;
+  margin-bottom: 10px;
+}
+
+form.generic_form fieldset:last-of-type {
+  margin-bottom: 0;
+}
+
+form.generic_form legend {
+  color: #777777;
+  font-size: 16px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px -1px #BBBBBB;
+}
+
+/* form.generic_form > fieldset > legend:before {
+  content: "Step " counter(fieldsets) ": ";
+  counter-increment: fieldsets;
+} */
+
+form.generic_form fieldset fieldset legend {
+  color: #222222;
+  font-size: 13px;
+  font-weight: normal;
+  padding-bottom: 0;
+}
+
+form.generic_form ol li {
+  background: #ECF1FA;
+  background: rgba(255,255,255,.3);
+  border-color: #F7F9FD;
+  border-color: rgba(255,255,255,.6);
+  border-style: solid;
+  border-width: 2px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  line-height: 30px;
+  list-style: none;
+  padding: 5px 10px;
+  margin-bottom: 2px;
+}
+
+form.generic_form ol ol li {
+  background: none;
+  border: none;
+  float: left;
+}
+
+form.generic_form label {
+  clear:  both;
+  float: left;
+  font-size: 13px;
+  width: 110px;
+}
+
+form.generic_form fieldset fieldset label {
+  background:none no-repeat left 50%;
+  line-height: 20px;
+  padding: 0 0 0 30px;
+  width: auto;
+}
+
+form.generic_form label[for=visa] {
+  background-image: url(visa.gif);
+}
+
+form.generic_form label[for=amex] {
+  background-image: url(amex.gif);
+}
+
+form.generic_form label[for=mastercard] {
+  background-image: url(mastercard.gif);
+}
+
+form.generic_form fieldset fieldset label:hover {
+  cursor: pointer;
+}
+
+form.generic_form input:not([type=radio]):not([type=submit]), form.generic_form textarea {
+  background: #ffffff;
+  border: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+  font: italic 13px Georgia, "Times New Roman", Times, serif;
+  outline: none;
+  padding: 5px;
+  width: 200px;
+}
+
+form.generic_form input:not([type=submit]):focus, form.generic_form textarea:focus {
+  background: #eaeaea;
+}
+
+form.generic_form input[type=radio] {
+  float: left;
+  margin-right: 5px;
+}
+
+form.generic_form input[type=submit] {
+  background: #91A9DA;
+  border: none;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -khtml-border-radius: 20px;
+  border-radius: 20px;
+  color: #ffffff;
+  display: block;
+  font: 18px Georgia, "Times New Roman", Times, serif;
+  letter-spacing: 1px;
+  margin: auto;
+  padding: 7px 25px;
+  text-shadow: 0 1px 1px #000000;
+  text-transform: uppercase;
+}
+
+form.generic_form input[type=submit]:hover {
+  background: #638FE9;
+  cursor: pointer;
+}

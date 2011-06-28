@@ -1,26 +1,31 @@
 <h1>Sign up</h1>
-<%= form_for(@user) do |f| %>
+<%= form_for(@user, :html => { :class => "generic_form"} ) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmation" %><br />
-    <%= f.password_field :password_confirmation, :class => "text ui-widget-content ui-corner-all" %>
-  </div>
-  <div class="field">
-    <%= render '/shared/recaptcha' %>
-  </div>
-  <div class="actions">
+  <fieldset>
+    <legend>New user details</legend>
+    <ol>
+      <li>
+        <%= f.label :name %>
+        <%= f.text_field :name, :autofocus => :true, :placeholder => "Username" %>
+      </li>
+      <li>
+        <%= f.label :email %>
+        <%= f.email_field :email, :placeholder => "email@domain.com" %>
+      </li>
+      <li>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </li>
+      <li>
+        <%= f.label :password_confirmation, "Confirmation" %>
+        <%= f.password_field :password_confirmation %>
+      </li>
+      <li>
+        <%= render '/shared/recaptcha' %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset>
     <%= f.submit "Sign up" %>
-  </div>
+  </fieldset>
 <% end %>

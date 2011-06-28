@@ -16,6 +16,6 @@
     <%= collection_select :reminder, :privacy_id, Privacy.all, :id, :name %>
   </span>
   <span class="actions">
-    <%= submit_tag "Post" %>
+    <%= submit_tag "Post", :id => "reminder_post" %>
   </span>  
 <% end %>

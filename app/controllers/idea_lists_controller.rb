@@ -55,6 +55,7 @@ class IdeaListsController < ApplicationController
   def edit
     @user = current_user
     @title = "Update idea list"
+    respond_with_remote_form
   end
   
   def update
