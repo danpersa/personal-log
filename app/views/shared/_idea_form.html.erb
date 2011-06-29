@@ -3,7 +3,7 @@
   <%= render 'shared/error_messages', :object => @reminder %>
   
   <div class="field">
-    <%= text_area :idea, :content, :class => "text ui-widget-content ui-corner-all" %>
+    <%= text_field :idea, :content, :class => "text ui-widget-content ui-corner-all", "x-webkit-speech" => :true %>
   </div>
   <span class="title">on</span>
   

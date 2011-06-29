@@ -98,6 +98,28 @@ form.new_idea textarea {
   margin-bottom: 0;
 }
 
+form.new_idea input[type=submit] {
+  padding-top: 3px;
+  height: 28px;
+}
+
+form.new_idea input[type=text] {
+  padding-bottom: 5px;
+  height: 20px;
+}
+
+form.new_idea #idea_content {
+  height: 2em;
+  width: 400px;
+  margin-bottom: 0;
+}
+
+form.new_idea #idea_content {
+  height: 2em;
+  width: 400px;
+  margin-bottom: 0;
+}
+
 form.new_idea #reminder_reminder_date {
   width: 160px;
 }
