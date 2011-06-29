@@ -6,7 +6,7 @@
     </span>
     <% unless current_user?(reminder.user) %>
     <span class="item-toolbar">
-      <%= link_to "Remind me too", remind_me_too_path(:idea_id => reminder.idea.id) %> · 
+      <%= link_to "Remind me too", remind_me_too_path(:idea_id => reminder.idea.id), :remote => true %> · 
     </span>
     <% end %>
   </td>

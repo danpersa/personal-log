@@ -87,7 +87,7 @@ module ApplicationHelper
   end
   
   def file_exists?(path)
-    if (not path.blank?) and FileTest.exists?("#{RAILS_ROOT}/#{path}")
+    if (not path.blank?) and FileTest.exists?("#{::Rails.root.to_s}/#{path}")
       return true
     end
     false
