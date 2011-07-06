@@ -1,3 +1,6 @@
+<div class="sidebar round">
+  <%= render 'shared/sidebar_horizontal' %>
+</div>
 <div id="calendar">
   <h2 id="month">
     <%= link_to "<", :month => (@date.beginning_of_month - 1).strftime("%Y-%m") %>
@@ -10,7 +13,7 @@
       <%= date.day %>
       <ul>
         <% for reminder in reminders[0, 4] %>
-          <li>·<%= link_to h(reminder.idea.content).truncate(15), reminder.idea %></li>
+          <li>·<%= link_to h(reminder.idea.content).truncate(15), reminder.idea, :alt => reminder.idea.content, :class => "popup" %></li>
         <% end %>
       </ul>
     <% end %>

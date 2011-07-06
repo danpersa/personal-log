@@ -6,6 +6,7 @@ class RemindersController < ApplicationController
   respond_to :html, :js
   
   def index
+    @user = current_user
     @reminders = current_user.reminders.includes(:idea).all
     @date = params[:month] ? Date.parse(params[:month].gsub('-', '/')) : Date.today
   end

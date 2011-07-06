@@ -183,3 +183,37 @@ table.items tr td.item div.icon-button {
   font-size: 110%;
 }
 
+/* horizontal sidebar */
+div.sidebar {
+  width: 96%;
+  padding: 1em;
+  vertical-align: top;
+  background: #ffc;
+}
+
+div.sidebar div.sidebar-user-info {
+  font-size: 80%;
+}
+
+div.sidebar div.sidebar-user-info-item {
+  margin-bottom: 5px;
+}
+
+div.sidebar div.user_info img {
+  padding-right: 0.1em;
+}
+
+div.sidebar div.user_info a {
+  text-decoration: none;
+}
+
+div.sidebar div.user_info span.user_name {
+  vertical-align: top;
+}
+
+div.sidebar div.user_info div.ideas {
+  font-size: 80%;
+  width: 100%;
+  text-align: center;
+}
+
