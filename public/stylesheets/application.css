@@ -134,11 +134,13 @@ td.sidebar div.user_info a {
 }
 
 td.sidebar div.user_info span.user_name {
-  position: absolute;
+  vertical-align: top;
 }
 
-td.sidebar div.user_info span.ideas {
+td.sidebar div.user_info div.ideas {
   font-size: 80%;
+  width: 100%;
+  text-align: center;
 }
 
 /* General table with some items */

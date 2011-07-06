@@ -4,8 +4,10 @@
     <span class="user_name">
       <%= @user.display_name %>
     </span>
-    <span class="ideas">
+  </a>
+  <a href="<%= user_path(@user) %>">
+    <div class="ideas">
       <%= pluralize(@user.ideas.count, "idea") %>
-    </span>
+    </div>
   </a>
 </div>
