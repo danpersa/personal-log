@@ -92,4 +92,8 @@ module ApplicationHelper
     end
     false
   end
+  
+  def sidebar_idea_lists
+    IdeaList.all
+  end
 end
