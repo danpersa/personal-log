@@ -94,6 +94,6 @@ module ApplicationHelper
   end
   
   def sidebar_idea_lists
-    IdeaList.all
+    IdeaList.owned_by current_user
   end
 end
