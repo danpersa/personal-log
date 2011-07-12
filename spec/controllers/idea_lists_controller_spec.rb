@@ -29,6 +29,12 @@ describe IdeaListsController do
       
       it_should_behave_like "deny access unless signed in" do
         let(:request_action) do
+          post :add_idea, :id => 1
+        end
+      end
+      
+      it_should_behave_like "deny access unless signed in" do
+        let(:request_action) do
           put :update, :id => 1
         end
       end
@@ -46,25 +52,46 @@ describe IdeaListsController do
         wrong_user = Factory(:user, :email => Factory.next(:email))
         test_sign_in(wrong_user)
         @idea_list = Factory(:idea_list, :user => @user)
+        @idea = Factory(:idea, :user => @user)
       end
 
-      it "should deny access if user does not own the idea" do
+      it "should deny access if user does not own the idea list" do
         get :show, :id => @idea_list
         response.should redirect_to(idea_lists_path)
       end
+      
+      it "should deny access if user does not own the idea list" do
+        post :add_idea, :id => @idea_list, :idea_id => @idea.id
+        response.should redirect_to(idea_lists_path)
+      end
 
-      it "should deny access if user does not own the idea" do
+      it "should deny access if user does not own the idea list" do
         put :update, :id => @idea_list
         response.should redirect_to(idea_lists_path)
       end
       
-      it "should deny access if user does not own the idea" do
+      it "should deny access if user does not own the idea list" do
         get :edit, :id => @idea_list
         response.should redirect_to(idea_lists_path)
       end
 
-     it "should deny access if user does not own the idea" do
+      it "should deny access if user does not own the idea list" do
         delete :destroy, :id => @idea_list
+        response.should redirect_to(idea_lists_path)
+      end
+    end
+    
+    describe "own idea or public" do
+      before(:each) do
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+        @idea_list = Factory(:idea_list, :user => wrong_user)
+        @idea = Factory(:idea, :user => @user)
+      end
+      
+      it "should deny access if user does not own the idea list" do
+        post :add_idea, :id => @idea_list, :idea_id => @idea.id
         response.should redirect_to(idea_lists_path)
       end
     end
@@ -313,6 +340,42 @@ describe IdeaListsController do
         delete :destroy, :id => @idea_list
         IdeaListOwnership.find_by_idea_list_id(@idea_list.id).should be_nil
       end
+    end
+  end
+  
+  describe "POST 'add_idea'" do
+    
+    before(:each) do
+      @user = test_sign_in(Factory(:user))
+      @idea_list = Factory(:idea_list, :user => @user)
+      @idea = Factory(:idea, :user => @user)
+    end
+      
+    describe "success" do
+
+      it "should create new idea_list_ownership" do
+        lambda do
+          post :add_idea, :id => @idea_list, :idea_id => @idea.id
+        end.should change(IdeaListOwnership, :count).by(1)
+      end
+    end
+    
+    describe "failure" do
+      before(:each) do
+        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+      end
+      
+      it "should not create new idea_list_ownership if already exists" do
+        lambda do
+          post :add_idea, :id => @idea_list, :idea_id => @idea.id
+        end.should_not change(IdeaListOwnership, :count)
+      end
+      
+      it "should redirect to idea_lists_path on failure" do
+        post :add_idea, :id => @idea_list, :idea_id => @idea.id
+        response.should redirect_to idea_lists_path
+      end
+      
     end
   end
 end

@@ -1,6 +1,7 @@
 class IdeaListsController < ApplicationController
-  before_filter :authenticate, :only => [:index, :show, :new, :create, :edit, :update, :destroy]
-  before_filter :own_idea_list, :only => [:show, :edit, :update, :destroy]
+  before_filter :authenticate, :only => [:index, :show, :new, :create, :edit, :update, :destroy, :add_idea]
+  before_filter :own_idea_list, :only => [:show, :edit, :update, :destroy, :add_idea]
+  before_filter :own_idea_or_public, :only => [:add_idea]
   
   respond_to :html, :js
   
@@ -94,7 +95,27 @@ class IdeaListsController < ApplicationController
     end
   end
   
+  def add_idea
+    @idea_list_ownership = IdeaListOwnership.new
+    @idea_list_ownership.idea = @idea
+    @idea_list_ownership.idea_list = @idea_list
+    
+    respond_to do |format|
+      if @idea_list_ownership.save
+        format.html
+      elsif
+        format.html { redirect_to idea_lists_path }
+      end
+      format.js
+    end
+  end
+  
   private
+  
+  def own_idea_or_public
+    @idea = Idea.find_by_id(params[:idea_id])
+    redirect_to idea_lists_path unless not @idea.nil? and current_user?(@idea.user) || @idea.public?
+  end
   
   def own_idea_list
     @idea_list = IdeaList.find_by_id(params[:id])

@@ -1,0 +1,5 @@
+<% if @idea_list_ownership.errors.any? %>
+  addNotificationNotice("The idea wasn't added to the idea list. Maybe the idea is already in the list!");
+<% else %>
+  addNotificationSuccess("The idea successfully added to the idea list");
+<% end %>
