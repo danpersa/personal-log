@@ -18,7 +18,7 @@ class IdeaList < ActiveRecord::Base
   
   def unique_name_per_user
     errors.add(:name, "must be unique") if
-      not name.nil? and (IdeaList.owned_by(user).with_name(name).count > 0)
+      not name.nil? and (self.class.owned_by(user).with_name(name).count > 0)
   end
   
 end

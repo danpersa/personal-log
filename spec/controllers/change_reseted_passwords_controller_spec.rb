@@ -13,16 +13,17 @@ describe ChangeResetedPasswordsController do
     describe "success" do
       before(:each) do
         @user.reset_password
-        get :edit, :id => @user.password_reset_code
       end
 
       it_should_behave_like "successful get request" do
         let(:action) do
+          visit (edit_change_reseted_password_path(@user.password_reset_code))
           @title = @base_title + " | Change Password"
         end
       end
       
       it "should render the edit template" do
+        get :edit, :id => @user.password_reset_code
         response.should render_template :edit
       end
     end

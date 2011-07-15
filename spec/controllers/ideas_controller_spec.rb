@@ -77,25 +77,25 @@ describe IdeasController do
       
       it "should show the idea" do
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("span.title", :content => @idea.content)
+        test_web_sign_in(@user)
+        visit idea_path(@idea)
+        page.should have_selector('span.title', :text => @idea.content)
       end
       
       it "should have a 'create new reminder' link if the current user alredy shares the idea" do
         # we make the idea public
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :users, :id => @idea
-        response.should have_selector("a", :content => "Create new reminder")
+        test_web_sign_in(@user)
+        visit idea_path(@idea)
+        page.should have_link("Create new reminder")
       end
       
       it "should have a 'users sharing this idea' link" do
         # we create a reminder for the idea
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("a", :content => "Users sharing this idea")
+        test_web_sign_in(@user)
+        visit idea_path(@idea)
+        page.should have_link("Users sharing this idea")
       end
       
       it "should redirect to idea's users page if the logged user does not have any reminders" do
@@ -106,9 +106,9 @@ describe IdeasController do
       
       it "should have a create new reminder link" do
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :show, :id => @idea
-        response.should have_selector("a", :content => "Create new reminder")
+        test_web_sign_in(@user)
+        visit idea_path(@idea)
+        page.should have_content("Create new reminder")
       end
       
       it "should have an element for each of the user's reminder" do
@@ -119,10 +119,10 @@ describe IdeasController do
         end
         reminders << Factory(:reminder, :user => @user, :idea => @idea, :privacy => private_privacy)
 
-        test_sign_in(@user)
-        get :show, :id => @idea
+        test_web_sign_in(@user)
+        visit idea_path(@idea)
         reminders[0..2].each do |reminder|
-          response.should have_selector("span.content", :content => reminder.reminder_date.to_s)
+          page.should have_selector('span.content', :text => reminder.reminder_date.to_s)
         end
       end
     end
@@ -308,34 +308,34 @@ describe IdeasController do
       end
       
       it "should show the idea" do
-        test_sign_in(@user)
-        get :users, :id => @idea
-        response.should have_selector("span.title", :content => @idea.content)
+        test_web_sign_in(@user)
+        visit idea_path(@idea) + '/users'
+        page.should have_selector('span.title', :text => @idea.content)
       end
       
       it "should have a 'remind me too' link if the current user doesn't share the idea" do
         # we make the idea public
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
         wrong_user = Factory(:user, :email => Factory.next(:email))
-        test_sign_in(wrong_user)
-        get :users, :id => @idea
-        response.should have_selector("a", :content => "Remind me too")
+        test_web_sign_in(wrong_user)
+        visit idea_path(@idea) + '/users'
+        page.should have_link("Remind me too")
       end
       
       it "should have a 'create new reminder' link if the current user alredy shares the idea" do
         # we make the idea public
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :users, :id => @idea
-        response.should have_selector("a", :content => "Create new reminder")
+        test_web_sign_in(@user)
+        visit idea_path(@idea) + '/users'
+        page.should have_link("Create new reminder")
       end
       
       it "should have a 'my reminders' if the current user already shares the idea" do
         # we make the idea public
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
-        test_sign_in(@user)
-        get :users, :id => @idea
-        response.should have_selector("a", :content => "My reminders")
+        test_web_sign_in(@user)
+        visit idea_path(@idea) + '/users'
+        page.should have_link("My reminders")
       end
       
       it "should have an element for each user that shares the idea as public" do
@@ -347,10 +347,10 @@ describe IdeasController do
           Factory(:reminder, :user => another_user, :idea => @idea, :privacy => @public_privacy)  
         end
         
-        test_sign_in(@user)
-        get :users, :id => @idea
+        test_web_sign_in(@user)
+        visit idea_path(@idea) + '/users'
         @users[0..2].each do |user|
-          response.should have_selector("li", :content => user.name)
+          page.should have_selector('li', :text => user.name)
         end
       end
     end

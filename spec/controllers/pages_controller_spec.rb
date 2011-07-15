@@ -12,7 +12,7 @@ describe PagesController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :home
+        visit root_path
         @title = @base_title + " | Home"
       end
     end
@@ -20,18 +20,17 @@ describe PagesController do
     describe "when signed in" do
       
       before(:each) do
-        @user = test_sign_in(Factory(:user))
-        @public_privacy = Privacy.create(:name => "public")
+        create_privacies
+        @user = test_web_sign_in(Factory(:user))
+        @public_privacy = Privacy.find_by_name("public")
         other_user = Factory(:user, :email => Factory.next(:email))
         other_user.follow!(@user)
       end
       
       it "should have the right follower/following counts" do
-        get :home
-        response.should have_selector("a", :href => following_user_path(@user),
-          :content => "0 following")
-        response.should have_selector("a", :href => followers_user_path(@user),
-          :content => "1 follower")
+        visit root_path
+        page.should have_link("0 following")
+        page.should have_link("1 follower")
       end
       
       it "should paginate" do
@@ -39,11 +38,10 @@ describe PagesController do
           idea = Factory(:idea, :user => @user, :content => "Baz quux")
           Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
         end
-        get :home
-        response.should have_selector("div.pagination")
-        response.should have_selector("span.disabled", :content => "Previous")
-        response.should have_selector("a", :href => ".?page=2",
-                                           :content => "Next")
+        visit root_path
+        page.should have_selector("div.pagination")
+        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_link("Next")
       end
     end
   end
@@ -52,7 +50,7 @@ describe PagesController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :contact
+        visit contact_path
         @title =  @base_title + " | Contact"
       end
     end
@@ -62,7 +60,7 @@ describe PagesController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :about
+        visit about_path
         @title =  @base_title + " | About"
       end
     end
@@ -72,14 +70,14 @@ describe PagesController do
 
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :reset_password_mail_sent
+        visit reset_password_mail_sent_path
         @title =  @base_title + " | Reset Password Mail Sent"
       end
     end
 
     it "should have the correct text" do
-      get :reset_password_mail_sent
-      response.should have_selector("h1", :content => "The reset password mail was sent!")
+      visit reset_password_mail_sent_path
+      page.should have_selector("h1", :text => "The reset password mail was sent!")
     end
   end
 end

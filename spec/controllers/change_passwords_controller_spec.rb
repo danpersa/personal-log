@@ -10,18 +10,19 @@ describe ChangePasswordsController do
     end
     
     describe "success" do
-      before(:each) do
-        test_sign_in(@user)
-        get :new
-      end
       
       it_should_behave_like "successful get request" do
         let(:action) do
+          create_privacies
+          test_web_sign_in(@user)
+          visit new_change_password_path
           @title = @base_title + " | Change Password"
         end
       end
       
       it "should render the new template" do
+        test_sign_in(@user)
+        get :new
         response.should render_template :new
       end
     end

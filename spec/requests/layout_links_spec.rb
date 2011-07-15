@@ -2,35 +2,34 @@ require 'spec_helper'
 
 describe "LayoutLinks" do
   it "should have a Home page at '/'" do
-    get '/'
-    response.should have_selector('title', :content => "Home")
+    visit '/'
+    page.should have_selector('title', :text => "Home")
   end
 
   it "should have a Contact page at '/contact'" do
-    get '/contact'
-    response.should have_selector('title', :content => "Contact")
+    visit '/contact'
+    page.should have_selector('title', :text => "Contact")
   end
 
   it "should have an About page at '/about'" do
-    get '/about'
-    response.should have_selector('title', :content => "About")
+    visit '/about'
+    page.should have_selector('title', :text => "About")
   end
 
   it "should have a Help page at '/help'" do
-    get '/help'
-    response.should have_selector('title', :content => "Help")
+    visit '/help'
+    page.should have_selector('title', :text => "Help")
   end
 
   it "should have a Sign Up page at '/signup'" do
-    get '/signup'
-    response.should have_selector('title', :content => "Sign up")
+    visit '/signup'
+    page.should have_selector('title', :text => "Sign up")
   end
 
   describe "when not signed in" do
     it "should have a signin link" do
       visit root_path
-      response.should have_selector("a", :href => signin_path,
-                                         :content => "Sign in")
+      page.should have_link("Sign in")
     end
   end
 
@@ -40,21 +39,19 @@ describe "LayoutLinks" do
       create_privacies
       @user = Factory(:activated_user)
       visit signin_path
-      fill_in :email,    :with => @user.email
-      fill_in :password, :with => @user.password
-      click_button
+      fill_in "Email",    :with => @user.email
+      fill_in "Password", :with => @user.password
+      click_button "Sign in"
     end
 
     it "should have a signout link" do
       visit root_path
-      response.should have_selector("a", :href => signout_path,
-                                         :content => "Sign out")
+      page.should have_link("Sign out")
     end
 
     it "should have a profile link" do
       visit root_path
-      response.should have_selector("a", :href => user_path(@user),
-                                         :content => "Profile")
+      page.should have_link("Profile")
     end
   end
 end

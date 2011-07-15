@@ -15,7 +15,7 @@ class IdeaListOwnership < ActiveRecord::Base
   private
   
   def unique_relationship
-     if not idea_id.nil? and not idea_list_id.nil? and (IdeaListOwnership.with_idea_and_idea_list(idea, idea_list).count > 0)
+     if not idea_id.nil? and not idea_list_id.nil? and (self.class.with_idea_and_idea_list(idea, idea_list).count > 0)
        errors.add(:idea, "must be unique")
        errors.add(:idea_list, "must be unique")
      end

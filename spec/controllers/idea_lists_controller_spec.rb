@@ -51,7 +51,7 @@ describe IdeaListsController do
         @user = Factory(:user)
         wrong_user = Factory(:user, :email => Factory.next(:email))
         test_sign_in(wrong_user)
-        @idea_list = Factory(:idea_list, :user => @user)
+        @idea_list = Factory.create(:idea_list, :user => @user)
         @idea = Factory(:idea, :user => @user)
       end
 
@@ -123,33 +123,34 @@ describe IdeaListsController do
     
     describe "success" do
       before(:each) do
+        create_privacies
         @user = Factory(:user)
         @idea = Factory(:idea, :user => @user)
-        @idea_list = Factory(:idea_list, :user => @idea.user)
-        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
-        test_sign_in(@user)
+        @idea_list = Factory.create(:idea_list, :user => @idea.user)
+        @idea_list_ownership = Factory.create(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        test_web_sign_in(@user)
       end
     
       it_should_behave_like "successful get request" do
         let(:action) do
-          get :index
+          visit idea_lists_path
           @title = @base_title + " | My idea lists"
         end
       end
       
       it "have an element containing the user's display name" do
-        get :index
-        response.should have_selector("h1", :content => "My idea lists")
+        visit idea_lists_path
+        page.should have_selector("h1", :text => "My idea lists")
       end
       
       it "have a link containing for creating new idea lists" do
-        get :index
-        response.should have_selector("a", :content => "Create new idea list" )
+        visit idea_lists_path
+        page.should have_link "Create new idea list"
       end
       
       it "have a list containing the ideas from the idea list" do
-        get :index
-        response.should have_selector("a", :content => @idea_list.name)
+        visit idea_lists_path
+        page.should have_link @idea_list.name
       end
     end
   end
@@ -158,41 +159,38 @@ describe IdeaListsController do
     
     describe "success" do
       before(:each) do
+        create_privacies
         @user = Factory(:user)
         @idea = Factory(:idea, :user => @user)
-        @idea_list = Factory(:idea_list, :user => @idea.user)
-        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
-        test_sign_in(@user)
+        @idea_list = Factory.create(:idea_list, :user => @idea.user)
+        @idea_list_ownership = Factory.create(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        test_web_sign_in(@user)
+        visit idea_list_path(@idea_list)
       end
       
       it_should_behave_like "successful get request" do
         let(:action) do
-          get :show, :id => @idea_list
           @title = @base_title + " | Show idea list"
         end
       end
       
       it "have an element containing the user's display name" do
-        get :show, :id => @idea_list
-        response.should have_selector("span", :content => @user.display_name)
+        page.should have_selector("span", :text => @user.display_name)
       end
       
       it "have an element containing the user's ideas" do
-        get :show, :id => @idea_list
-        response.should have_selector("span", :content => @idea.content)
+        page.should have_selector("span", :text => @idea.content)
       end
     end
   end
   
   describe "GET 'new'" do
 
-    before(:each) do
-      @user = test_sign_in(Factory(:user))
-    end
-
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :new
+        create_privacies
+        @user = test_web_sign_in(Factory(:user))
+        visit new_idea_list_path
         @title = @base_title + " | Create idea list"
       end
     end
@@ -201,7 +199,8 @@ describe IdeaListsController do
   describe "POST 'create'" do
 
     before(:each) do
-      @user = test_sign_in(Factory(:user))
+      @user = Factory.create(:user)
+      test_sign_in(@user)
     end
     
     describe "success" do
@@ -254,13 +253,15 @@ describe IdeaListsController do
   describe "GET 'edit'" do
 
     before(:each) do
-      @user = test_sign_in(Factory(:user))
+      create_privacies
+      @user = Factory(:user)
+      test_web_sign_in(@user)
       @idea_list = @user.idea_lists.create!({:name => "name"})
     end
 
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :edit, :id => @idea_list.id
+        visit edit_idea_list_path(@idea_list)
         @title = @base_title + " | Update idea list"
       end
     end
@@ -323,10 +324,10 @@ describe IdeaListsController do
     describe "success" do
 
       before(:each) do
-        @user = test_sign_in(Factory(:user))
-        @idea_list = Factory(:idea_list, :user => @user)
-        @idea = Factory(:idea, :user => @user)
-        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        @user = test_sign_in(Factory.create(:user))
+        @idea_list = Factory.create(:idea_list, :user => @user)
+        @idea = Factory.create(:idea, :user => @user)
+        @idea_list_ownership = Factory.create(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
       end
 
       it "should destroy the idea" do
@@ -347,7 +348,7 @@ describe IdeaListsController do
     
     before(:each) do
       @user = test_sign_in(Factory(:user))
-      @idea_list = Factory(:idea_list, :user => @user)
+      @idea_list = Factory.create(:idea_list, :user => @user)
       @idea = Factory(:idea, :user => @user)
     end
       
@@ -362,7 +363,7 @@ describe IdeaListsController do
     
     describe "failure" do
       before(:each) do
-        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
+        @idea_list_ownership = Factory.create(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
       end
       
       it "should not create new idea_list_ownership if already exists" do

@@ -4,13 +4,13 @@ describe "Remind me too Request" do
 
   before(:each) do
     user = Factory(:activated_user)
-    @idea = Factory(:idea, :user => user)
+    @idea = Factory.create(:idea, :user => user)
     public_privacy = Factory(:privacy)
     @reminder = Factory(:reminder, :user => user, :idea => @idea, :created_at => 1.day.ago, :privacy => public_privacy)
     visit signin_path
-    fill_in :email,    :with => user.email
-    fill_in :password, :with => user.password
-    click_button
+    fill_in "Email",    :with => user.email
+    fill_in "Password", :with => user.password
+    click_button "Sign in"
   end
 
   describe "creation" do
@@ -22,9 +22,8 @@ describe "Remind me too Request" do
           visit remind_me_too_path(:idea_id => @idea.id )
           fill_in :reminder_reminder_date, :with => ""
           select "public", :from => "reminder_privacy_id"
-          click_button
-          response.should render_template('reminders/remind_me_too')
-          response.should have_selector("div#error_explanation")
+          click_button "Create reminder"
+          page.should have_css("div#error_explanation")
         end.should_not change(Reminder, :count)
       end
       
@@ -35,7 +34,7 @@ describe "Remind me too Request" do
         @idea.user = user
         @idea.save!
         visit remind_me_too_path(:idea_id => @idea.id )
-        response.should have_selector("div.flash.error", :content => "You want to remind")
+        page.should have_css("div.flash.error", :text => "You want to remind")
       end
     end
 
@@ -47,7 +46,7 @@ describe "Remind me too Request" do
           visit remind_me_too_path(:idea_id => @idea.id )
           fill_in :reminder_reminder_date, :with => reminder_date
           select "public", :from => "reminder_privacy_id"
-          click_button
+          click_button "Create reminder"
         end.should change(Reminder, :count).by(1)
       end
       
@@ -56,8 +55,9 @@ describe "Remind me too Request" do
         visit remind_me_too_path(:idea_id => @idea.id )
         fill_in :reminder_reminder_date, :with => reminder_date
         select "public", :from => "reminder_privacy_id"
-        click_button
-        response.should have_selector("div.flash.success", :content => "Reminder")
+        click_button "Create reminder"
+        #save_and_open_page
+        page.should have_css("div.flash.success", :text => "Reminder")
       end
     end
   end

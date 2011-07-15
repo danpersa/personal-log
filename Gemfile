@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.9'
 gem 'gravatar_image_tag'
 gem "will_paginate", "~> 3.0.pre2"
 gem "transitions", :require => ["transitions", "active_record/transitions"]
@@ -42,6 +42,12 @@ end
 group :test do
   gem 'mysql2', '0.2.6'
   gem 'rspec'
-  gem 'webrat'
+  #gem 'webrat'
   gem 'factory_girl_rails'
+  gem 'spork', '~> 0.9.0.rc'
+  
+  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'launchy'
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
 end

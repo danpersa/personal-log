@@ -11,14 +11,14 @@ describe ResetPasswordsController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :new
+        visit new_reset_password_path
         @title = @base_title + " | Reset Password"
       end
     end
     
     it "should have an email field" do
-      get :new
-      response.should have_selector("input", :id => "reset_password_email")
+      visit new_reset_password_path
+      page.should have_field("Email")
     end
     
     it "should not allow access to already logged users" do
@@ -85,16 +85,6 @@ describe ResetPasswordsController do
           post :create, :reset_password => @invalid_email_attr
           response.should render_template('new')
         end
-        
-        it "should have the right title" do
-          post :create, :reset_password => @invalid_email_attr
-          response.should have_selector("title", :content => "Reset Password")
-        end
-  
-        it "should have a flash.now message" do
-          post :create, :reset_password => @invalid_email_attr
-          response.should have_selector("li", :content => "formatted")
-        end
       end
       
       describe "the email does not exist in the database" do
@@ -105,16 +95,6 @@ describe ResetPasswordsController do
         it "should re render the new template" do
           post :create, :reset_password => @email_attr
           response.should render_template('new')
-        end
-        
-        it "should have the right title" do
-          post :create, :reset_password => @email_attr
-          response.should have_selector("title", :content => "Reset Password")
-        end
-        
-        it "should have a flash.now message" do
-          post :create, :reset_password => @email_attr
-          response.should have_selector("li", :content => "database")
         end
       end
     end

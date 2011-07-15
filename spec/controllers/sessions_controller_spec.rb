@@ -11,7 +11,7 @@ describe SessionsController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :new
+        visit new_session_path
         @title = @base_title + " | Sign in"
       end
     end
@@ -31,11 +31,6 @@ describe SessionsController do
         it "should re-render the new page" do
           post :create, :session => @attr
           response.should render_template('new')
-        end
-  
-        it "should have the right title" do
-          post :create, :session => @attr
-          response.should have_selector("title", :content => "Sign in")
         end
   
         it "should have a flash.now message" do

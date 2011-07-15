@@ -201,19 +201,21 @@ describe RemindersController do
     describe "success" do
       
       before(:each) do
-        user = Factory(:user)
-        test_sign_in user
+        @user = Factory(:user)
       end
       
       it "should return a response" do
+        test_sign_in @user
         get :index
         response.should be_successful
       end
       
       it "should have a next and a previous month" do
-        get :index
-        response.should have_selector("a", :content => ">") 
-        response.should have_selector("a", :content => "<")
+        create_privacies
+        test_web_sign_in @user
+        visit reminders_path
+        page.should have_link(">") 
+        page.should have_link("<")
       end
       
     end

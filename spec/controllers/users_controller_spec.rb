@@ -19,7 +19,8 @@ describe UsersController do
     describe "for signed-in users" do
 
       before(:each) do
-        @user = test_sign_in(Factory(:user))
+        create_privacies
+        @user = test_web_sign_in(Factory(:user))
         second = Factory(:user, :email => "another@example.com")
         third  = Factory(:user, :email => "another@example.net")
         @users = [@user, second, third]
@@ -27,15 +28,15 @@ describe UsersController do
       
       it_should_behave_like "successful get request" do
         let(:action) do
-          get :index
+          visit users_path
           @title = @base_title + " | All users"
         end
       end
 
       it "should have an element for each user" do
-        get :index
-         @users[0..2].each do |user|
-          response.should have_selector("li", :content => user.name)
+        visit users_path
+        @users[0..2].each do |user|
+          page.should have_selector("li", :text => user.name)
         end
       end
 
@@ -43,13 +44,11 @@ describe UsersController do
         30.times do
           @users << Factory(:user, :email => Factory.next(:email))
         end
-        get :index
-        response.should have_selector("div.pagination")
-        response.should have_selector("span.disabled", :content => "Previous")
-        response.should have_selector("a", :href => "/users?page=2",
-                                           :content => "2")
-        response.should have_selector("a", :href => "/users?page=2",
-                                           :content => "Next")
+        visit users_path
+        page.should have_selector("div.pagination")
+        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_link("2")
+        page.should have_link("Next")
       end
     end
   end
@@ -58,7 +57,7 @@ describe UsersController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :new
+        visit new_user_path
         @title = @base_title + " | Sign up"
       end
     end
@@ -73,7 +72,7 @@ describe UsersController do
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :show, :id => @user
+        visit user_path(@user)
         @title = @base_title + " | " + @user.name
       end
     end
@@ -84,13 +83,13 @@ describe UsersController do
     end
 
     it "should include the user's name" do
-      get :show, :id => @user
-      response.should have_selector("h1", :content => @user.name)
+      visit user_path(@user)
+      page.should have_selector("h1", :text => @user.name)
     end
 
     it "should have a profile image" do
-      get :show, :id => @user
-      response.should have_selector("h1>img", :class => "gravatar")
+      visit user_path(@user)
+      page.should have_selector("h1>img")
     end
     
     it "should show the user's reminders" do
@@ -100,9 +99,9 @@ describe UsersController do
       reminder1 = Factory(:reminder, :user => @user, :idea => idea1, :created_at => 1.day.ago, :privacy => @privacy)
       reminder2 = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @privacy)
       
-      get :show, :id => @user
-      response.should have_selector("span.content", :content => idea1.content)
-      response.should have_selector("span.content", :content => idea2.content)
+      visit user_path(@user)
+      page.should have_selector("span.content", :text => idea1.content)
+      page.should have_selector("span.content", :text => idea2.content)
     end
     
     it "should not show private reminders" do
@@ -113,9 +112,9 @@ describe UsersController do
       public_reminder = Factory(:reminder, :user => @user, :idea => idea1, :created_at => 1.day.ago, :privacy => @privacy)
       private_reminder = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @private_privacy)
       
-      get :show, :id => @user
-      response.should have_selector("span.content", :content => idea1.content)
-      response.should_not have_selector("span.content", :content => idea2.content)
+      visit user_path(@user)
+      page.should have_selector("span.content", :text => idea1.content)
+      page.should_not have_selector("span.content", :text => idea2.content)
     end
     
     it "should paginate" do
@@ -123,13 +122,11 @@ describe UsersController do
           idea = Factory(:idea, :user => @user, :content => "Baz quux")
           Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @privacy)
         end
-        get :show, :id => @user
-        response.should have_selector("div.pagination")
-        response.should have_selector("span.disabled", :content => "Previous")
-        response.should have_selector("a", :href => "/users/#{@user.id}?page=2",
-                                           :content => "2")
-        response.should have_selector("a", :href => "/users/#{@user.id}?page=2",
-                                           :content => "Next")
+        visit user_path(@user)
+        page.should have_selector("div.pagination")
+        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_link("2")
+        page.should have_link("Next")
     end
     
     describe "for logged users" do
@@ -143,18 +140,18 @@ describe UsersController do
       
       
       it "should show own private posts" do
-        test_sign_in(@user)
-        get :show, :id => @user
-        response.should have_selector("span.content", :content => @idea1.content)
-        response.should have_selector("span.content", :content => @idea2.content)
+        test_web_sign_in(@user)
+        visit user_path(@user)
+        page.should have_selector("span.content", :text => @idea1.content)
+        page.should have_selector("span.content", :text => @idea2.content)
       end
       
       it "should not show other user's private posts" do
         other_user = Factory(:user, :email => Factory.next(:email))
-        test_sign_in(other_user)
-        get :show, :id => @user
-        response.should have_selector("span.content", :content => @idea1.content)
-        response.should_not have_selector("span.content", :content => @idea2.content)
+        test_web_sign_in(other_user)
+        visit user_path(@user)
+        page.should have_selector("span.content", :text => @idea1.content)
+        page.should_not have_selector("span.content", :text => @idea2.content)
       end
     end
   end
@@ -172,11 +169,6 @@ describe UsersController do
         lambda do
           post :create, :user => @attr
         end.should_not change(User, :count)
-      end
-
-      it "should have the right title" do
-        post :create, :user => @attr
-        response.should have_selector("title", :content => "Sign up")
       end
 
       it "should render the 'new' page" do
@@ -256,22 +248,20 @@ describe UsersController do
 
     describe "success" do
       before(:each) do
-        @user = Factory(:user)
-        test_sign_in(@user)
+        user = Factory(:user)
+        create_privacies
+        test_web_sign_in(user)
+        visit edit_user_path(user)
       end
       
       it_should_behave_like "successful get request" do
         let(:action) do
-          get :edit, :id => @user
           @title = @base_title + " | Edit user"
         end
       end
   
       it "should have a link to change the Gravatar" do
-        get :edit, :id => @user
-        gravatar_url = "http://gravatar.com/emails"
-        response.should have_selector("a", :href => gravatar_url,
-                                           :content => "change")
+        page.should have_link("change")
       end
     end
   end
@@ -293,12 +283,6 @@ describe UsersController do
         put :update, :id => @user, :user => @attr
         response.should render_template :edit
       end
-
-      it "should have the right title" do
-        put :update, :id => @user, :user => @attr
-        response.should have_selector("title", :content => "Edit user")
-      end
-      
     end
 
     describe "success" do
@@ -432,21 +416,20 @@ describe UsersController do
     
     describe "when signed in" do
       before(:each) do
-        @user = test_sign_in(Factory(:user))
+        create_privacies
+        @user = test_web_sign_in(Factory(:user))
         @other_user = Factory(:user, :email => Factory.next(:email))
         @user.follow!(@other_user)
       end
       
       it "should show user following" do
-        get :following, :id => @user
-        response.should have_selector("a", :href => user_path(@other_user),
-            :content => @other_user.name)
+        visit user_path(@user) + "/following"
+        page.should have_link(@other_user.name)
       end
       
       it "should show user followers" do
-        get :followers, :id => @other_user
-        response.should have_selector("a", :href => user_path(@user),
-            :content => @user.name)
+        visit user_path(@other_user) + "/following"
+        page.should have_link(@user.name)
       end
     end
   end
@@ -524,31 +507,30 @@ describe UsersController do
       it "should show the ideas entries" do
         @user = Factory(:user)
         @public_privacy = Factory(:privacy)
-        test_sign_in(@user)
+        test_web_sign_in(@user)
         ideas = []
         3.times do
           ideas << (idea = Factory(:idea, :user => @user, :content => "Baz quux"))
           Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
         end
-        get :ideas, :id => @user
+        visit user_path(@user) + "/ideas"
         ideas.each do |idea|
-          response.should have_selector("span", :content => idea.content)
+          page.should have_selector("span", :text => idea.content)
         end
       end
       
       it "should paginate the ideas" do
         @user = Factory(:user)
         @public_privacy = Factory(:privacy)
-        test_sign_in(@user)
+        test_web_sign_in(@user)
         31.times do
           idea = Factory(:idea, :user => @user, :content => "Baz quux")
           Factory(:reminder, :user => @user, :idea => idea, :created_at => 2.day.ago, :privacy => @public_privacy)
         end
-        get :ideas, :id => @user
-        response.should have_selector("div.pagination")
-        response.should have_selector("span.disabled", :content => "Previous")
-        response.should have_selector("a", :href => "/users/#{@user.id}/ideas?page=2",
-                                           :content => "Next")
+        visit user_path(@user) + "/ideas"
+        page.should have_selector("div.pagination")
+        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_link("Next")
       end
     end
 

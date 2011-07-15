@@ -81,12 +81,13 @@ describe ProfilesController do
   describe "GET 'edit'" do
 
     before(:each) do
-      @user = test_sign_in(Factory(:user))
+      create_privacies
+      @user = test_web_sign_in(Factory(:user))
     end
     
     it_should_behave_like "successful get request" do
       let(:action) do
-        get :edit, :user_id => @user.id
+        visit edit_user_profile_path(:user_id => @user.id)
         @title = @base_title + " | Update public profile"
       end
     end

@@ -67,7 +67,8 @@ PersonalLog::Application.routes.draw do
   match '/contact',                     :to => 'pages#contact'
   match '/about',                       :to => 'pages#about'
   match '/help',                        :to => 'pages#help'
-  match '/reset-password-mail-sent',    :to => 'pages#reset_password_mail_sent'
+  match '/reset-password-mail-sent',    :to => 'pages#reset_password_mail_sent',
+                                        :as => 'reset_password_mail_sent'
   
   match '/remind-me-too/:idea_id',      :to => 'reminders#remind_me_too',
                                         :constraints => { :idea_id => /[0-9]+/ },

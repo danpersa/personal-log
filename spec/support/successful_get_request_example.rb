@@ -9,6 +9,6 @@ shared_examples_for "successful get request" do
   end
   
   it "should have the right title" do
-    response.should have_selector "title", :content => @title
+    page.should have_selector "title", :text => @title
   end
 end
