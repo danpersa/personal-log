@@ -210,11 +210,16 @@ Then /^show me the page$/ do
   save_and_open_page
 end
 
-
-Then /^I should have (\d+) user$/  do |nr_of_users|
+Then /^I should have (\d+) user(?:|s)$/  do |nr_of_users|
   User.count.should == nr_of_users.to_i
 end
 
-Then /^I should have (\d+) users$/  do |nr_of_users|
-  User.count.should == nr_of_users.to_i
+Given /^"([^"]*)"'s the account is activated$/ do |email|
+  user = User.find_by_email(email)
+  user.activate!
+end
+
+Then /^"([^"]*)"'s password should be "([^"]*)"$/ do |email, password|
+  user = User.find_by_email(email)
+  user.has_password?(password).should == true
 end

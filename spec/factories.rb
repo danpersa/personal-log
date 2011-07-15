@@ -4,6 +4,7 @@ Factory.define :user do |user|
   user.email                 "mhartl@example.com"
   user.password              "foobar"
   user.password_confirmation "foobar"
+  user.activation_code       "1234567890"
 end
 
 Factory.define :activated_user, :class => User  do |user|

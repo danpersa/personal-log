@@ -13,6 +13,17 @@ module NavigationHelpers
 
     when /^the sign up\s?page$/
       '/signup'
+      
+    when /^the sign in\s?page$/
+      '/signin'
+      
+    when /^the change password\s?page$/
+      '/change-password'
+      
+    when /^the "(.+)"'s activation page$/
+      user = User.find_by_email($1)
+      activate_path + '?activation_code=' + user.activation_code
+      
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

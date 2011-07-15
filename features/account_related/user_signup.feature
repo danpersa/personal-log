@@ -1,7 +1,7 @@
 Feature: The user signes up
-  In order to use access the application
   As a guest
   I want to sign up for an account
+  So that I can access the application
   
   Scenario: The guest successfully signes up
     Given I am on the sign up page
