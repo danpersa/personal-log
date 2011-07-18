@@ -35,6 +35,19 @@ module NavigationHelpers
     when /^the profile page of "(.+)"$/
       user = User.find_by_email($1)
       user_path(user)
+      
+    when /^the followers page of "(.+)"$/
+      user = User.find_by_email($1)
+      user_path(user) + "/followers"
+      
+    when /^the following page of "(.+)"$/
+      user = User.find_by_email($1)
+      user_path(user) + "/following"
+    
+    when /^the shared idea page$/
+      idea = Idea.first
+      idea_path(idea) + "/users"  
+      
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
