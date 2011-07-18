@@ -3,7 +3,6 @@ Feature: 2.7 - The user accesses the list of users that share the same idea
   I want to see all the users that shares an idea
   So that I can find interesting people to follow
 
-  @focus
   Scenario: The user successfully accesses the list of users that follow another user
     Given a logged user with email "brandon@example.com"
     And the following user exists:
@@ -16,4 +15,3 @@ Feature: 2.7 - The user accesses the list of users that share the same idea
     When I go to the shared idea page
     Then I should see "FirstUser"
     And I should see "SecondUser"
-    And show me the page
