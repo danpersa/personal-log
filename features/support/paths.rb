@@ -26,7 +26,15 @@ module NavigationHelpers
     
     when /^the edit profile page of "(.+)"$/
       user = User.find_by_email($1)
+      edit_user_path(user)
+    
+    when /^the edit public profile page of "(.+)"$/
+      user = User.find_by_email($1)
       user_path(user) + "/profile"
+      
+    when /^the profile page of "(.+)"$/
+      user = User.find_by_email($1)
+      user_path(user)
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
@@ -47,3 +55,4 @@ module NavigationHelpers
 end
 
 World(NavigationHelpers)
+

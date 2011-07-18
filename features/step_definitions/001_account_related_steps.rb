@@ -1,3 +1,19 @@
+Given /^a logged user with email "([^"]*)"$/ do |email|
+  user = Factory(:user, :email => email)
+  password = user.password
+  And %{"#{user.email}"'s the account is activated}
+  And %{the default privacies exist}
+  And %{I sign in with "#{email}" and "#{password}"}
+end
+
+Given /^recaptcha is disabled$/ do
+  PersonalLog::Application.config.recaptcha[:enable] = false  
+end
+
+Given /^recaptcha is enabled$/ do
+  PersonalLog::Application.config.recaptcha[:enable] = true  
+end
+
 Given /^I sign in with "([^"]*)" and "([^"]*)"$/ do |email, password|
   visit signin_path
   fill_in "Email",    :with => email
@@ -23,4 +39,13 @@ Then /^"([^"]*)"'s display name should be "([^"]*)"$/ do |email, display_name|
   user = User.find_by_email(email)
   user.profile.name.should == display_name
   user.display_name.should == display_name
+end
+
+Then /^disable recaptcha for other scenarios/ do
+  PersonalLog::Application.config.recaptcha[:enable] = false  
+end
+
+Then /^"([^"]*)"'s nickname should be "([^"]*)"$/ do |email, nickname|
+  user = User.find_by_email(email)
+  user.name.should == nickname
 end

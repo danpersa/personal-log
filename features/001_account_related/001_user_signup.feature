@@ -4,7 +4,8 @@ Feature: 1.1 - The user signes up
   So that I can access the application
   
   Scenario: The guest successfully signes up
-    Given I am on the sign up page
+    And recaptcha is disabled
+    And I am on the sign up page
     When I fill in the following:
      | Name               | dan            |
      | Email              | dan@yahoo.com  |
@@ -16,7 +17,8 @@ Feature: 1.1 - The user signes up
     And I should have 1 user
 
   Scenario: The password has less than 6 chars
-    Given I am on the sign up page
+    Given recaptcha is enabled
+    And I am on the sign up page
     When I fill in the following:
      | Name               | dan            |
      | Email              | dan@yahoo.com  |
