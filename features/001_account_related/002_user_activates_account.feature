@@ -1,4 +1,4 @@
-Feature: The user activates the account
+Feature: 1.2 - The user activates the account
   As an user
   I want to activate my account
   So that i can access the application

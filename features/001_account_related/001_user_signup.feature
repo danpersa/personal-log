@@ -1,4 +1,4 @@
-Feature: The user signes up
+Feature: 1.1 - The user signes up
   As a guest
   I want to sign up for an account
   So that I can access the application

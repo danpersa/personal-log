@@ -1,9 +1,8 @@
-Feature: The user changes the password
+Feature: 1.5 - The user changes the password
   As an user
   I want to change the password of my account
   So that I can protect my account from unauthorized access
 
-  @focus
   Scenario: The user successfully changes his password
     Given an user exists with an email of "brandon@example.com"
     And "brandon@example.com"'s the account is activated

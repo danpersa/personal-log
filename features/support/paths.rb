@@ -23,7 +23,10 @@ module NavigationHelpers
     when /^the "(.+)"'s activation page$/
       user = User.find_by_email($1)
       activate_path + '?activation_code=' + user.activation_code
-      
+    
+    when /^the edit profile page of "(.+)"$/
+      user = User.find_by_email($1)
+      user_path(user) + "/profile"
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
