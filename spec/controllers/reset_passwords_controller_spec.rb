@@ -44,7 +44,7 @@ describe ResetPasswordsController do
         ActionMailer::Base.deliveries.should_not be_empty
         email = ActionMailer::Base.deliveries.last
         @user = User.find(@user.id)
-        email.encoded.should match(@user.password_reset_code)
+        email.body.encoded.should match(@user.password_reset_code)
         response.should redirect_to(signin_path)
         flash[:success].should =~ /The reset password instructions were sent to your email address!/i
       end

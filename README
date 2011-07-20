@@ -254,3 +254,12 @@ vendor
   External libraries that the application depends on. Also includes the plugins
   subdirectory. If the app has frozen rails, those gems also go here, under
   vendor/rails/. This directory is in the load path.
+
+init guard
+bundle exec guard init rspec
+
+start guard
+bundle exec guard
+
+running spork
+bundle exec spork

@@ -21,7 +21,7 @@ describe UserMailer do
     end
     
     it "should containt the correct activation code" do
-      @email.encoded.should match(@user.activation_code)
+      @email.body.encoded.should match(@user.activation_code)
     end
   end
   
@@ -45,7 +45,7 @@ describe UserMailer do
     end
     
     it "should containt the correct activation code" do
-      @email.encoded.should match(@user.password_reset_code)
+      @email.body.encoded.should match(@user.password_reset_code)
     end
   end
 end

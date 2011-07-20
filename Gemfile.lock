@@ -76,12 +76,17 @@ GEM
     gherkin (2.4.5)
       json (>= 1.4.6)
     gravatar_image_tag (1.0.0)
+    guard (0.5.1)
+      thor (~> 0.14.6)
+    guard-rspec (0.4.0)
+      guard (>= 0.4.0)
     i18n (0.5.0)
     json (1.5.3)
     json_pure (1.5.3)
     launchy (0.4.0)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
+    libnotify (0.5.7)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -111,6 +116,8 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rb-inotify (0.8.5)
+      ffi (>= 0.5.0)
     rdoc (3.8)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
@@ -153,10 +160,13 @@ DEPENDENCIES
   factory_girl_rails
   faker
   gravatar_image_tag
+  guard-rspec
   launchy
+  libnotify
   mysql2 (= 0.2.6)
   rails (= 3.0.9)
   rake (= 0.8.7)
+  rb-inotify
   rspec
   rspec-rails
   spork (~> 0.9.0.rc)

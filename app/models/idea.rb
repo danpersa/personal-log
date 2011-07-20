@@ -64,7 +64,7 @@ class Idea < ActiveRecord::Base
   end
   
   private
-  
+
   def self.followed_by(user)
     followed_ids = %(SELECT followed_id FROM relationships WHERE follower_id = :user_id)
     public_privacy_id = Privacy.public_privacy_id
