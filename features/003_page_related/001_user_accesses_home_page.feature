@@ -3,7 +3,6 @@ Feature: 3.1 - The user accesses the home page
   I want to see the last activity of the people I follow
   So that I can be in touch with them
 
-  @focus
   Scenario: The user successfully accesses the home page 
     Given a logged user with email "brandon@example.com"
     And the following user exists:
@@ -26,4 +25,3 @@ Feature: 3.1 - The user accesses the home page
     And I should see "2 followers"
     And I should see "1 following"
     And I should see "1 idea"
-

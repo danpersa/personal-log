@@ -25,8 +25,12 @@ Factory.sequence :idea_list_name do |n|
   "idea_list_name#{n}"
 end
 
+Factory.sequence :idea_content do |n|
+  "idea_content#{n}"
+end
+
 Factory.define :idea do |idea|
-  idea.content "Foo bar"
+  idea.content "Foo bar " + Factory.next(:idea_content)
   idea.association :user
 end
 

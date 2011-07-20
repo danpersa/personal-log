@@ -50,6 +50,11 @@ module NavigationHelpers
     
     when /^the new idea list page$/
       new_idea_list_path
+    
+    when /^the "(.+)"'s ideas page$/
+      user = User.find_by_email($1)
+      user_path(user) + "/ideas"  
+      
       
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

@@ -7,6 +7,6 @@ Feature: 2.1 - The user accesses his profile page
     Given a logged user with email "brandon@example.com"
     And "brandon@example.com"' has some reminders
     When I go to the profile page of "brandon@example.com"
-    Then I should see "brandon@example.com"'s name
+    Then I should see "brandon@example.com"'s display name
     And I should see "...wants to remind to..."
     And I should see "Idea Lists"
