@@ -50,6 +50,12 @@ module NavigationHelpers
     
     when /^the new idea list page$/
       new_idea_list_path
+      
+    when /^the calendar page$/
+      reminders_path
+      
+    when /^the calendar page on "(.+)"$/
+      reminders_path + "?month=" + $1
     
     when /^the "(.+)"'s ideas page$/
       user = User.find_by_email($1)
