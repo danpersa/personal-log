@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
   before_create :make_activation_code
   
   scope :users_with_public_or_own_reminders_for_idea, lambda { |idea, user| users_with_public_or_own_reminders_for_idea(idea, user) }
+  scope :user_has_public_or_own_reminders_for_idea, lambda { |idea, user| user_has_public_or_own_reminders_for_idea(idea, user) }
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
@@ -152,7 +153,7 @@ class User < ActiveRecord::Base
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
-    group("users.id, users.name, users.email, users.activation_code, users.encrypted_password, users.salt, users.password_reset_code, users.activated_at, users.reset_password_mail_sent_at, users.state, users.admin, users.created_at, users.updated_at").
+    group("users.id, users.name, users.email, users.salt, users.encrypted_password, users.activation_code, users.activated_at, users.state, users.admin, users.created_at, users.updated_at, users.password_reset_code, users.reset_password_mail_sent_at").
     order("max(reminders.created_at) ASC")
   end
 
@@ -168,7 +169,10 @@ class User < ActiveRecord::Base
   end
 
   def make_salt
-    secure_hash("#{Time.now.utc}--#{password}")
+    begin
+      salt = secure_hash("#{Time.now.utc}--#{password}--#{SecureRandom.urlsafe_base64}")
+    end while User.exists?(:salt => salt)
+    return salt
   end
 
   def secure_hash(string)

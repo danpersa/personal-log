@@ -46,7 +46,10 @@ module NavigationHelpers
     
     when /^the shared idea page$/
       idea = Idea.first
-      idea_path(idea) + "/users"  
+      idea_path(idea) + "/users"
+    
+    when /^the new idea list page$/
+      new_idea_list_path
       
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

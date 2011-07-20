@@ -2,7 +2,7 @@
   <td class="item">
     <span class="content"><%= reminder.idea.content %> on <%= reminder.reminder_date %></span>
     <span class="timestamp">
-      Posted <%= time_ago_in_words(reminder.created_at) %> ago.
+      Posted <%= time_ago_in_words(reminder.created_at) %> ago as <%= reminder.privacy.name %>.
     </span>
     <% unless current_user?(reminder.user) %>
     <span class="item-toolbar">

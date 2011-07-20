@@ -1,6 +1,6 @@
 <tr id="feed-item-<%=feed_item_idea.id%>" class="show-close-button">
   <% users_for_idea = @users_with_public_or_own_reminders_for_idea[feed_item_idea] %>
-  <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed_item_idea].size %>
+  <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed_item_idea] %>
   <% newest_reminder_for_idea = @newest_public_or_own_reminder_for_idea[feed_item_idea] %>
 
   <td class="gravatar">
@@ -20,11 +20,13 @@
     <span class="timestamp">
       Posted <%= time_ago_in_words(newest_reminder_for_idea.created_at) %> ago
     </span>
-
-    <% unless current_user_id?(feed_item_idea.user_id) %>
+    
     <span class="item-toolbar">
-      <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> ·
+      <% unless feed_item_idea.shared_by?(current_user) %>
+        <%= link_to "Remind me too", remind_me_too_path(:idea_id => feed_item_idea.id) %> ·
+      <% else %>
+        <%= link_to "Create new reminder", remind_me_too_path(:idea_id => feed_item_idea.id) %> ·
+      <% end %>
     </span>
-    <% end %>
   </td>
 </tr>
