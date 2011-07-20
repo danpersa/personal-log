@@ -3,7 +3,7 @@ Feature: 6.3 - The user sees a popup when puts his mouse over a reminder from th
   I want to see the details of a reminder from the calendar, without changing the page
   So that I can be able to manage my reminders faster
 
-  @focus @javascript
+  @javascript
   Scenario: The user successfully sees sees the popup with the reminder's details
     Given a logged user with email "brandon@example.com"
     And "brandon@example.com" shares one idea on "10/10/2012"
