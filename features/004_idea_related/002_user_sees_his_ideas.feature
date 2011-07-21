@@ -7,7 +7,7 @@ Feature: 4.2 - The user can see all his ideas
 
   Scenario: The user successfully sees his ideas
     Given a logged user with email "brandon@example.com"
-    And "brandon@example.com" shares some ideas
+    And "brandon@example.com" shares 5 ideas
     When I go to the "brandon@example.com"'s ideas page
     Then I should see "brandon@example.com"'s display name
     Then I should see "...has the next ideas..."

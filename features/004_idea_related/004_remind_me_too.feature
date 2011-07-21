@@ -10,7 +10,7 @@ Feature: 4.4 - The user shares another users's idea using the remind me too butt
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     And "brandon@example.com" follows "first@example.com"
-    And "first@example.com" shares an idea
+    And "first@example.com" shares 1 idea
     And I am on the home page
     When I follow "Remind me too"
     And I fill in "reminder_reminder_date" with "05/05/2020"
@@ -25,7 +25,7 @@ Feature: 4.4 - The user shares another users's idea using the remind me too butt
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     And "brandon@example.com" follows "first@example.com"
-    And "first@example.com" shares an idea
+    And "first@example.com" shares 1 idea
     And I am on the profile page of "first@example.com"
     When I follow "Remind me too"
     And I fill in "reminder_reminder_date" with "05/05/2020"

@@ -5,7 +5,7 @@ Feature: 6.1 - The user sees all his reminders in a calendar screen
 
   Scenario: The user successfully sees all his reminders in a calendar
     Given a logged user with email "brandon@example.com"
-    And "brandon@example.com" shares some ideas on "10/10/2012"
+    And "brandon@example.com" shares 5 ideas on "10/10/2012"
     When I go to the calendar page on "2012-10"
     Then I should see "brandon@example.com"'s ideas content trimmed
     

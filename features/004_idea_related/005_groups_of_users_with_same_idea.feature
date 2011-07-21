@@ -10,7 +10,7 @@ Feature: 4.5 - The user sees all the users that have the same idea on his dashbo
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     | SecondUser    | second@example.com |
-    And "first@example.com" shares an idea
+    And "first@example.com" shares 1 idea
     And "second@example.com" shares the same idea
     And "brandon@example.com" follows "second@example.com"
     When I go to the home page
@@ -24,7 +24,7 @@ Feature: 4.5 - The user sees all the users that have the same idea on his dashbo
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     | SecondUser    | second@example.com |
-    And "brandon@example.com" shares an idea
+    And "brandon@example.com" shares 1 idea
     And "first@example.com" shares the same idea
     And "second@example.com" shares the same idea
     When I go to the home page
@@ -38,7 +38,7 @@ Feature: 4.5 - The user sees all the users that have the same idea on his dashbo
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     | SecondUser    | second@example.com |
-    And "second@example.com" shares an idea
+    And "second@example.com" shares 1 idea
     And "first@example.com" shares the same idea
     When I go to the home page
     Then I should not see "FirstUser"

@@ -48,6 +48,10 @@ module NavigationHelpers
       idea = Idea.first
       idea_path(idea) + "/users"
     
+    when /^the "brandon@example.com"'s idea page$/
+      idea = Idea.first
+      idea_path(idea)
+    
     when /^the new idea list page$/
       new_idea_list_path
       

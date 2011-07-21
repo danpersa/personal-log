@@ -9,7 +9,7 @@ Feature: 3.1 - The user accesses the home page
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     | SecondUser    | second@example.com |
-    And "brandon@example.com" shares an idea
+    And "brandon@example.com" shares 1 idea
     And "first@example.com" shares the same idea
     And "second@example.com" shares the same idea
     And "brandon@example.com" has and idea list of name "TheIdeaList"

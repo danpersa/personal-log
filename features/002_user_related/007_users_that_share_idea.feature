@@ -9,7 +9,7 @@ Feature: 2.7 - The user accesses the list of users that share the same idea
     | Name          | Email              |
     | FirstUser     | first@example.com  |
     | SecondUser    | second@example.com |
-    And "brandon@example.com" shares an idea
+    And "brandon@example.com" shares 1 idea
     And "first@example.com" shares the same idea
     And "second@example.com" shares the same idea
     When I go to the shared idea page

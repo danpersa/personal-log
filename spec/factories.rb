@@ -54,8 +54,10 @@ Factory.define :reminder do |reminder|
 end
 
 Factory.define :idea_list do |idea_list|
-  idea_list.name Factory.next(:idea_list_name)
   idea_list.association :user
+  idea_list.after_build do |il|  
+    il.name = Factory.next(:idea_list_name)
+  end
 end
 
 Factory.define :idea_list_ownership do |idea_list_ownership|
