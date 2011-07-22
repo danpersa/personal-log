@@ -2,11 +2,10 @@
 
 <%= link_to "Create new idea list", new_idea_list_path, :remote => true %>
 <p/>
-<%= will_paginate %>
-<table class="items" id="idea-list">
-  <%= render @idea_lists %>
-</table>
-<%= will_paginate %>
+
+<div id="ideas">
+  <%= render 'idea_list_table' %>
+</div>
 
 <div id="idea_list_dialog" title="Edit idea list" ></div>
 

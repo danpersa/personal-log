@@ -88,10 +88,14 @@ class IdeaListsController < ApplicationController
           redirect_to idea_lists_path 
         }
       else
-        flash[:notice] = "Idea list was not successfully deleted"
-        format.html { redirect_to idea_lists_path }
+        format.html {
+          flash[:notice] = "Idea list was not successfully deleted" 
+          redirect_to idea_lists_path 
+        }
       end
-      format.js
+      format.js {
+        
+      }
     end
   end
   
