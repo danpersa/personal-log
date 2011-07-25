@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/jchunky/table_builder.git
+  remote: https://github.com/jchunky/table_builder.git
   revision: 861e57bc1c1cddcf877db950fb400226be15ea71
   specs:
     table_builder (0.0.3)
 
 GIT
-  remote: git://github.com/jnicklas/capybara.git
-  revision: 6a17be47958efd40fada26efe92e43b3af468db9
+  remote: https://github.com/jnicklas/capybara.git
+  revision: 4fc07dbdc8146bb7ea6039779af6b0fef2196abb
   specs:
     capybara (1.0.0)
       mime-types (>= 1.16)
@@ -46,10 +46,9 @@ GEM
       activemodel (= 3.0.9)
       activesupport (= 3.0.9)
     activesupport (3.0.9)
-    annotate-models (1.0.4)
     arel (2.0.10)
     builder (2.1.2)
-    childprocess (0.1.9)
+    childprocess (0.2.0)
       ffi (~> 1.0.6)
     configuration (1.3.1)
     cucumber (1.0.1)
@@ -153,7 +152,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  annotate-models
   capybara!
   cucumber-rails
   database_cleaner

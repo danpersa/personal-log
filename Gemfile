@@ -10,7 +10,7 @@ gem "transitions", :require => ["transitions", "active_record/transitions"]
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'faker'
-gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git'
+gem 'table_builder', '0.0.3', :git => 'https://github.com/jchunky/table_builder.git'
 gem "rake", "0.8.7"
 
 # Use unicorn as the web server
@@ -36,7 +36,7 @@ gem "rake", "0.8.7"
 group :development do
   gem 'mysql2', '0.2.6'
   gem 'rspec-rails'
-  gem 'annotate-models'
+#  gem 'annotate-models'
 end
 
 group :test do
@@ -46,7 +46,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'spork', '~> 0.9.0.rc'
   
-  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'capybara', :git => 'https://github.com/jnicklas/capybara.git'
   gem 'launchy'
   gem 'cucumber-rails'
   gem 'database_cleaner'
