@@ -5,24 +5,33 @@ class IdeaListsController < ApplicationController
   
   respond_to :html, :js
   
+  @@items_per_page = 5
+  
   def index
     @user = current_user
-    @idea_lists = IdeaList.where("lower(name) like lower(?)", "%#{params[:q]}%").owned_by(current_user)
     @idea_list = IdeaList.new
     @edit_idea_list = IdeaList.new
     @edit_idea_list.id = 0;
     @edit_idea_list.name = "";
     @title = "My idea lists"
     respond_to do |format|
-      format.html {@idea_lists = @idea_lists.paginate(:page => params[:page])}
-      format.json { render :json => @idea_lists.map(&:attributes) }
+      format.html {
+        init_idea_lists_with_pagination
+      }
+      format.json {
+        @idea_lists = IdeaList.where("lower(name) like lower(?)", "%#{params[:q]}%").owned_by(current_user) 
+        render :json => @idea_lists.map(&:attributes) 
+      }
+      format.js {
+        init_idea_lists_with_pagination
+      }
     end
   end
   
   def show
     @user = current_user
     @idea_list = IdeaList.find_by_id(params[:id])
-    @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:page => params[:page])
+    @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:per_page => @@items_per_page, :page => params[:page])
     @title = "Show idea list"
   end
   
@@ -39,17 +48,21 @@ class IdeaListsController < ApplicationController
 
     respond_to do |format|
       if @idea_list.save
+        flash[:success] = "Idea list successfully created"
         format.html {
-          flash[:success] = "Idea list successfully created"
           redirect_to idea_lists_path
+        }
+        format.js { 
+          init_idea_lists_with_pagination
+          respond_with( @idea_list, :layout => !request.xhr? ) 
         }
       else
         format.html {
           @title = "Create idea list"
           render :new 
         }
+        format.js { respond_with( @idea_list, :layout => !request.xhr? ) }
       end
-      format.js { respond_with( @idea_list, :layout => !request.xhr? ) }
     end
   end
     
@@ -59,42 +72,47 @@ class IdeaListsController < ApplicationController
     respond_with_remote_form
   end
   
-  def update
+  def update#products th a, #products 
     respond_to do |format|
       # the idea list is searched in the own_idea_list before interceptor
       if @idea_list.update_attributes params[:idea_list]
-        format.html {
-          flash[:success] = "Idea list successfully updated" 
+        flash[:success] = "Idea list successfully updated"
+        format.html { 
           redirect_to idea_lists_path 
+        }
+        format.js {
+          init_idea_lists_with_pagination
+          @hide_buttons = true
+          respond_with( @idea_list, :layout => !request.xhr? )
         }
       else
         format.html {
           @title = "Update idea list" 
           render :edit 
         }
+        format.js {
+          @hide_buttons = true
+          respond_with( @idea_list, :layout => !request.xhr? )
+        }
       end
-      format.js {
-        @hide_buttons = true
-        respond_with( @idea_list, :layout => !request.xhr? )
-      }
     end
   end
   
   def destroy
     respond_to do |format|
       if @idea_list.destroy
+        flash[:success] = "Idea list successfully deleted"
         format.html {
-          flash[:success] = "Idea list successfully deleted"
           redirect_to idea_lists_path 
         }
       else
-        format.html {
-          flash[:notice] = "Idea list was not successfully deleted" 
+        flash[:notice] = "Idea list was not successfully deleted"
+        format.html { 
           redirect_to idea_lists_path 
         }
       end
       format.js {
-        
+        init_idea_lists_with_pagination
       }
     end
   end
@@ -115,6 +133,15 @@ class IdeaListsController < ApplicationController
   end
   
   private
+  
+  def init_idea_lists_with_pagination
+    @idea_lists = IdeaList.owned_by(current_user)
+    with_pagination
+  end
+  
+  def with_pagination
+    @idea_lists = @idea_lists.paginate(:per_page => @@items_per_page, :page => params[:page])
+  end
   
   def own_idea_or_public
     @idea = Idea.find_by_id(params[:idea_id])

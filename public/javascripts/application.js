@@ -6,19 +6,7 @@ $( function() {
   $("#reminder_post").button();
   
 
-  $('div.hover').hover( function() {
-    $(this).addClass('ui-state-hover');
-  }, function() {
-    $(this).removeClass('ui-state-hover');
-  }
-  );
-
-  $('tr.show-close-button').hover( function() {
-    $(this).find("div.icon-button").removeClass('invisible');
-  }, function() {
-    $(this).find("div.icon-button").addClass('invisible');
-  }
-  );
+  initHoverIcons();
   
   $("#reminder_privacy_id").selectmenu({
     transferClasses: true,
@@ -60,6 +48,22 @@ function updateErrors(form, field, prefix, t) {
   setTimeout(function() {
     form.find('#' + prefix + field + '_errors').removeClass( "ui-state-highlight", 500 );
   }, 250 );
+}
+
+function initHoverIcons() {
+  $('div.hover').hover( function() {
+    $(this).addClass('ui-state-hover');
+  }, function() {
+    $(this).removeClass('ui-state-hover');
+  }
+  );
+
+  $('tr.show-close-button').hover( function() {
+    $(this).find("div.icon-button").removeClass('invisible');
+  }, function() {
+    $(this).find("div.icon-button").addClass('invisible');
+  }
+  );
 }
 
 

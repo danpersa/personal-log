@@ -1,27 +1,2 @@
 var el = $("#new_idea_list");
-<% if @idea_list.errors.any? %>
-
-  // Create a list of errors
-  var errors = $('<div/>');
-
-  <% @idea_list.errors.keys.each do |field_error_key| %>
-    <% @idea_list.errors[field_error_key].each do |error| %>
-      errors.append('<%= escape_javascript(error) %><br/>');
-    <% end %>
-    updateErrors(el, '<%=field_error_key%>', 'idea_list_', errors);
-  <% end %>
-
-<% else %>
-
-  addNotificationSuccess("Idea list successfully created");
-
-  // We could also render a partial to display the idea list here
-  $('#idea-list').prepend('<%= escape_javascript(render(:partial => "idea_list", :object => @idea_list)) %>');
-
-  $("button, input:submit").button();
-  // Clear form
-  el.find('input:text,textarea').val('');
-  el.find('.errors').empty();
-  $("#idea_list_dialog").dialog("close");
-  $("#idea_list_dialog").dialog("destroy");
-<% end %>
+<%= render("create_update") %>

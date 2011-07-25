@@ -1,0 +1,19 @@
+<% if @idea_list.errors.any? %>
+  // Create a list of errors
+  var errors = $('<div/>');
+  <% @idea_list.errors.keys.each do |field_error_key| %>
+    <% @idea_list.errors[field_error_key].each do |error| %>
+      errors.append('<%= escape_javascript(error) %><br/>');
+    <% end %>
+    updateErrors(el, '<%=field_error_key%>', 'idea_list_', errors);
+  <% end %>
+<% else %>
+  addNotificationSuccess("<%= escape_javascript(flash[:success]) %>");
+  <%= render(:partial => "idea_list_table_update") %>
+  $("button, input:submit").button();
+  // Clear form
+  el.find('input:text,textarea').val('');
+  el.find('.errors').empty();
+  $("#idea_list_dialog").dialog("close");
+  $("#idea_list_dialog").dialog("destroy");
+<% end %>
