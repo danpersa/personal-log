@@ -21,16 +21,16 @@ class RemindersController < ApplicationController
     @reminder.idea = @idea
     respond_to do |format|
       if @reminder.save
-        format.html {
-          flash[:success] = "Reminder successfully created!"
-          redirect_to root_path
-        }
+        flash[:success] = "Reminder successfully created!"
+        format.html { redirect_to root_path }
       else
         format.html {
           render :remind_me_too
         }
       end
-      format.js { respond_with( @reminder, :layout => !request.xhr? ) }
+      format.js {
+        respond_with( @reminder, :layout => !request.xhr? ) 
+      }
     end
   end
   

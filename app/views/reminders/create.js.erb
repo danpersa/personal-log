@@ -1,20 +1,6 @@
-var el = $("#new_reminder");
-<% if @reminder.errors.any? %>
+var prefix = 'reminder_';
+var dialog_selector = "#remind_me_too_dialog";
+<% @model = @reminder %>
+var form_selector = $('#new_reminder');
+<%= render "shared/create_update" %>
 
-  // Create a list of errors
-  var errors = $('<div/>');
-
-  <% @reminder.errors.keys.each do |field_error_key| %>
-    <% @reminder.errors[field_error_key].each do |error| %>
-      errors.append('<%= escape_javascript(error) %><br/>');
-    <% end %>
-    updateErrors(el, '<%=field_error_key%>', 'reminder_', errors);
-  <% end %>
-<% else %>
-  addNotificationSuccess("Reminder successfully created");
-  // Clear form
-  el.find('input:text,textarea').val('');
-  el.find('.errors').empty();
-  $("#remind_me_too_dialog").dialog("close");
-  $("#remind_me_too_dialog").dialog("destroy");
-<% end %>

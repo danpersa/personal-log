@@ -1,0 +1,19 @@
+<% if @model.errors.any? %>
+  // Create a list of errors
+  var errors = $('<div/>');
+  <% @model.errors.keys.each do |field_error_key| %>
+    <% @model.errors[field_error_key].each do |error| %>
+      errors.append('<%= escape_javascript(error) %><br/>');
+    <% end %>
+    updateErrors(form_selector, '<%=field_error_key%>', prefix, errors);
+  <% end %>
+<% else %>
+  <%= render(:partial => "table_update") %>
+  addNotificationSuccess("<%= escape_javascript(flash[:success]) %>");
+  $("button, input:submit").button();
+  // Clear form
+  form_selector.find('input:text,textarea').val('');
+  form_selector.find('.errors').empty();
+  $(dialog_selector).dialog("close");
+  $(dialog_selector).dialog("destroy");
+<% end %>

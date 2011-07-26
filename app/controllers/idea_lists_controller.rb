@@ -62,7 +62,6 @@ class IdeaListsController < ApplicationController
           render :new 
         }
         format.js {
-          @form_selector = '#new_idea_list'
           respond_with( @idea_list, :layout => !request.xhr? ) }
       end
     end
@@ -93,7 +92,6 @@ class IdeaListsController < ApplicationController
           render :edit 
         }
         format.js {
-          @form_selector = "#edit_idea_list_#{@idea_list.id}" 
           @hide_buttons = true
           respond_with( @idea_list, :layout => !request.xhr? )
         }

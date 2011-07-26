@@ -1,1 +1,5 @@
-<%= render "create_update" %>
+var prefix = 'idea_list_';
+var dialog_selector = "#idea_list_dialog";
+<% @model = @idea_list %>
+var form_selector = $('#edit_idea_list_<%= @idea_list.id %>');
+<%= render "shared/create_update" %>
