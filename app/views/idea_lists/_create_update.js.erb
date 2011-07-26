@@ -1,3 +1,4 @@
+var el = $("<%= escape_javascript(@form_selector) %>");
 <% if @idea_list.errors.any? %>
   // Create a list of errors
   var errors = $('<div/>');
@@ -8,8 +9,8 @@
     updateErrors(el, '<%=field_error_key%>', 'idea_list_', errors);
   <% end %>
 <% else %>
+  <%= render(:partial => "table_update") %>
   addNotificationSuccess("<%= escape_javascript(flash[:success]) %>");
-  <%= render(:partial => "idea_list_table_update") %>
   $("button, input:submit").button();
   // Clear form
   el.find('input:text,textarea').val('');

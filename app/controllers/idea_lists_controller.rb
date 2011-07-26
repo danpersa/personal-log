@@ -52,7 +52,7 @@ class IdeaListsController < ApplicationController
         format.html {
           redirect_to idea_lists_path
         }
-        format.js { 
+        format.js {
           init_idea_lists_with_pagination
           respond_with( @idea_list, :layout => !request.xhr? ) 
         }
@@ -61,7 +61,9 @@ class IdeaListsController < ApplicationController
           @title = "Create idea list"
           render :new 
         }
-        format.js { respond_with( @idea_list, :layout => !request.xhr? ) }
+        format.js {
+          @form_selector = '#new_idea_list'
+          respond_with( @idea_list, :layout => !request.xhr? ) }
       end
     end
   end
@@ -91,6 +93,7 @@ class IdeaListsController < ApplicationController
           render :edit 
         }
         format.js {
+          @form_selector = "#edit_idea_list_#{@idea_list.id}" 
           @hide_buttons = true
           respond_with( @idea_list, :layout => !request.xhr? )
         }

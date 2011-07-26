@@ -1,0 +1,5 @@
+<%= will_paginate :params => { :controller => "idea_lists", :action => "index" } %>
+<table class="items" id="idea-list">
+  <%= render @idea_lists %>
+</table>
+<%= will_paginate :params => { :controller => "idea_lists", :action => "index" } %>

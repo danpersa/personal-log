@@ -37,7 +37,6 @@ describe IdeaList do
         other_user = Factory(:user, :email => Factory.next(:email))
         other_user.idea_lists.build(@attr).should be_valid
       end
-        
     end
   end
   
