@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     end
     
     if @user.save
-      flash[:success] = "Please follow the steps from the email we sent you to activate your account!"
+      flash[:success] = "Please follow the steps from the email we sent you to activate your account!!"
       redirect_to signin_path
     else
       @title = "Sign up"
