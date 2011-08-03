@@ -149,16 +149,6 @@ describe User do
     it "should have the right ideas in the right order" do
       @user.ideas.order("ideas.created_at DESC").should == [@mp2, @mp1]
     end
-
-    it "should destroy associated ideas" do
-      @user.destroy
-      [@mp1, @mp2].each do |idea|
-        Idea.find_by_id(idea.id).should be_nil
-      end
-    #lambda do
-    #   Idea.find(idea.id)
-    #end.should raise_error(ActiveRecord::RecordNotFound)
-    end
   end
   
   describe "idea list associations" do
@@ -175,13 +165,6 @@ describe User do
 
     it "should have the right idea lists" do
       @user.idea_lists.should == [@idea_list1, @idea_list2]
-    end
-
-    it "should destroy associated idea_lists" do
-      @user.destroy
-      [@idea_list1, @idea_list2].each do |idea_list|
-        IdeaList.find_by_id(idea_list.id).should be_nil
-      end
     end
   end
   
@@ -201,12 +184,6 @@ describe User do
     
     it "should have the right reminders in the right order" do
       @user.reminders.order("reminders.created_at DESC").should == [@reminder2, @reminder1]
-    end
-    
-    it "should destroy associated reminders" do
-      @user.destroy
-      Reminder.find_by_id(@reminder1.id).should be_nil
-      Reminder.find_by_id(@reminder2.id).should be_nil
     end
     
     describe "status feed" do
@@ -440,6 +417,56 @@ describe User do
         @user.reminders_for_logged_user(nil).should == [@public_reminder]
       end
       
+    end
+  end
+  
+  describe "destroy" do
+    
+    before(:each) do
+      @user = User.create(@attr)
+    end
+    
+    it "should destroy associated private ideas" do
+      mp1 = Factory(:idea, :user => @user, :created_at => 1.day.ago)
+      mp2 = Factory(:idea, :user => @user, :created_at => 1.hour.ago)
+      @user.destroy
+      [mp1, mp2].each do |idea|
+        Idea.find_by_id(idea.id).should be_nil
+      end
+      #lambda do
+      #   Idea.find(idea.id)
+      #end.should raise_error(ActiveRecord::RecordNotFound)
+      pending
+    end
+    
+    it "should destroy associated public ideas that were not shared by others" do
+      pending
+    end
+    
+    it "should destroy associated idea_lists" do
+      idea_list1 = Factory(:idea_list, :user => @user)
+      idea_list2 = Factory(:idea_list, :user => @user, :name => "name 1")
+      @user.destroy
+      [idea_list1, idea_list2].each do |idea_list|
+        IdeaList.find_by_id(idea_list.id).should be_nil
+      end
+    end
+    
+    it "should destroy associated reminders" do
+      privacy = Factory(:privacy)
+      idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)
+      reminder1 = Factory(:reminder, :user => @user, :idea => idea, :privacy => privacy, :created_at => 1.day.ago)
+      reminder2 = Factory(:reminder, :user => @user, :idea => idea, :privacy => privacy, :created_at => 1.hour.ago)
+      @user.destroy
+      Reminder.find_by_id(reminder1.id).should be_nil
+      Reminder.find_by_id(reminder2.id).should be_nil
+    end
+    
+    it "should destroy associated profile" do
+      user = Factory(:activated_user)
+      profile = Factory(:profile, :user => user)
+      user.destroy
+      Profile.find_by_id(profile.id).should be_nil
     end
   end
 end

@@ -371,7 +371,14 @@ describe UsersController do
     end
 
     describe "as a non-admin user" do
-      it "should protect the page" do
+      it "should protect the page if the user tries to delete other user's account" do
+        test_sign_in(@user)
+        other_user = Factory(:user, :email => "other@yahoo.com")
+        delete :destroy, :id => other_user
+        response.should redirect_to(root_path)
+      end
+      
+      it "should allow access if the user tries to delete his own account" do
         test_sign_in(@user)
         delete :destroy, :id => @user
         response.should redirect_to(root_path)

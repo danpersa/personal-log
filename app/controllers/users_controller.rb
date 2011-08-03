@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :activate_user, :except => [:show, :new, :create, :activate, :reset_password, :change_reseted_password]
   before_filter :existing_user, :only => [:show, :edit, :update, :destroy, :following, :followers, :ideas]
   before_filter :correct_user, :only => [:edit, :update, :ideas]
-  before_filter :admin_user, :only => :destroy
+  before_filter :admin_or_correct_user, :only => :destroy
   before_filter :not_authenticate, :only => [:change_reseted_password]
   
 
@@ -66,10 +66,17 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if (current_user?(@user))
+      delete_own_account = true
+    end
     # the user is searched in the existing_user before interceptor
     @user.destroy
-    flash[:success] = "User destroyed."
-    redirect_to users_path
+    if (delete_own_account)
+      redirect_to root_path
+    else
+      flash[:success] = "User destroyed."
+      redirect_to users_path
+    end
   end
   
   def following
@@ -116,7 +123,6 @@ class UsersController < ApplicationController
     @own_ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page])
   end
 
-
   private 
 
   def existing_user
@@ -127,8 +133,8 @@ class UsersController < ApplicationController
   def correct_user
     redirect_to(root_path) unless current_user?(@user)
   end
-
-  def admin_user
-    redirect_to(root_path) unless current_user.admin?
+  
+  def admin_or_correct_user
+    redirect_to(root_path) unless current_user.admin? or current_user?(@user)  
   end
 end

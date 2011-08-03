@@ -25,3 +25,8 @@
 <% content_for :sidebar do %>
   <%= render 'shared/settings_menu' %>
 <% end %>
+
+<%= link_to "Delete your account", user_path(current_user), 
+                                  :method => :delete,
+                                  :confirm => "Once you delete your account, there is no going back. Please be certain. Are you really sure?",
+                                  :title => "Delete your account", %>
