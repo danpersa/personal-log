@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, 
                   :activation_code
 
-  has_many :ideas, :dependent => :destroy
+  has_many :ideas
   has_many :idea_lists, :dependent => :destroy
   has_many :reminders, :dependent => :destroy
   has_many :relationships, :foreign_key => "follower_id",
@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
   before_create :make_activation_code
+  before_destroy :destroy_ideas_of_user
   
   scope :users_with_public_or_own_reminders_for_idea, lambda { |idea, user| users_with_public_or_own_reminders_for_idea(idea, user) }
   scope :user_has_public_or_own_reminders_for_idea, lambda { |idea, user| user_has_public_or_own_reminders_for_idea(idea, user) }
@@ -159,6 +160,10 @@ class User < ActiveRecord::Base
   end
 
   private
+  
+  def destroy_ideas_of_user
+    Idea.destroy_ideas_of(self)
+  end
 
   def encrypt_password
     self.salt = make_salt if new_record?

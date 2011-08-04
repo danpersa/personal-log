@@ -21,12 +21,20 @@ class Privacy < ActiveRecord::Base
   has_many :reminders
   
   @@public_privacy_id = nil
+  @@private_privacy_id = nil
   
   def self.public_privacy_id
     #if @@public_privacy_id.nil?
       @@public_privacy_id = Privacy.find_by_name("public").id
     #end
     @@public_privacy_id
+  end
+  
+  def self.private_privacy_id
+    #if @@public_privacy_id.nil?
+      @@private_privacy_id = Privacy.find_by_name("private").id
+    #end
+    @@private_privacy_id
   end
 
 end

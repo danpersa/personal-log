@@ -63,6 +63,12 @@ class Idea < ActiveRecord::Base
     self.idea_list_ids = ids.split(",")
   end
   
+  def self.destroy_ideas_of(user)
+    # we should delete ideas that have no reminders
+    # associated with them and other users
+    Idea.destroy_all("ideas.user_id = #{user.id} and not exists(select * from reminders where reminders.user_id != #{user.id} and reminders.idea_id = ideas.id)")
+  end
+  
   private
 
   def self.followed_by(user)
