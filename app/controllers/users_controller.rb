@@ -8,8 +8,6 @@ class UsersController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update, :ideas]
   before_filter :admin_or_correct_user, :only => :destroy
   before_filter :not_authenticate, :only => [:change_reseted_password]
-  
-
 
   def index
     @user = current_user
@@ -72,6 +70,7 @@ class UsersController < ApplicationController
     # the user is searched in the existing_user before interceptor
     @user.destroy
     if (delete_own_account)
+      flash[:success] = "Your account was successfully deleted!"
       redirect_to root_path
     else
       flash[:success] = "User destroyed."
