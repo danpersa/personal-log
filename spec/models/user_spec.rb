@@ -101,6 +101,13 @@ describe User do
         wrong_password_user = User.authenticate(@attr[:email], "wrongpass")
         wrong_password_user.should be_nil
       end
+      
+      it "should return nil if user is blocked" do
+        blocked_user = Factory(:activated_user, :email => "blocked@yahoo.com")
+        blocked_user.block!
+        blocked_user = User.authenticate(blocked_user.email, blocked_user.password)
+        blocked_user.should be_nil
+      end
 
       it "should return nil for an email address with no user" do
         nonexistent_user = User.authenticate("bar@foo.com", @attr[:password])
@@ -418,6 +425,18 @@ describe User do
       end
       
     end
+  end
+  
+  describe "block user" do
+    before(:each) do
+      @user = User.create(@attr)
+    end
+    
+    it "should be in the blocked state" do
+      @user.block!
+      @user.state.should == "blocked"
+    end
+    
   end
   
   describe "destroy" do

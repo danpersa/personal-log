@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
                        :length       => { :within => 6..40 },
                        :if           => :should_validate_password?
   
-  validates_inclusion_of :state, :in => %w(pending active),
+  validates_inclusion_of :state, :in => %w(pending active blocked),
     :message => "%{value} is not a valid state"
 
   before_save :encrypt_password
@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(email, submitted_password)
     user = find_by_email(email)
-    return nil  if user.nil?
+    return nil  if user.nil? or user.state == "blocked" 
     return user if user.has_password?(submitted_password)
   end
 
@@ -126,11 +126,17 @@ class User < ActiveRecord::Base
   state_machine do
     state :pending # first one is initial state
     state :active
+    state :blocked # the user in this state can't sign in
 
     event :activate do
-      transitions :to => :active, 
-                  :from => [:pending], 
+      transitions :to => :active,
+                  :from => [:pending],
                   :on_transition => :do_activate
+    end
+    
+    event :block do
+      transitions :to => :blocked,
+                  :from => [:pending, :active]
     end
   end
 

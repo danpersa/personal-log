@@ -63,7 +63,7 @@ module NavigationHelpers
     
     when /^the "(.+)"'s ideas page$/
       user = User.find_by_email($1)
-      user_path(user) + "/ideas"  
+      user_path(user) + "/ideas"
       
       
     # Add more mappings here.

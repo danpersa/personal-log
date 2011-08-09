@@ -51,7 +51,7 @@ class IdeasController < ApplicationController
   def users
     # the idea is searched in interceptor
     @user = current_user
-    @users = @idea.public_users(current_user).includes(:profile).paginate(:page => params[:page], :per_page => 10)
+    @users = @idea.public_users(current_user).includes(:profile).paginate(:page => params[:page], :per_page => 10).all
   end
 
   def destroy

@@ -36,6 +36,8 @@ gem "rake", "0.8.7"
 group :development do
   gem 'mysql2', '0.2.6'
   gem 'rspec-rails'
+  gem "ruby-debug19"
+#  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
 #  gem 'annotate-models'
 end
 
