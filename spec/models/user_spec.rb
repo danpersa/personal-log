@@ -442,6 +442,7 @@ describe User do
   describe "destroy" do
     
     before(:each) do
+      @community_user = Factory(:community_user)
       @user = User.create(@attr)
       @public_privacy = Factory(:privacy)
       @private_privacy = Factory(:privacy, :name => "private") 
@@ -472,7 +473,7 @@ describe User do
       end
     end
 
-    it "should not destory assiciated public ideas that were shared with others" do
+    it "should not destory associated public ideas that were shared with others" do
       other_user = Factory(:user, :email => "other.user@yahoo.com")
       idea1 = Factory(:idea, :user => @user, :created_at => 1.day.ago)
       idea2 = Factory(:idea, :user => @user, :created_at => 1.hour.ago)
@@ -482,6 +483,17 @@ describe User do
       @user.destroy
       Idea.find_by_id(idea1.id).should_not be_nil
       Idea.find_by_id(idea2.id).should be_nil
+    end
+    
+    it "should donate to the community the assiciated public ideas that were shared with others" do
+      other_user = Factory(:user, :email => "other.user@yahoo.com")
+      idea1 = Factory(:idea, :user => @user, :created_at => 1.day.ago)
+      idea2 = Factory(:idea, :user => @user, :created_at => 1.hour.ago)
+      Factory(:reminder, :user => @user, :idea => idea1, :created_at => 2.day.ago, :privacy => @public_privacy)
+      Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @public_privacy)
+      Factory(:reminder, :user => other_user, :idea => idea1, :created_at => 2.day.ago, :privacy => @public_privacy)
+      @user.destroy
+      Idea.owned_by(@community_user).size.should == 1
     end
 
     it "should destroy associated idea_lists" do

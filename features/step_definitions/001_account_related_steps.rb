@@ -49,3 +49,10 @@ Then /^"([^"]*)"'s nickname should be "([^"]*)"$/ do |email, nickname|
   user = User.find_by_email(email)
   user.name.should == nickname
 end
+
+Given /^the community account exists$/ do
+  # the Community User receives all the ideas abandoned by users when they delete their accounts 
+  community_user = User.create!(:name => "community", :email => "community@remindmetolive.com", :password => "thesercretpassword123")
+  # we don't let anyone to sign in as the community user
+  community_user.block!
+end

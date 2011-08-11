@@ -17,6 +17,15 @@ Factory.define :activated_user, :class => User  do |user|
   user.activation_code       "1234567890"
 end
 
+Factory.define :community_user, :class => User  do |user|
+  user.name                  "community"
+  user.email                 "community@remindmetolive.com"
+  user.state                 "blocked"
+  user.password              "foobar"
+  user.password_confirmation "foobar"
+  user.activation_code       "1234567890"
+end
+
 Factory.sequence :email do |n|
   "person-#{n}@example.com"
 end

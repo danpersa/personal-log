@@ -9,3 +9,20 @@ Scenario: The user successfully deletes his account
     When I follow "Delete your account" 
     Then I should be on the home page
     And I should see "Your account was successfully deleted!"
+
+@focus    
+Scenario: The user successfully donates his public shared ideas to the community
+    Given the community account exists
+    And a logged user with email "brandon@example.com"
+    And the following user exists:
+    | Name          | Email              |
+    | FirstUser     | first@example.com  |
+    | SecondUser    | second@example.com |
+    And "brandon@example.com" shares 1 idea
+    And "first@example.com" shares the same idea
+    And "second@example.com" shares the same idea
+    And I am on the edit profile page of "brandon@example.com"
+    And I follow "Delete your account"
+    When I go to the profile page of "community@remindmetolive.com"
+    Then I should see "1 idea"
+    And show me the page

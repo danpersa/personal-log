@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
   before_create :make_activation_code
-  before_destroy :destroy_ideas_of_user
+  before_destroy :destroy_ideas_of_user, :donate_ideas_to_community
   
   scope :users_with_public_or_own_reminders_for_idea, lambda { |idea, user| users_with_public_or_own_reminders_for_idea(idea, user) }
   scope :user_has_public_or_own_reminders_for_idea, lambda { |idea, user| user_has_public_or_own_reminders_for_idea(idea, user) }
@@ -169,6 +169,10 @@ class User < ActiveRecord::Base
   
   def destroy_ideas_of_user
     Idea.destroy_ideas_of(self)
+  end
+  
+  def donate_ideas_to_community
+    Idea.donate_to_community_the_ideas_of(self)
   end
 
   def encrypt_password

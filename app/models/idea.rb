@@ -65,8 +65,17 @@ class Idea < ActiveRecord::Base
   
   def self.destroy_ideas_of(user)
     # we should delete ideas that have no reminders
-    # associated with them and other users
+    # associated with them
+    # also we should delete all public ideas that are not shared
+    # with other users
     Idea.destroy_all("ideas.user_id = #{user.id} and not exists(select * from reminders where reminders.user_id != #{user.id} and reminders.idea_id = ideas.id)")
+  end
+  
+  def self.donate_to_community_the_ideas_of(user)
+    community_user_id = User.find_by_name("community").id
+    with_scope(:find => where(:user_id => user.id)) do
+      update_all(:user_id => community_user_id)
+    end
   end
   
   private
