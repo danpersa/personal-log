@@ -361,6 +361,7 @@ describe UsersController do
 
     before(:each) do
       @user = Factory(:user)
+      @community_user = Factory(:community_user)
     end
 
     describe "as a non-signed-in user" do
