@@ -10,7 +10,6 @@ Scenario: The user successfully deletes his account
     Then I should be on the home page
     And I should see "Your account was successfully deleted!"
 
-@focus    
 Scenario: The user successfully donates his public shared ideas to the community
     Given the community account exists
     And a logged user with email "brandon@example.com"
@@ -25,4 +24,3 @@ Scenario: The user successfully donates his public shared ideas to the community
     And I follow "Delete your account"
     When I go to the profile page of "community@remindmetolive.com"
     Then I should see "1 idea"
-    And show me the page
