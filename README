@@ -263,3 +263,12 @@ bundle exec guard
 
 running spork
 bundle exec spork
+
+add heroku as git repository
+git remote add heroku git@heroku.com:remindmetolive.git
+
+git remote show heroku
+
+pull heroku database to dev env
+heroku db:pull
+
