@@ -41,6 +41,10 @@ group :development do
 #  gem 'annotate-models'
 end
 
+group :production do
+  gem 'pg'
+end
+
 group :test do
   gem 'mysql2', '0.2.6'
   gem 'rspec'

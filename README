@@ -265,6 +265,7 @@ running spork
 bundle exec spork
 
 add heroku as git repository
+heroku keys:add
 git remote add heroku git@heroku.com:remindmetolive.git
 
 git remote show heroku
@@ -272,3 +273,4 @@ git remote show heroku
 pull heroku database to dev env
 heroku db:pull
 
+sudo gem1.9.1 install linecache19 -- --with-ruby-include=/usr/include/ruby-1.9.1
