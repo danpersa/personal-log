@@ -40,6 +40,8 @@ class Idea < ActiveRecord::Base
   
   scope :contained_in_list, lambda { |idea_list| where('exists (select * from idea_list_ownerships ilo where ilo.idea_list_id = :idea_list_id and ilo.idea_id = ideas.id)', :idea_list_id => idea_list) }
 
+  scope :shared_with_other_users, lambda { where('exists(select * from reminders where reminders.user_id != ideas.user_id and reminders.idea_id = ideas.id)') }
+
   # the idea is public if it has at least one public reminder
   def public?
     public_privacy = Privacy.find_by_name("public")
@@ -50,6 +52,16 @@ class Idea < ActiveRecord::Base
   # current idea
   def shared_by?(user)
     Reminder.from_idea_by_user(self, user).size > 0
+  end
+  
+  def shared_with_other_users?
+    Idea.shared_with_other_users.size > 0
+  end
+  
+  def donate_to_community
+    community_user = User.find_by_name("community")
+    Idea.user_id = community_user.id
+    Idea.save!
   end
   
   # returns the list of users that have public reminders for the current idea,
@@ -77,7 +89,7 @@ class Idea < ActiveRecord::Base
       update_all(:user_id => community_user_id)
     end
   end
-  
+
   private
 
   def self.followed_by(user)

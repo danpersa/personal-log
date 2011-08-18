@@ -21,4 +21,8 @@ class IdeaListOwnership < ActiveRecord::Base
      end
   end
   
+  def self.destroy_for_idea_of_user(idea, user)
+    IdeaListOwnership.destroy_all("idea_list_ownerships.idea_id = :idea_id and idea_list_ownerships.idea_list.user_id = :user_id").joins(:idea_list)
+  end
+  
 end

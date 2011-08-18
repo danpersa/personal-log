@@ -180,4 +180,8 @@ describe Idea do
       ideas.should_not include(@other_user_idea2)
     end
   end
+  
+  describe "destroy" do
+    
+  end
 end

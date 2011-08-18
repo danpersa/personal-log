@@ -61,6 +61,10 @@ class Reminder < ActiveRecord::Base
       :user_id => user)
   end
   
+  def self.destroy_reminders_of_user_for_idea(idea, user)
+    Reminder.destroy_all("(reminders.idea_id = :idea_id and reminders.user_id = :user_id)", :idea_id => idea, :user_id => user)
+  end
+  
   def reminder_date_cannot_be_in_the_past
     errors.add(:reminder_date, "can't be in the past") if
       reminder_date != nil and reminder_date < Date.today
