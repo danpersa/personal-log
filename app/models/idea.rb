@@ -55,13 +55,13 @@ class Idea < ActiveRecord::Base
   end
   
   def shared_with_other_users?
-    Idea.shared_with_other_users.size > 0
+    Reminder.reminders_of_other_users_for_idea(self).size > 0
   end
   
-  def donate_to_community
+  def donate_to_community!
     community_user = User.find_by_name("community")
-    Idea.user_id = community_user.id
-    Idea.save!
+    self.user_id = community_user.id
+    self.save!
   end
   
   # returns the list of users that have public reminders for the current idea,

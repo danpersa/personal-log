@@ -226,19 +226,58 @@ describe IdeasController do
         @user = test_sign_in(Factory(:user))
         @idea = Factory(:idea, :user => @user)
         @reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => @privacy)
-      end
-
-      it "should destroy the idea" do
-        lambda do 
-          delete :destroy, :id => @idea
-        end.should change(Idea, :count).by(-1)
+        @idea_list = Factory(:idea_list, :user => @user)
+        @idea_list_ownership = Factory(:idea_list_ownership, :idea => @idea, :idea_list => @idea_list)
       end
       
-      it "should destroy all it's reminders" do
-        Reminder.find_by_idea_id(@idea.id).should_not be_nil
-        delete :destroy, :id => @idea
-        Reminder.find_by_idea_id(@idea.id).should be_nil
+      describe "the idea is shared with other users" do
+        
+        before(:each) do
+          create_community_user
+          other_user = Factory(:user, :email => Factory.next(:email))
+          @other_reminder = Factory(:reminder, :user => other_user, :idea => @idea, :created_at => 1.day.ago, :privacy => @privacy)
+          delete :destroy, :id => @idea
+        end
+        
+        it "should donate the idea to the community" do
+          @idea.reload
+          @idea.user.name.should == "community"
+        end
+        
+        it "should destroy all the reminders of the user that wants to delete the idea" do
+          Reminder.find_by_id(@reminder.id).should be_nil
+        end
+        
+        it "should destroy all the idea list ownerships of the idea from the user's lists" do
+          IdeaListOwnership.find_by_id(@idea_list_ownership.id).should be_nil
+        end
+        
+        it "should not destroy the reminders of other users" do
+          Reminder.find_by_id(@other_reminder.id).should_not be_nil
+        end  
+          
       end
+      
+      describe "the idea is not shared with other users" do
+        it "should destroy the idea" do
+          lambda do 
+            delete :destroy, :id => @idea
+          end.should change(Idea, :count).by(-1)
+        end
+        
+        it "should destroy all it's reminders" do
+          Reminder.find_by_idea_id(@idea.id).should_not be_nil
+          delete :destroy, :id => @idea
+          Reminder.find_by_idea_id(@idea.id).should be_nil
+        end
+        
+        it "should destroy all the idea list ownerships of the idea from the user's lists" do
+          IdeaListOwnership.find_by_idea_id(@idea.id).should_not be_nil
+          delete :destroy, :id => @idea
+          IdeaListOwnership.find_by_idea_id(@idea.id).should be_nil
+        end
+      end
+    
     end
 
     describe "failure" do
@@ -355,4 +394,6 @@ describe IdeasController do
       end
     end
   end
+  
+  
 end

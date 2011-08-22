@@ -55,14 +55,16 @@ class IdeasController < ApplicationController
   end
 
   def destroy
+    @user = current_user
     # if the idea was not shared with other users, we destroy it
     unless @idea.shared_with_other_users?
       @idea.destroy
-    elsif
-      # otherwise we give the idea to the community
-      # but we delete the reminders of the current user for the donated idea
-      # and we delete the idea list ownerships for the idea
-      
+    else
+      Idea.transaction do
+        IdeaListOwnership.destroy_for_idea_of_user(@idea, @user)
+        Reminder.destroy_for_idea_of_user(@idea, @user)
+        @idea.donate_to_community!
+      end
     end
     respond_to do |format|
        format.html { redirect_back_or root_path }

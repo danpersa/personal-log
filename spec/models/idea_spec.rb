@@ -181,7 +181,42 @@ describe Idea do
     end
   end
   
-  describe "destroy" do
+  describe "shared with other users" do
     
+    before(:each) do
+      @public_privacy = Factory(:privacy)
+      @user_idea = @user.ideas.create!(@attr)
+      reminder = Factory(:reminder, :user => @user, :idea => @user_idea, :created_at => 1.day.ago, :privacy => @public_privacy)
+    end
+    
+    it "should return true if other users have reminders for the idea" do
+      other_user = Factory(:user, :email => Factory.next(:email))
+      other_user_reminder = Factory(:reminder, :user => other_user, :idea => @user_idea, :created_at => 1.day.ago, :privacy => @public_privacy)
+      @user_idea.shared_with_other_users?.should == true
+    end
+    
+    it "should return true if other users have private reminders for the idea" do
+      private_privacy = Factory(:privacy, :name => "private")
+      other_user = Factory(:user, :email => Factory.next(:email))
+      other_user_reminder = Factory(:reminder, :user => other_user, :idea => @user_idea, :created_at => 1.day.ago, :privacy => private_privacy)
+      @user_idea.shared_with_other_users?.should == true
+    end
+    
+    it "should return false if only the the current user have reminders for the idea" do
+      @user_idea.shared_with_other_users?.should == false
+    end
+    
+  end
+  
+  describe "donate to community" do
+
+    it "should change the current user to the community user" do
+      create_community_user
+      idea = @user.ideas.create!(@attr)
+      idea.user_id.should == @user.id
+      idea.donate_to_community!
+      idea.reload
+      idea.user.name.should == "community"
+    end
   end
 end

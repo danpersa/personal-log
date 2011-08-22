@@ -94,7 +94,7 @@ describe Reminder do
     end
   end
   
-  describe "from_users_followed_by" do
+  describe "from users followed by" do
     before(:each) do
       @private_privacy = Privacy.create(:name => "private")
       @other_user = Factory(:user, :email => Factory.next(:email))
@@ -133,7 +133,7 @@ describe Reminder do
     end
   end
   
-  describe "from_user_with_privacy" do
+  describe "from user with privacy" do
     before(:each) do
       @private_privacy = Privacy.create(:name => "private")
       @other_user = Factory(:user, :email => Factory.next(:email))
@@ -179,7 +179,7 @@ describe Reminder do
     end
   end
   
-  describe "from_idea_by_privacy" do
+  describe "from idea by privacy" do
     before(:each) do
       @private_privacy = Privacy.create(:name => "private")
       @reminder = @user.reminders.create!(@attr)
@@ -199,7 +199,7 @@ describe Reminder do
     end
   end
   
-  describe "from_idea_by_user" do
+  describe "from idea by user" do
     before(:each) do
       @private_privacy = Privacy.create(:name => "private")
       @reminder = @user.reminders.create!(@attr)
@@ -211,6 +211,30 @@ describe Reminder do
     it "should return the public and private reminders of the user" do
       reminders = Reminder.from_idea_by_user(@idea, @user).all
       reminders.size.should == 2
+    end
+  end
+  
+  describe "destroy for idea of user" do
+    
+    it "should delete all reminders of the user for the idea" do
+      @private_privacy = Privacy.create(:name => "private")
+      @reminder = @user.reminders.create!(@attr)
+      @private_reminder = @user.reminders.create!(@attr.merge(:privacy => @private_privacy))
+      Reminder.destroy_for_idea_of_user(@idea, @user)
+      reminders = Reminder.from_idea_by_user(@idea, @user).all
+      reminders.size.should == 0
+    end
+  end
+  
+  describe "reminders of other users for idea" do
+    it "should retrive all the reminders for the idea, except the reminders of the creator" do
+      private_privacy = Privacy.create(:name => "private")
+      reminder = @user.reminders.create!(@attr)
+      private_reminder = @user.reminders.create!(@attr.merge(:privacy => private_privacy))
+      another_user = Factory(:user, :email => Factory.next(:email))
+      another_reminder = another_user.reminders.create!(@attr)
+      Reminder.reminders_of_other_users_for_idea(@idea).all.size.should == 1
+      Reminder.reminders_of_other_users_for_idea(@idea).first.id.should == another_reminder.id
     end
   end
 end

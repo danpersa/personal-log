@@ -3,7 +3,6 @@ Feature: 7.4 - The user can add and remove ideas to his lists
   I want to add or remove ideas from my lists of ideas
   So that I can better organize my ideas
 
-  @focus
   Scenario: The user successfully adds an idea to a list
     Given a logged user with email "brandon@example.com"
     And "brandon@example.com" has 1 idea list
@@ -13,4 +12,5 @@ Feature: 7.4 - The user can add and remove ideas to his lists
     And I press "Update lists"
     Then I should see all of "brandon@example.com" idea lists
   
+  @todo
   Scenario: The user successfully removes an idea to a list

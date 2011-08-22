@@ -49,9 +49,15 @@ Spork.prefork do
       Privacy.create!(:name => "private")
     end
     
+    def create_community_user
+      community_user = User.create!(:name => "community", :email => "community@remindmetolive.com", :password => "thesercretpassword123")
+      # we don't let anyone to sign in as the community user
+      community_user.block!
+    end
+    
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false
-    # instead of true.
+    # instead of true
     config.use_transactional_fixtures = true
   
     config.before :each do

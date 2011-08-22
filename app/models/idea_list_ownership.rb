@@ -22,7 +22,11 @@ class IdeaListOwnership < ActiveRecord::Base
   end
   
   def self.destroy_for_idea_of_user(idea, user)
-    IdeaListOwnership.destroy_all("idea_list_ownerships.idea_id = :idea_id and idea_list_ownerships.idea_list.user_id = :user_id").joins(:idea_list)
+    sql = "
+           idea_list_ownerships.idea_id = #{idea.id} and idea_list_ownerships.idea_list_id in (
+           select idea_lists.id from idea_lists where idea_lists.user_id = #{user.id})
+    "
+    IdeaListOwnership.destroy_all(sql)
   end
   
 end

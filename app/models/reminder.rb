@@ -21,6 +21,7 @@ class Reminder < ActiveRecord::Base
   scope :public_or_own_reminders_for_idea, lambda { |idea, user| public_or_own_reminders_for_idea(idea, user) }
   scope :newest_public_or_own_reminder_for_idea, lambda { |idea, user| Reminder.public_or_own_reminders_for_idea(idea, user).order("reminders.created_at DESC").limit(1) }
   scope :from_user, lambda { |user| where("reminders.user_id = :user_id", :user_id => user) }
+  scope :reminders_of_other_users_for_idea, lambda { |idea| where('reminders.user_id != ideas.user_id and reminders.idea_id = :idea_id', :idea_id => idea).joins(:idea)}
   
   private
   
@@ -61,8 +62,8 @@ class Reminder < ActiveRecord::Base
       :user_id => user)
   end
   
-  def self.destroy_reminders_of_user_for_idea(idea, user)
-    Reminder.destroy_all("(reminders.idea_id = :idea_id and reminders.user_id = :user_id)", :idea_id => idea, :user_id => user)
+  def self.destroy_for_idea_of_user(idea, user)
+    Reminder.destroy_all("(reminders.idea_id = #{idea.id} and reminders.user_id = #{user.id})")
   end
   
   def reminder_date_cannot_be_in_the_past

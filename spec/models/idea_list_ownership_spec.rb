@@ -3,6 +3,7 @@ require 'spec_helper'
 describe IdeaListOwnership do
   before(:each) do
     @idea = Factory(:idea)
+    @user = @idea.user
     @idea_list = Factory(:idea_list, :user => @idea.user)
     @attr = { :idea_list_id => @idea_list.id, :idea_id => @idea.id }
   end
@@ -56,6 +57,26 @@ describe IdeaListOwnership do
     it "should have the right associated idea" do
       @idea_list_ownership.idea_list_id.should == @idea_list.id
       @idea_list_ownership.idea_list.should == @idea_list
+    end
+  end
+  
+  describe "destroy_for_idea_of_user" do
+    
+    it "should delete all the idea list ownerships of the user for the idea" do
+      @idea_list_ownership = @idea.idea_list_ownerships.create({:idea_id => @idea.id, :idea_list_id => @idea_list.id})
+      IdeaListOwnership.all.size.should == 1
+      IdeaListOwnership.destroy_for_idea_of_user(@idea, @user)
+      IdeaListOwnership.all.size.should == 0
+    end
+    
+    it "should not delete other idea list ownerships" do
+      @idea_list_ownership = @idea.idea_list_ownerships.create({:idea_id => @idea.id, :idea_list_id => @idea_list.id})
+      other_user = Factory(:user, :email => "other@yahoo.com")
+      other_idea_list =  @idea_list = Factory(:idea_list, :user => other_user)
+      other_idea_list_ownership = @idea.idea_list_ownerships.create({:idea_id => @idea.id, :idea_list_id => other_idea_list.id})
+      IdeaListOwnership.all.size.should == 2
+      IdeaListOwnership.destroy_for_idea_of_user(@idea, @user)
+      IdeaListOwnership.all.size.should == 1
     end
   end
   
