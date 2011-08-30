@@ -32,7 +32,11 @@ Feature: 4.3 - The user destroys one of his ideas
     And "brandon@example.com" shares 1 idea
     When I go to the "brandon@example.com"'s ideas page
     And I follow "Remove idea"
+    Then I should be on the "brandon@example.com"'s ideas page
     And I go to the profile page of "community@remindmetolive.com"
-    Then I should see "0 idea"
+    And I should see "0 idea"
     And I go to the "brandon@example.com"'s ideas page
     And I should see "0 ideas"
+    
+  Scenario: The user successfully destroys an idea from an idea list
+  

@@ -5,7 +5,7 @@ class IdeaList < ActiveRecord::Base
   has_many   :idea_list_ownerships, :dependent => :destroy
   has_many   :ideas, :through => :idea_list_ownerships
   
-  validates :name, :presence => true, :length => { :maximum => 20 }
+  validates :name, :presence => true, :length => { :maximum => 30 }
   validates :user_id, :presence => true
   validate  :unique_name_per_user
   

@@ -33,6 +33,8 @@ class IdeaListsController < ApplicationController
     @idea_list = IdeaList.find_by_id(params[:id])
     @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:per_page => @@items_per_page, :page => params[:page])
     @title = "Show idea list"
+    # we store the location so we can be redirected here after idea delete
+    store_location
   end
   
   def new
@@ -73,7 +75,7 @@ class IdeaListsController < ApplicationController
     respond_with_remote_form
   end
   
-  def update#products th a, #products 
+  def update 
     respond_to do |format|
       # the idea list is searched in the own_idea_list before interceptor
       if @idea_list.update_attributes params[:idea_list]
