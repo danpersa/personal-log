@@ -5,11 +5,11 @@
 <%= render 'follow_form' if signed_in? %>
 <% unless @reminders.empty? %>
   <h3 class="idea">...wants to remind to...</h3>
-  <table class="items" summary="User reminders">
-    <%= render @reminders %>
-  </table>
-  <%= will_paginate @reminders %>
+  <div id="table-div">
+    <%= render 'reminders/table' %>
+  </div>
 <% end %>
+
 <div id="remind_me_too_dialog" title="Remind me too" ></div>
 
 <% content_for :sidebar do %>

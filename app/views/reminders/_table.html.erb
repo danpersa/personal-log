@@ -1,0 +1,7 @@
+<%= will_paginate @reminders, :params => { :controller => params[:controller].parameterize,
+                                           :action => @action.nil? ? "reminders" : @action } %>
+<table class="items" id="reminders">
+  <%= render @reminders %>
+</table>
+<%= will_paginate @reminders, :params => { :controller => params[:controller].parameterize,
+                                           :action => @action.nil? ? "reminders" : @action } %>
