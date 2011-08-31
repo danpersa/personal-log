@@ -1,17 +1,21 @@
-<tr class="show-close-button">
+<tr class="show-close-button" id="idea_<%= idea.id %>">
   <td class="item">
-    <span class="content"><%= idea.content %> on XXX</span>
+    <span class="content"><%= idea.content %></span>
     <span class="timestamp">
-      Posted <%= time_ago_in_words(idea.created_at) %> ago.
+      Created <%= time_ago_in_words(idea.created_at) %> ago.
     </span>
   </td>
   <% if current_user?(idea.user) %>
   <td class="item">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "delete", idea, :method => :delete,
+        <%= link_to "destroy", idea, :method => :delete,
                                          :confirm => "You sure?",
-                                         :title => "Remove post",
-                                         :class => "ui-icon ui-icon-close"%>
+                                         :title => "Remove idea",
+                                         :class => "ui-icon ui-icon-close" %>
+    </div>
+    <br/><br/>
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "show", idea, :method => :get, :class => "ui-icon ui-icon-search" %>
     </div>
   </td>
   <% end %>

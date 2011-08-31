@@ -119,7 +119,7 @@ class UsersController < ApplicationController
   
   # page displaying the ideas of the current user
   def ideas
-    @own_ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page])
+    @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page])
     # we store the location so we can be redirected here after idea delete
     store_location
   end

@@ -1,5 +1,9 @@
 $( function() {
 
+// the ajax pagination disables the drag and drop
+// TODO find out why!
+//  initAjaxPagination();
+
   $("button, input:submit").button();
 
   $('div.hover').hover( function() {
@@ -14,7 +18,7 @@ $( function() {
     $(this).find("div.icon-button").addClass('invisible');
   });
   
-  $("#own_ideas tr").draggable({
+  $("#ideas tr").draggable({
       appendTo: "body",
       cursorAt: { cursor: "move", bottom: 0, left: 56 },
       helper: function(event) {
@@ -28,7 +32,7 @@ $( function() {
       accept: ":not(.ui-sortable-helper)",
       drop: function(event, ui) {
         
-        var ideaId = ui.draggable.attr("id").substring("own_idea".length + 1)
+        var ideaId = ui.draggable.attr("id").substring("idea".length + 1)
         var ideaListId = $(this).attr("id").substring("idea_list".length + 1)
         
         /* $(this).find(".placeholder").remove();
@@ -38,13 +42,10 @@ $( function() {
                 type: 'post', 
                 data: 'idea_id=' + ideaId, 
                 dataType: 'script', 
-                complete: function(request){
+                complete: function(request) {
                     $('#idea_list_' + ideaListId).effect('highlight');
                   },
                 url: '/idea-lists/' + ideaListId + '/add-idea'});
       }
   });
-    
-    
-  
 });

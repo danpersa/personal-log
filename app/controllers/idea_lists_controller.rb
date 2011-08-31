@@ -31,7 +31,8 @@ class IdeaListsController < ApplicationController
   def show
     @user = current_user
     @idea_list = IdeaList.find_by_id(params[:id])
-    @own_ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:per_page => @@items_per_page, :page => params[:page])
+    @ideas = Idea.owned_by(@user).contained_in_list(@idea_list).includes(:user).paginate(:per_page => @@items_per_page, :page => params[:page])
+    @action = "show"
     @title = "Show idea list"
     # we store the location so we can be redirected here after idea delete
     store_location

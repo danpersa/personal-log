@@ -3,9 +3,11 @@
   <span id="profile-display-name"><%= @user.display_name %></span>
 </h1>
 
-<% unless @own_ideas.empty? %>
+<% unless @ideas.empty? %>
   <h3 class="idea">...has the next ideas in <%= @idea_list.name %>...</h3>
-  <%= render 'ideas/own_ideas' %>
+  <div id="table-div">
+    <%= render 'ideas/table' %>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>

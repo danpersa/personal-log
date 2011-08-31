@@ -22,7 +22,7 @@ describe IdeaList do
     end
 
     it "should reject long content" do
-      @user.idea_lists.build(@attr.merge(:name => "a" * 21)).should_not be_valid
+      @user.idea_lists.build(@attr.merge(:name => "a" * 31)).should_not be_valid
     end
     
     describe "unique name per user" do
