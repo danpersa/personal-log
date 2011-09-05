@@ -10,7 +10,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110531104817) do
+ActiveRecord::Schema.define(:version => 20110905131420) do
+
+  create_table "done_ideas", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "idea_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "done_ideas", ["idea_id"], :name => "index_done_ideas_on_idea_id"
+  add_index "done_ideas", ["user_id"], :name => "index_done_ideas_on_user_id"
+
+  create_table "good_ideas", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "idea_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "good_ideas", ["idea_id"], :name => "index_good_ideas_on_idea_id"
+  add_index "good_ideas", ["user_id"], :name => "index_good_ideas_on_user_id"
 
   create_table "idea_list_ownerships", :force => true do |t|
     t.integer  "idea_list_id"
@@ -40,6 +60,17 @@ ActiveRecord::Schema.define(:version => 20110531104817) do
   end
 
   add_index "ideas", ["user_id"], :name => "index_ideas_on_user_id"
+
+  create_table "microposts", :force => true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "reminder_date"
+    t.integer  "privacy_id"
+  end
+
+  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
 
   create_table "privacies", :force => true do |t|
     t.string   "name"

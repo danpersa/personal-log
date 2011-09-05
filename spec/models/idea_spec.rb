@@ -25,8 +25,51 @@ describe Idea do
       @user.ideas.build(@attr.merge(:content => "a" * 141)).should_not be_valid
     end
   end
-  
 
+  describe "good ideas associations" do
+
+    before(:each) do
+      @idea = @user.ideas.create(@attr)
+      @good_idea = @idea.good_ideas.create({:user => @user})
+    end
+
+    it "should have a good ideas attribute" do
+      @idea.should respond_to(:good_ideas)
+    end
+
+    it "should have the right associated good_idea" do
+      GoodIdea.first.idea_id.should == @idea.id
+      GoodIdea.first.idea.should == @idea
+    end
+    
+    it "should destroy associated good ideas" do
+      @idea.destroy
+      GoodIdea.find_by_id(@good_idea.id).should be_nil
+    end
+  end
+  
+  describe "done ideas associations" do
+
+    before(:each) do
+      @idea = @user.ideas.create(@attr)
+      @done_idea = @idea.done_ideas.create({:user => @user})
+    end
+
+    it "should have a done ideas attribute" do
+      @idea.should respond_to(:done_ideas)
+    end
+
+    it "should have the right associated done idea" do
+      DoneIdea.first.idea_id.should == @idea.id
+      DoneIdea.first.idea.should == @idea
+    end
+    
+    it "should destroy associated done ideas" do
+      @idea.destroy
+      DoneIdea.find_by_id(@done_idea.id).should be_nil
+    end
+  end
+  
   describe "user associations" do
 
     before(:each) do
@@ -111,6 +154,41 @@ describe Idea do
       end
     end
   end
+  
+  describe "users users_considering_idea_good association" do
+    before(:each) do
+      @idea = @user.ideas.create(@attr)
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      Factory(:good_idea, :user => @user, :idea => @idea)
+      Factory(:good_idea, :user => @other_user, :idea => @idea)
+    end
+    
+    it "should have a users_considering_idea_good attribute" do
+      @idea.should respond_to(:users_considering_idea_good)
+    end
+    
+    it "should have two associated users" do
+      @idea.users_considering_idea_good.all.size.should == 2
+    end
+  end
+  
+  describe "users users_who_marked_idea_as_done association" do
+    before(:each) do
+      @idea = @user.ideas.create(@attr)
+      @other_user = Factory(:user, :email => Factory.next(:email))
+      Factory(:done_idea, :user => @user, :idea => @idea)
+      Factory(:done_idea, :user => @other_user, :idea => @idea)
+    end
+    
+    it "should have a users_who_marked_idea_as_done attribute" do
+      @idea.should respond_to(:users_who_marked_idea_as_done)
+    end
+    
+    it "should have two associated users" do
+      @idea.users_who_marked_idea_as_done.all.size.should == 2
+    end
+  end
+  
   
   describe "public?" do
     

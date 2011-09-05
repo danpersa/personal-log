@@ -20,8 +20,18 @@ class Idea < ActiveRecord::Base
 
   belongs_to :user
   has_many   :reminders, :dependent => :destroy
+  has_many   :good_ideas, :dependent => :destroy
+  has_many   :done_ideas, :dependent => :destroy
   has_many   :idea_list_ownerships, :dependent => :destroy
   has_many   :idea_lists, :through => :idea_list_ownerships
+  has_many   :users_considering_idea_good,
+             :through => :good_ideas,
+             :class_name => "User",
+             :source => :user
+  has_many   :users_who_marked_idea_as_done,
+             :through => :done_ideas,
+             :class_name => "User",
+             :source => :user
 
   #accepts_nested_attributes_for :reminders
 

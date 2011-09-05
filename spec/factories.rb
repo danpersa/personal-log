@@ -73,3 +73,13 @@ Factory.define :idea_list_ownership do |idea_list_ownership|
   idea_list_ownership.association :idea
   idea_list_ownership.association :idea_list
 end
+
+Factory.define :good_idea do |good_idea|
+  good_idea.association :user
+  good_idea.association :idea
+end
+
+Factory.define :done_idea do |done_idea|
+  done_idea.association :user
+  done_idea.association :idea
+end

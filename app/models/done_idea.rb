@@ -1,4 +1,4 @@
-class GoodIdea < ActiveRecord::Base
+class DoneIdea < ActiveRecord::Base
   
   attr_accessible :user, :idea
   
