@@ -29,7 +29,7 @@ Given /^"([^"]*)" shares (\d+) ideas?$/ do |email, number_of_ideas|
   
   ideas.each do |idea|
     attr = { :privacy => privacy,
-             :reminder_date => Time.now.utc.tomorrow,
+             :reminder_date => Time.now.next_year,
              :idea_id => idea.id }
     #has a public reminder
     user.reminders.create!(attr)
@@ -43,8 +43,8 @@ Given /^"([^"]*)" shares the same idea$/ do |email|
     privacy = Factory(:privacy)
   end
   attr = { :privacy => privacy,
-            :reminder_date => Time.now.utc.tomorrow,
-            :idea_id => idea.id }
+           :reminder_date => Time.now.next_year,
+           :idea_id => idea.id }
   #has a public reminder
   user.reminders.create!(attr)
 end

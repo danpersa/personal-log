@@ -5,7 +5,7 @@ Given /^"([^"]*)"' has some reminders$/ do |email|
     privacy = Factory(:privacy)
   end
   attr = { :privacy => privacy,
-            :reminder_date => Time.now.utc.tomorrow,
+            :reminder_date => Time.now.next_year,
             :idea_id => idea.id }
   #has a public reminder
   user.reminders.create!(attr)

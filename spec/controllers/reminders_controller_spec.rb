@@ -89,10 +89,10 @@ describe RemindersController do
         
         before(:each) do
           test_sign_in(Factory(:user, :email => "user@example.net"))
-          public_privacy = Factory(:privacy)
-          reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => public_privacy)
+          public_privacy = Factory.create(:privacy)
+          Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => public_privacy)
           # we create a private idea
-          @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => public_privacy }
+          @reminder_attr = { :reminder_date => Time.now.next_year, :privacy_id => public_privacy }
           @idea_attr = { :id => @idea.id}
         end
       
@@ -120,7 +120,7 @@ describe RemindersController do
           private_privacy = Factory(:privacy, :name => "private")
           reminder = Factory(:reminder, :user => @user, :idea => @idea, :created_at => 1.day.ago, :privacy => private_privacy)
           # we create a private idea
-          @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => private_privacy }
+          @reminder_attr = { :reminder_date => Time.now.next_year, :privacy_id => private_privacy }
           @idea_attr = { :id => @idea.id}
         end
       
@@ -148,7 +148,7 @@ describe RemindersController do
             test_sign_in(Factory(:user, :email => "user@example.net"))
             private_privacy = Factory(:privacy, :name => "private")
             # we create a private idea
-            reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => private_privacy }
+            reminder_attr = { :reminder_date => Time.now.next_year, :privacy => private_privacy }
             idea_attr = { :id => @idea.id}
             post :create, :idea => idea_attr, :reminder => reminder_attr
             @notification = :error

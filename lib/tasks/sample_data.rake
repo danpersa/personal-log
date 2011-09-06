@@ -36,7 +36,7 @@ def make_ideas(admin)
   first_user = admin
   first_idea = first_user.ideas.create!(:content => "to go to school")
   public_privacy = Privacy.find_by_name("public")
-  reminder_date = Time.now.utc.tomorrow
+  reminder_date = Time.now.next_year
   User.all(:limit => 6).each do |user|
     if user.id == 1
       next

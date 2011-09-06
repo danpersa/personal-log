@@ -162,7 +162,7 @@ describe IdeasController do
       before(:each) do
         @privacy = Factory(:privacy)
         @attr = { :content => "Lorem ipsum" }
-        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
+        @reminder_attr = { :reminder_date => Time.now.next_year, :privacy_id => @privacy }
       end
        
       it "should create an idea" do
@@ -187,7 +187,7 @@ describe IdeasController do
       before(:each) do
         @privacy = Factory(:privacy)
         @attr = { :content => ""}
-        @reminder_attr = { :reminder_date => Time.now.utc.tomorrow, :privacy => @privacy }
+        @reminder_attr = { :reminder_date => Time.now.next_year, :privacy_id => @privacy }
       end
 
       it "should not create an idea without content" do

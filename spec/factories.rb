@@ -56,7 +56,7 @@ Factory.define :profile do |profile|
 end
 
 Factory.define :reminder do |reminder|
-  reminder.reminder_date Time.now.utc.tomorrow
+  reminder.reminder_date Time.now.next_year
   reminder.association :idea
   reminder.association :user
   reminder.association :privacy

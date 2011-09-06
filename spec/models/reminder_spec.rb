@@ -6,7 +6,7 @@ describe Reminder do
     @user = @idea.user
     @privacy = Factory(:privacy)
     @attr = { :privacy => @privacy,
-              :reminder_date => Time.now.utc.tomorrow,
+              :reminder_date => Time.now.next_year,
               :idea_id => @idea.id }
   end
   
@@ -172,7 +172,7 @@ describe Reminder do
     
     it "should have the right order" do
       reminder1 = @user.reminders.create!(@attr)
-      reminder1.created_at = Time.now.utc.tomorrow
+      reminder1.created_at = Time.now.next_year
       reminder1.save!
       # newest should be first
       Reminder.from_user_with_privacy(@user, @user).should == [reminder1, @reminder, @private_reminder]
