@@ -7,8 +7,8 @@ gem "will_paginate", "~> 3.0.pre2"
 gem "transitions", :require => ["transitions", "active_record/transitions"]
 gem 'table_builder', '0.0.3', :git => 'https://github.com/jchunky/table_builder.git'
 
-gem "rake", "0.8.7"
-gem 'faker'
+gem "rake"
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -42,6 +42,7 @@ group :development do
   gem 'mysql2'
   gem 'rspec-rails'
   gem "ruby-debug19"
+  gem 'faker'
 #  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
 #  gem 'annotate-models'
 end

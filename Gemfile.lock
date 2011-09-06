@@ -139,7 +139,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
-    rake (0.8.7)
+    rake (0.9.2)
     rb-inotify (0.8.6)
       ffi (>= 0.5.0)
     rdoc (3.9.4)
@@ -216,7 +216,7 @@ DEPENDENCIES
   mysql2
   pg
   rails (= 3.1.0)
-  rake (= 0.8.7)
+  rake
   rb-inotify
   rspec
   rspec-rails
