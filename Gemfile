@@ -36,6 +36,8 @@ end
 
 group :development, :test do
   gem 'mysql2'
+  gem 'execjs'
+  gem 'therubyracer'
 end
 
 group :development do
@@ -43,7 +45,6 @@ group :development do
   #  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
   gem "ruby-debug19"
   gem 'faker'
-
 #  gem 'annotate-models'
 end
 

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -60,17 +61,6 @@ ActiveRecord::Schema.define(:version => 20110905131420) do
   end
 
   add_index "ideas", ["user_id"], :name => "index_ideas_on_user_id"
-
-  create_table "microposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "reminder_date"
-    t.integer  "privacy_id"
-  end
-
-  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
 
   create_table "privacies", :force => true do |t|
     t.string   "name"
