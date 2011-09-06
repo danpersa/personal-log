@@ -1,4 +1,4 @@
-bundler_args: --without development
+bundler_args: --without development --without development production
 rvm:
   - 1.9.2
 before_script:
