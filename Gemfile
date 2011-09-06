@@ -34,16 +34,16 @@ group :assets do
   gem 'uglifier'
 end
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
+group :development, :test do
+  gem 'mysql2'
+end
 
 group :development do
-  gem 'mysql2'
   gem 'rspec-rails'
+  #  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
   gem "ruby-debug19"
   gem 'faker'
-#  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
+
 #  gem 'annotate-models'
 end
 
@@ -52,12 +52,10 @@ group :production do
 end
 
 group :test do
-  gem 'mysql2'
   gem 'rspec'
   #gem 'webrat'
   gem 'factory_girl_rails'
   gem 'spork', '~> 0.9.0.rc'
-  
   gem 'capybara', :git => 'https://github.com/jnicklas/capybara.git'
   gem 'launchy'
   gem 'cucumber-rails'

@@ -1,3 +1,13 @@
+//= xxrequire jquery-1.5.1.min
+//= xxrequire jquery.rails
+//= xxxxrequire plugins
+//= xxrequire jquery-ui-1.8.11.custom.min
+//= xxrequire jquery.tokeninput
+//= xxrequire jquery.ui.selectmenu
+//= xxrequire jquery.bubblepopup.v2.3.1.min
+//= require_self
+//-----= xxrequire_tree .
+
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $( function() {
