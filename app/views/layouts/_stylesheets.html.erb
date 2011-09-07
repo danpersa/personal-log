@@ -2,25 +2,8 @@
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-
-  <%= stylesheet_link_tag 'blueprint/src/reset', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'blueprint/src/grid', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'blueprint/src/typography', :media => 'screen, projection' %>
-  
-  
-  <%= stylesheet_link_tag 'redmond/jquery-ui-1-8-11-custom', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'token-input-facebook', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'jquery-ui-selectmenu', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'jquery-bubblepopup-v2-3-1', :media => 'screen, projection' %>
-
-  
-  <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
-  <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%><![endif]-->
-  
-  <%= stylesheet_link_tag 'generic_form', :media => 'screen, projection' %>
   <%= stylesheet_link_tag 'application', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'alerts', :media => 'screen, projection' %>
-  
+  <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%><![endif]-->
   <% if file_exists? "app/assets/stylesheets/#{params[:controller].parameterize}.css" %>
     <%= stylesheet_link_tag "#{params[:controller].parameterize}", :media => 'screen, projection' %>
   <% end %>
@@ -28,3 +11,5 @@
   
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <%= stylesheet_link_tag 'handheld', :media => 'handheld' %> -->
+  <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
+

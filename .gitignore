@@ -9,6 +9,8 @@ doc/app
 *~
 .DS_Store
 webrat.log
-/nbproject/
-/nbproject/*
+nbproject/
+nbproject/*
 .sass-cache/
+public/assets
+public/assets/*

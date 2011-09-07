@@ -1,10 +1,10 @@
-//= xxrequire jquery-1.5.1.min
-//= xxrequire jquery.rails
-//= xxxxrequire plugins
-//= xxrequire jquery-ui-1.8.11.custom.min
-//= xxrequire jquery.tokeninput
-//= xxrequire jquery.ui.selectmenu
-//= xxrequire jquery.bubblepopup.v2.3.1.min
+//= require jquery
+//= require jquery_ujs
+//= require plugins
+//= require jquery-ui-1-8-11-custom-min
+//= require jquery-tokeninput
+//= require jquery-ui-selectmenu
+//= require jquery-bubblepopup-v2-3-1-min
 //= require_self
 //-----= xxrequire_tree .
 
@@ -14,17 +14,17 @@ $( function() {
 
   //$("button, input:submit").button();
   $("#reminder_post").button();
-  
+
 
   initHoverIcons();
-  
+
   $("#reminder_privacy_id").selectmenu({
     transferClasses: true,
     style: "dropdown",
     width: 100,
     menuWidth: 100
   });
-  
+
 
   $("#reminder_reminder_date").datepicker({
     dateFormat: 'dd/mm/yy',
