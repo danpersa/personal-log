@@ -96,4 +96,19 @@ module ApplicationHelper
   def sidebar_idea_lists
     IdeaList.owned_by current_user
   end
+  
+  def js_exists?(name)
+    return true if file_exists? "app/assets/javascripts/#{name}.js" or 
+      file_exists? "app/assets/javascripts/#{name}.js.coffee"
+    false
+  end
+  
+  def js_for_controller_exists?
+    js_exists?(params[:controller].parameterize)
+  end
+  
+  def js_for_action_exists?
+    js_exists?(params[:controller].parameterize + '_' + params[:controller].parameterize)
+  end
+  
 end

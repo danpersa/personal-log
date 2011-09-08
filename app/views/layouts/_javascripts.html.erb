@@ -1,6 +1,11 @@
   <%= javascript_include_tag "application" %>
-  <% if file_exists? "app/assets/javascripts/#{params[:controller].parameterize}.js" %>
+
+  <% if js_for_controller_exists? %>
     <%= javascript_include_tag "#{params[:controller].parameterize}" %>
+  <% end %>
+
+  <% if js_for_action_exists? %>
+    <%= javascript_include_tag "#{params[:controller].parameterize}_#{params[:action].parameterize}" %>
   <% end %>
 
 

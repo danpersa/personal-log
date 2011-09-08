@@ -3,12 +3,7 @@
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <%= stylesheet_link_tag 'application', :media => 'screen, projection' %>
-  <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%><![endif]-->
-  <% if file_exists? "app/assets/stylesheets/#{params[:controller].parameterize}.css" %>
-    <%= stylesheet_link_tag "#{params[:controller].parameterize}", :media => 'screen, projection' %>
-  <% end %>
-  
-  
+  <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%><![endif]--> 
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <%= stylesheet_link_tag 'handheld', :media => 'handheld' %> -->
   <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>

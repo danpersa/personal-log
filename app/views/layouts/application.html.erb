@@ -20,7 +20,7 @@
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <%= javascript_include_tag "modernizr-1-7-min" %>
 </head>
-<body id="<%= params[:controller].parameterize %>_controller">
+<body class="<%= params[:controller].parameterize %> <%= params[:controller].parameterize %>_<%= params[:action].parameterize %>">
   <div class="container">
     <%= render 'layouts/header' %>
     <section id="main-section" class="round">
