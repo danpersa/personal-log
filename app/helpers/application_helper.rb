@@ -108,7 +108,7 @@ module ApplicationHelper
   end
   
   def js_for_action_exists?
-    js_exists?(params[:controller].parameterize + '_' + params[:controller].parameterize)
+    js_exists?("#{params[:controller].parameterize}_#{params[:action].parameterize}")
   end
   
 end

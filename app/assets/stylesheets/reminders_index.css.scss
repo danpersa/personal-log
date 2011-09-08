@@ -63,5 +63,10 @@
       text-align: left;
     }
   }
-}
 
+  /* we remove the striped used in other tables background */
+  tbody tr:nth-child(even) td, 
+  tbody tr.even td  { 
+    background: none;
+  }
+}
