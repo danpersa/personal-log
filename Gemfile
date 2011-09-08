@@ -9,7 +9,8 @@ gem 'table_builder', '0.0.3', :git => 'https://github.com/jchunky/table_builder.
 
 gem "rake"
 
-
+# to remove
+gem 'faker'
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -38,7 +39,6 @@ group :development, :test do
   gem 'mysql2'
   gem 'execjs'
   gem 'therubyracer'
-  gem 'faker'
 end
 
 group :development do
