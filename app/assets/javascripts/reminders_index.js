@@ -12,7 +12,7 @@ $( function() {
                 'text-align':'center'
             },
             themeName:  'azure',
-            themePath:  'assets'                 
+            themePath:  'images'                 
         });
     });
 });

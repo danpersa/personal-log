@@ -251,3 +251,6 @@ sudo gem1.9.1 install linecache19 -- --with-ruby-include=/usr/include/ruby-1.9.1
 
 Logging during testing
 config.logger = Logger.new(STDOUT) in your test.rb or application.rb!
+
+# start server in production
+RAILS_ENV=production rails s

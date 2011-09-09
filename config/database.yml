@@ -32,7 +32,7 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: personal_log_prod
+  database: personal_log_dev
   pool: 5
   username: root
   password: root
