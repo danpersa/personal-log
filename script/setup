@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+# run rake and setup tasks
+system "bundle"
+system "bundle exec rake db:create:all"
+system "bundle exec rake db:migrate --trace"

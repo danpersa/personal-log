@@ -2,5 +2,5 @@ bundler_args: --without development --without development production
 rvm:
   - 1.9.2
 before_script:
-  - "mysql -e 'create database personal_log_test;' >/dev/null"
+  - "script/setup"
 script: "bundle exec rake --trace"
