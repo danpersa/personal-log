@@ -13,7 +13,7 @@
       <%= date.day %>
       <ul>
         <% for reminder in reminders[0, 4] %>
-          <li>·<%= link_to h(reminder.idea.content).truncate(15), reminder.idea, :alt => reminder.idea.content, :class => "popup" %></li>
+          <li>·<%= link_to h(reminder.idea.content).truncate(15), reminder.idea, :title => reminder.idea.content, :class => "popup" %></li>
         <% end %>
       </ul>
     <% end %>
