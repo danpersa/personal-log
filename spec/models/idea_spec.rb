@@ -155,7 +155,7 @@ describe Idea do
     end
   end
   
-  describe "users users_considering_idea_good association" do
+  describe "users_considering_idea_good association" do
     before(:each) do
       @idea = @user.ideas.create(@attr)
       @other_user = Factory(:user, :email => Factory.next(:email))
@@ -172,7 +172,7 @@ describe Idea do
     end
   end
   
-  describe "users users_who_marked_idea_as_done association" do
+  describe "users_who_marked_idea_as_done association" do
     before(:each) do
       @idea = @user.ideas.create(@attr)
       @other_user = Factory(:user, :email => Factory.next(:email))
@@ -188,7 +188,6 @@ describe Idea do
       @idea.users_who_marked_idea_as_done.all.size.should == 2
     end
   end
-  
   
   describe "public?" do
     

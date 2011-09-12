@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :updating_password
   attr_accessible :name, :email, :password, :password_confirmation, 
-                  :activation_code
+    :activation_code
 
   has_many :ideas
   has_many :idea_lists, :dependent => :destroy
@@ -40,18 +40,29 @@ class User < ActiveRecord::Base
   has_many :followers, :through => :reverse_relationships, :source => :follower
   
   has_one :profile, :dependent => :destroy
+  
+  has_many   :good_ideas, :dependent => :destroy
+  has_many   :done_ideas, :dependent => :destroy
+  has_many   :ideas_marked_as_good,
+    :through => :good_ideas,
+    :class_name => "Idea",
+    :source => :idea
+  has_many   :ideas_marked_as_done,
+    :through => :done_ideas,
+    :class_name => "Idea",
+    :source => :idea         
 
   validates :name,  :presence     => true,
-                    :length       => { :maximum => 50 } 
+    :length       => { :maximum => 50 } 
   validates :email, :presence     => true,
-                    :email_format => true,
-                    :uniqueness   => { :case_sensitive => false },
-                    :length       => { :maximum => 255 }
+    :email_format => true,
+    :uniqueness   => { :case_sensitive => false },
+    :length       => { :maximum => 255 }
   # Automatically create the virtual attribute 'password_confirmation'.
   validates :password, :presence     => true,
-                       :confirmation => true,
-                       :length       => { :within => 6..40 },
-                       :if           => :should_validate_password?
+    :confirmation => true,
+    :length       => { :within => 6..40 },
+    :if           => :should_validate_password?
   
   validates_inclusion_of :state, :in => %w(pending active blocked),
     :message => "%{value} is not a valid state"
@@ -77,6 +88,30 @@ class User < ActiveRecord::Base
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil
+  end
+  
+  def marked_as_good?(idea)
+    good_ideas.find_by_idea_id(idea)
+  end
+  
+  def mark_as_good!(idea)
+    good_ideas.create!(:idea => idea)
+  end
+  
+  def unmark_as_good!(idea)
+    good_ideas.find_by_idea_id(idea).destroy
+  end
+  
+  def marked_as_done?(idea)
+    done_ideas.find_by_idea_id(idea)
+  end
+  
+  def mark_as_done!(idea)
+    done_ideas.create!(:idea => idea)
+  end
+  
+  def unmark_as_done!(idea)
+    done_ideas.find_by_idea_id(idea).destroy
   end
   
   def following?(followed)
@@ -130,13 +165,13 @@ class User < ActiveRecord::Base
 
     event :activate do
       transitions :to => :active,
-                  :from => [:pending],
-                  :on_transition => :do_activate
+        :from => [:pending],
+        :on_transition => :do_activate
     end
     
     event :block do
       transitions :to => :blocked,
-                  :from => [:pending, :active]
+        :from => [:pending, :active]
     end
   end
 
@@ -157,12 +192,12 @@ class User < ActiveRecord::Base
   def self.users_with_public_or_own_reminders_for_idea(idea, user)
     public_privacy = Privacy.public_privacy_id
     joins(:reminders).
-    where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))",
+      where("(reminders.idea_id = :idea_id AND (reminders.privacy_id = :privacy_id OR reminders.user_id = :user_id))",
       :idea_id => idea,
       :privacy_id => public_privacy,
       :user_id => user).
-    group("users.id, users.name, users.email, users.salt, users.encrypted_password, users.activation_code, users.activated_at, users.state, users.admin, users.created_at, users.updated_at, users.password_reset_code, users.reset_password_mail_sent_at").
-    order("max(reminders.created_at) ASC")
+      group("users.id, users.name, users.email, users.salt, users.encrypted_password, users.activation_code, users.activated_at, users.state, users.admin, users.created_at, users.updated_at, users.password_reset_code, users.reset_password_mail_sent_at").
+      order("max(reminders.created_at) ASC")
   end
 
   private

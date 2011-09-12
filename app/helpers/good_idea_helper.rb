@@ -1,0 +1,2 @@
+module GoodIdeaHelper
+end

@@ -230,6 +230,149 @@ describe User do
       end
     end
   end
+  
+  describe ":ideas_marked_as_good association" do
+    before(:each) do
+      @user = User.create(@attr)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)   
+      @other_idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)         
+      Factory(:good_idea, :user => @user, :idea => @idea)
+      Factory(:good_idea, :user => @user, :idea => @other_idea)
+    end
+    
+    it "should have a ideas_marked_as_good attribute" do
+      @user.should respond_to(:ideas_marked_as_good)
+    end
+    
+    it "should have two associated users" do
+      @user.ideas_marked_as_good.all.size.should == 2
+    end
+  end
+  
+  describe "good ideas associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)   
+    end
+
+    it "should have a good ideas attribute" do
+      @user.should respond_to(:good_ideas)
+    end
+
+    it "should have the right associated good_idea" do
+      @good_idea = @user.good_ideas.create({:idea => @idea})
+      GoodIdea.first.user_id.should == @user.id
+      GoodIdea.first.user.should == @user
+    end
+    
+    it "should destroy associated good ideas" do
+      @good_idea = @user.good_ideas.create({:idea => @idea})
+      create_community_user
+      @user.destroy
+      GoodIdea.find_by_id(@good_idea.id).should be_nil
+    end
+    
+    it "should have a marked_as_good? method" do
+      @user.should respond_to(:marked_as_good?)
+    end
+
+    it "should have a mark_as_good! method" do
+      @user.should respond_to(:mark_as_good!)
+    end
+
+    it "should have a unmark_as_good! method" do
+      @user.should respond_to(:unmark_as_good!)
+    end
+
+    it "should mark an idea as good" do
+      @user.mark_as_good!(@idea)
+      @user.should be_marked_as_good(@idea)
+    end
+
+    it "should include the idea marked as good in the ideas marked as good array" do
+      @user.mark_as_good!(@idea)
+      @user.ideas_marked_as_good.should include(@idea)
+    end
+
+    it "should unmark an idea as good" do
+      @user.mark_as_good!(@idea)
+      @user.unmark_as_good!(@idea)
+      @user.should_not be_marked_as_good(@idea)
+    end
+  end
+  
+  describe "done ideas associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)   
+    end
+
+    it "should have a done ideas attribute" do
+      @user.should respond_to(:done_ideas)
+    end
+
+    it "should have the right associated done idea" do
+      @done_idea = @user.done_ideas.create({:idea => @idea})
+      DoneIdea.first.user_id.should == @user.id
+      DoneIdea.first.user.should == @user
+    end
+    
+    it "should destroy associated done ideas" do
+      @done_idea = @user.done_ideas.create({:idea => @idea})
+      create_community_user
+      @user.destroy
+      DoneIdea.find_by_id(@done_idea.id).should be_nil
+    end
+    
+    it "should have a marked_as_done? method" do
+      @user.should respond_to(:marked_as_done?)
+    end
+
+    it "should have a mark_as_done! method" do
+      @user.should respond_to(:mark_as_done!)
+    end
+
+    it "should have a unmark_as_done! method" do
+      @user.should respond_to(:unmark_as_done!)
+    end
+
+    it "should mark an idea as done" do
+      @user.mark_as_done!(@idea)
+      @user.should be_marked_as_done(@idea)
+    end
+
+    it "should include the idea marked as done in the ideas marked as done array" do
+      @user.mark_as_done!(@idea)
+      @user.ideas_marked_as_done.should include(@idea)
+    end
+
+    it "should unmark an idea as done" do
+      @user.mark_as_done!(@idea)
+      @user.unmark_as_done!(@idea)
+      @user.should_not be_marked_as_done(@idea)
+    end
+  end
+  
+   
+  describe ":ideas_marked_as_done association" do
+    before(:each) do
+      @user = User.create(@attr)
+      @idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)   
+      @other_idea = Factory(:idea, :user => @user, :created_at => 1.day.ago)         
+      Factory(:done_idea, :user => @user, :idea => @idea)
+      Factory(:done_idea, :user => @user, :idea => @other_idea)
+    end
+    
+    it "should have a ideas_marked_as_done attribute" do
+      @user.should respond_to(:ideas_marked_as_done)
+    end
+    
+    it "should have two associated users" do
+      @user.ideas_marked_as_done.all.size.should == 2
+    end
+  end
 
   describe "relationships" do
     before(:each) do
