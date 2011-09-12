@@ -29,6 +29,8 @@ class RemindersController < ApplicationController
         }
       end
       format.js {
+        # TODO we have more cases here because there are many places from where we can create reminders using ajax
+        # for each place we have to use another response, because we must update another page using ajax
         respond_with( @reminder, :layout => !request.xhr? ) 
       }
     end
