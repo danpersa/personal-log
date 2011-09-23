@@ -9,7 +9,7 @@ class IdeasController < ApplicationController
   	Idea.transaction do
   	  if @idea.valid?
   	    @idea.save!
-  	    @reminder.idea = @idea
+  	    @reminder.idea = @idea  	    
   	    if @reminder.save!
     	    flash[:success] = "Idea created!"
           redirect_to root_path
@@ -19,12 +19,11 @@ class IdeasController < ApplicationController
         @reminder.valid?
       end
     end
-
     @feed_items = []
     @user = current_user
     render 'pages/home'
     
-    rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid => detail
       @feed_items = []
       @user = current_user
       render 'pages/home'

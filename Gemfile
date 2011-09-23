@@ -44,7 +44,7 @@ end
 group :development do
   gem 'rspec-rails'
   #  sudo gem install ruby-debug19 -- --with-ruby-include=/usr/include/ruby-1.9.1
-  gem "ruby-debug19"
+  gem "ruby-debug19" unless ENV["CI"]
 #  gem 'annotate-models'
 end
 

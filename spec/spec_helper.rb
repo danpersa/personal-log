@@ -55,6 +55,22 @@ Spork.prefork do
       community_user.block!
     end
     
+    def future_date
+      Time.now.next_year.strftime("%d/%m/%Y")
+    end
+    
+    def puts_validation_errors(model)
+      if not model.valid?
+        model.errors.full_messages.each do |error|
+          puts error
+        end
+      end
+    end
+    
+    def puts_backtrace(exception)
+      exception.backtrace.join("\n")
+    end
+    
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false
     # instead of true
