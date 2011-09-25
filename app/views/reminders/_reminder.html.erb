@@ -4,9 +4,9 @@
     <span class="timestamp">
       Posted <%= time_ago_in_words(reminder.created_at) %> ago as <%= reminder.privacy.name %>.
     </span>
-    <% unless current_user?(reminder.user) %>
+    <% if signed_in? %>
     <span class="item-toolbar">
-      <%= link_to "Remind me too", remind_me_too_path(:idea_id => reminder.idea.id), :remote => true %> · 
+      <%= render :partial => 'ideas/item_toolbar', :locals => {:idea => reminder.idea} %>
     </span>
     <% end %>
   </td>

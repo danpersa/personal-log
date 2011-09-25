@@ -44,6 +44,17 @@ class RemindersController < ApplicationController
      end
   end
   
+  def remind_me_too_user_profile
+    @idea = Idea.find_by_id(params[:idea_id])
+    if redirect_unless_public_idea @idea
+      return
+    end
+    @title = "Remind me too"
+    @reminder = Reminder.new
+    @submit_button_name = "Create reminder"
+    respond_with_remote_form
+  end
+  
   def remind_me_too
     @idea = Idea.find_by_id(params[:idea_id])
     if redirect_unless_public_idea @idea
