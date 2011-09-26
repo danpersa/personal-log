@@ -33,8 +33,8 @@ describe "Ideas Request" do
         lambda do
           visit root_path
           fill_in 'idea_content', :with => content
-          fill_in 'reminder_reminder_date', :with => reminder_date
-          select "public", :from => "reminder_privacy_id"
+          fill_in 'new_reminder_reminder_date', :with => reminder_date
+          select "public", :from => "new_reminder_privacy_id"
           click_button "Post"
           page.should have_css("span.content", :text => content)
         end.should change(Idea, :count).by(1)

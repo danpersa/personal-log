@@ -1,3 +1,7 @@
+var prefix = 'reminder_';
+var dialog_selector = "#remind_me_too_dialog";
+<% @model = @reminder %>
+var form_selector = $('#new_reminder');
 <% if @model.errors.any? %>
   // Create a list of errors
   var errors = $('<div/>');
@@ -9,7 +13,7 @@
   <% end %>
 <% else %>
   <% if @update_table.nil? or @update_table %>
-    <%= render(:partial => @update_table_partial.nil? ? "table_update" : @update_table_partial) %>
+    <%= render(:partial => "table_update") %>
   <% end %>
   addNotificationSuccess("<%= escape_javascript(flash[:success]) %>");
   $("button, input:submit").button();

@@ -167,17 +167,17 @@ describe IdeasController do
        
       it "should create an idea" do
         lambda do
-          post :create, :idea => @attr, :reminder => @reminder_attr
+          post :create, :idea => @attr, :new_reminder => @reminder_attr
         end.should change(Idea, :count).by(1)
       end
     
       it "should redirect to the home page" do
-        post :create, :idea => @attr, :reminder => @reminder_attr
+        post :create, :idea => @attr, :new_reminder => @reminder_attr
         response.should redirect_to(root_path)
       end
  
       it "should have a flash message" do
-        post :create, :idea => @attr, :reminder => @reminder_attr
+        post :create, :idea => @attr, :new_reminder => @reminder_attr
         flash[:success].should =~ /idea created/i
       end
     end

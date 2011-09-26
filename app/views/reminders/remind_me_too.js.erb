@@ -1,3 +1,4 @@
+$("#remind_me_too_dialog").attr("title", "<%= escape_javascript(@title) %>");
 $("#remind_me_too_dialog").html("<%= escape_javascript(render(:partial => "form"))%>");
 $("#remind_me_too_dialog").dialog({
     autoOpen: false,

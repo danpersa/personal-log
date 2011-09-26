@@ -67,6 +67,14 @@ module SessionsHelper
   def redirect_to_root_path_with_notice(notice)
     redirect_to root_path, :notice => notice
   end
+  
+  def store_current_page
+    session[:current_page] = request.fullpath
+  end
+  
+  def current_page
+    session[:current_page]
+  end
 
 private
 

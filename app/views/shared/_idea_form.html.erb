@@ -8,14 +8,14 @@
   <span class="title">on</span>
   
   <span class="field">
-    <%= text_field :reminder, :reminder_date, :class => "text ui-widget-content ui-corner-all" %>
+    <%= text_field :new_reminder, :reminder_date, :class => "text ui-widget-content ui-corner-all" %>
   </span>
 
   <span class="title">as</span>
   <span class="field">
-    <%= collection_select :reminder, :privacy_id, Privacy.all, :id, :name %>
+    <%= collection_select :new_reminder, :privacy_id, Privacy.all, :id, :name %>
   </span>
   <span class="actions">
-    <%= submit_tag "Post", :id => "reminder_post" %>
+    <%= submit_tag "Post", :id => "new_reminder_post" %>
   </span>  
 <% end %>

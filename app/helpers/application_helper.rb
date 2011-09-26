@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+  @@items_per_page = 5
 
   # return a title on a per-page basis
   def title
@@ -14,19 +15,19 @@ module ApplicationHelper
   def logo
     image_tag("remindmetolive.png", :alt => "Remind me to live", :class => "round")
   end
-  
+
   def pluralize_without_numbers(count, one, many)
     pluralize(count, one, many)[count.to_s.length + 1..pluralize(count, one, many).length]
   end
-  
+
   def has_prev_page(page)
     return true unless page <= 1
   end
-  
+
   def has_next_page(next_feed_item)
     return true unless next_feed_item.nil?
   end
-  
+
   def get_page
     @page = params[:page].nil? ? 1 : params[:page].to_i
   end
@@ -40,7 +41,7 @@ module ApplicationHelper
     @has_next_page = has_next_page(next_feed_item)
     return r
   end
-  
+
   def errors_for_field(object, field)
     html = String.new
     html << "<div id='#{object.class.name.underscore.downcase}_#{field}_errors' class='errors'>\n"
@@ -54,28 +55,28 @@ module ApplicationHelper
     html << "\t</div>\n"
     return html.html_safe
   end
-  
+
   def remote?
     if (@remote == true)
       return true
     end 
     return false
   end
-  
+
   def hide_buttons?
     if (not @hide_buttons.nil?) and (@hide_buttons == true)
       return true
     end 
     false
   end
-  
+
   def submit_button_name
     if (@submit_button_name.blank?)
       return "Post"
     end
     @submit_button_name
   end
-  
+
   def respond_with_remote_form
     respond_to do |format|
       format.html
@@ -85,30 +86,64 @@ module ApplicationHelper
       }
     end
   end
-  
+
   def file_exists?(path)
     if (not path.blank?) and FileTest.exists?("#{::Rails.root.to_s}/#{path}")
       return true
     end
     false
   end
-  
+
   def sidebar_idea_lists
     IdeaList.owned_by current_user
   end
-  
+
   def js_exists?(name)
     return true if file_exists? "app/assets/javascripts/#{name}.js" or 
       file_exists? "app/assets/javascripts/#{name}.js.coffee"
     false
   end
-  
+
   def js_for_controller_exists?
     js_exists?(params[:controller].parameterize)
   end
-  
+
   def js_for_action_exists?
     js_exists?("#{params[:controller].parameterize}_#{params[:action].parameterize}")
   end
-  
+
+  def url_to_hash url
+    path_hash = Rails.application.routes.recognize_path url
+    params = url.split('?')[1]
+    unless (params.nil?)
+      path_hash = path_hash.merge(Rack::Utils.parse_nested_query(params))
+    end
+    path_hash[:page] = path_hash["page"]
+    return path_hash
+  end
+
+  def init_feeds_table
+    @feed_items = pagination(current_user.feed, @@items_per_page)
+    # other variables
+    @idea = Idea.new
+    @reminder = Reminder.new
+    @users_with_public_or_own_reminders_for_idea = {}
+    @users_with_public_or_own_reminders_for_idea_count = {}
+    @newest_public_or_own_reminder_for_idea = {}
+    @feed_items.each do |idea|
+      @users_with_public_or_own_reminders_for_idea[idea] = User.users_with_public_or_own_reminders_for_idea(idea, current_user).includes(:profile).limit(2).all
+      # TODO user count instead of all.size
+      @users_with_public_or_own_reminders_for_idea_count[idea] = User.users_with_public_or_own_reminders_for_idea(idea, current_user).all.size
+
+      logger.info "@users_with_public_or_own_reminders_for_idea_count[idea] "
+      logger.info @users_with_public_or_own_reminders_for_idea_count[idea]
+
+      @newest_public_or_own_reminder_for_idea[idea] = Reminder.newest_public_or_own_reminder_for_idea(idea, current_user).first
+    end
+    @user = current_user
+  end
+
+  def init_reminders_table_of user
+    @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).paginate(:per_page => @@items_per_page, :page => @page)
+  end
 end

@@ -4,13 +4,16 @@
       <td class="main">
         <h1 class="idea">Remind me to</h1>
         <%= render 'shared/idea_form' %>
-        <%= render 'shared/feed' %>
+        <div id="table-div">
+          <%= render 'feeds/table' %>
+        </div>
       </td>
       <td class="sidebar round">
         <%= render 'shared/sidebar' %>
       </td>
     </tr>
   </table>
+  <%= render 'shared/remind_me_too_dialog' %>
 <% else %>
 
   <table class="front">

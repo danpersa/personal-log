@@ -16,11 +16,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @reminders = @user.reminders_for_logged_user(current_user).includes(:privacy).paginate(:page => params[:page])
+    @page = params[:page]
+    init_reminders_table_of @user
     # we store the location so we can be redirected here after reminder delete
     store_location
+    store_current_page
     @title = @user.name
-    @action = "show"
   end
 
   def new

@@ -13,23 +13,6 @@
 $( function() {
 
   //$("button, input:submit").button();
-  $("#reminder_post").button();
-
-
-  initHoverIcons();
-
-  $("#reminder_privacy_id").selectmenu({
-    transferClasses: true,
-    style: "dropdown",
-    width: 100,
-    menuWidth: 100
-  });
-
-
-  $("#reminder_reminder_date").datepicker({
-    dateFormat: 'dd/mm/yy',
-    minDate: new Date()
-  });
 });
 
 function addNotification(message, styleClass) {
