@@ -1,4 +1,4 @@
-<tr class="show-close-button">
+<tr class="show-close-button" id="reminder_<%= simple_reminder.id %>">
   <td class="item">
     <span class="content"><%= simple_reminder.reminder_date %></span>
     <span class="timestamp">
@@ -9,9 +9,10 @@
   <td class="item">
     <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "delete", simple_reminder, :method => :delete,
-                                         :confirm => "You sure?",
-                                         :title => "Remove simple_reminder",
-                                         :class => "ui-icon ui-icon-close" %>
+                                               :confirm => "You sure?",
+                                               :title => "Remove reminder",
+                                               :class => "ui-icon ui-icon-close",
+                                               :remote => true %>
     </div>
   </td>
   <% end %>

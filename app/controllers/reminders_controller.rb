@@ -5,6 +5,8 @@ class RemindersController < ApplicationController
   
   respond_to :html, :js
   
+  @@items_per_page = 3
+  
   def index
     @user = current_user
     @reminders = current_user.reminders.includes(:idea).all
@@ -19,6 +21,7 @@ class RemindersController < ApplicationController
     end
     @reminder = current_user.reminders.build(params[:reminder])
     @reminder.idea = @idea
+    shared_idea = @idea.shared_by? current_user
     respond_to do |format|
       if @reminder.save
         flash[:success] = "Reminder successfully created!"
@@ -33,7 +36,27 @@ class RemindersController < ApplicationController
         # for each place we have to use another response, because we must update another page using ajax
         logger.debug "current page: " + current_page
         # we are on the profile page of an user
-        if current_page.include? "user"
+        if current_page.include? "ideas" and current_page.include? "users"
+          respond_with(@reminder, :layout => !request.xhr?) do |format|
+            format.js {
+              path_hash = url_to_hash(current_page)
+              page = path_hash[:page]
+              unless shared_idea
+                logger.debug "idea shared by current user"
+                @user = current_user
+                @users = @idea.public_users(current_user).includes(:profile).paginate(:page => page, :per_page => @@items_per_page).all
+                @table_params = { :controller => "ideas",
+                                  :action => "users",
+                                  :id => @idea.id,
+                                  :page => page }
+                @update_table_partial = 'users/table_and_toolbar_update'
+              else
+                logger.debug "idea not shared by current user"
+                @update_table = false
+              end
+            }
+          end
+        elsif current_page.include? "user"
           respond_with(@reminder, :layout => !request.xhr?) do |format|
             format.js {
               # we parse the current page path and extract the user on which profile page we are on
@@ -62,7 +85,17 @@ class RemindersController < ApplicationController
               init_feeds_table
             }
           end
-        end
+        elsif current_page.include? "ideas"
+          respond_with(@reminder, :layout => !request.xhr?) do |format|
+            format.js {
+              path_hash = url_to_hash(current_page)
+              idea_id = path_hash[:id]
+              @update_table_partial = 'reminders/simple_table_update'
+              @user = current_user
+              @reminders = Reminder.from_idea_by_user(idea_id, current_user)
+            }
+          end
+        end  
       }
     end
   end

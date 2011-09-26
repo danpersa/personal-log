@@ -1,9 +1,21 @@
-<li>
-  <%= gravatar_for user, :size => 30 %>
-  <%= link_to user.display_name, user %>
+<tr class="show-close-button" id="reminder_<%= user.id %>">
+  
+  <td class="gravatar">
+    <%= link_to gravatar_for(user), user %>
+  </td>
+  <td class="item">
+    <%= link_to user.display_name, user %>
+  </td>
+  
   <% if signed_in? and current_user.admin? %>
-  | <%= link_to "delete", user, :method => :delete, :confirm => "You sure?",
-                                :title => "Delete #{user.name}" %>
+  <td class="item">
+    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "delete", user, :method => :delete,
+                                        :confirm => "You sure?",
+                                        :title => "Remove user",
+                                        :class => "ui-icon ui-icon-close",
+                                        :remote => true %>
+    </div>
+  </td>
   <% end %>
-</li>
-
+</tr>
