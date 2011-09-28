@@ -389,7 +389,7 @@ describe IdeasController do
         test_web_sign_in(@user)
         visit idea_path(@idea) + '/users'
         @users[0..2].each do |user|
-          page.should have_selector('li', :text => user.name)
+          page.should have_selector('td', :text => user.name)
         end
       end
     end
