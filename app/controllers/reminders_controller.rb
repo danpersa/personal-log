@@ -5,7 +5,7 @@ class RemindersController < ApplicationController
   
   respond_to :html, :js
   
-  @@items_per_page = 3
+  @@items_per_page = 10
   
   def index
     @user = current_user
@@ -32,10 +32,8 @@ class RemindersController < ApplicationController
         }
       end
       format.js {
-        # TODO we have more cases here because there are many places from where we can create reminders using ajax
-        # for each place we have to use another response, because we must update another page using ajax
         logger.debug "current page: " + current_page
-        # we are on the profile page of an user
+        # we are on the users sharing an idea page
         if current_page.include? "ideas" and current_page.include? "users"
           respond_with(@reminder, :layout => !request.xhr?) do |format|
             format.js {
@@ -46,9 +44,9 @@ class RemindersController < ApplicationController
                 @user = current_user
                 @users = @idea.public_users(current_user).includes(:profile).paginate(:page => page, :per_page => @@items_per_page).all
                 @table_params = { :controller => "ideas",
-                                  :action => "users",
-                                  :id => @idea.id,
-                                  :page => page }
+                  :action => "users",
+                  :id => @idea.id,
+                  :page => page }
                 @update_table_partial = 'users/table_and_toolbar_update'
               else
                 logger.debug "idea not shared by current user"
@@ -56,26 +54,28 @@ class RemindersController < ApplicationController
               end
             }
           end
-        elsif current_page.include? "user"
+          # we are on the profile page of an user
+        elsif current_page.include? "users"
           respond_with(@reminder, :layout => !request.xhr?) do |format|
             format.js {
               # we parse the current page path and extract the user on which profile page we are on
               path_hash = url_to_hash(current_page)
               user_id = path_hash[:id]
-              page = path_hash[:page]
+              @page = path_hash[:page]
               # if we edit our own profile
               if (user_id.to_i == current_user.id)
                 logger.debug "own profile"
                 @table_params = { :controller => "users",
-                                  :action => "show",
-                                  :id => user_id,
-                                  :page => page }
+                  :action => "show",
+                  :id => user_id,
+                  :page => @page }
                 init_reminders_table_of current_user
               else
                 @update_table = false
               end
             }
           end
+          # we are on the home page
         elsif current_page == "/" or current_page.include? '/?page='
           respond_with(@reminder, :layout => !request.xhr?) do |format|
             format.js {
@@ -85,17 +85,25 @@ class RemindersController < ApplicationController
               init_feeds_table
             }
           end
+          # we are on the reminders for an idea page
         elsif current_page.include? "ideas"
           respond_with(@reminder, :layout => !request.xhr?) do |format|
             format.js {
+              logger.debug 'we are on the reminders for an idea page'
               path_hash = url_to_hash(current_page)
               idea_id = path_hash[:id]
+              page = path_hash[:page]
+              logger.debug 'idea_id ' + idea_id
+              @table_params = { :controller => "ideas",
+                :action => "show",
+                :id => idea_id,
+                :page => page }
               @update_table_partial = 'reminders/simple_table_update'
               @user = current_user
-              @reminders = Reminder.from_idea_by_user(idea_id, current_user)
+              @reminders = Reminder.from_idea_by_user(idea_id, current_user).paginate(:page => page, :per_page => @@items_per_page)
             }
           end
-        end  
+        end
       }
     end
   end
@@ -103,9 +111,37 @@ class RemindersController < ApplicationController
   def destroy
     @reminder.destroy
     respond_to do |format|
-       format.html { redirect_back_or root_path }
-       format.js
-     end
+      format.html { redirect_back_or root_path }
+      format.js {
+        logger.debug "current page: " + current_page
+        # we are on the profile page of the logged user
+        if current_page.include? "users"
+          path_hash = url_to_hash(current_page)
+          user_id = path_hash[:id]
+          @page = path_hash[:page]
+          # if we edit our own profile
+          logger.debug "own profile"
+          @table_params = { :controller => "users",
+            :action => "show",
+            :id => user_id,
+            :page => @page }
+          init_reminders_table_of current_user
+          # we are on the reminders for an idea page
+        elsif current_page.include? "ideas"
+          logger.debug 'we are on the reminders for an idea page'
+          path_hash = url_to_hash(current_page)
+          idea_id = path_hash[:id]
+          page = path_hash[:page]
+          @table_params = { :controller => "ideas",
+            :action => "show",
+            :id => idea_id,
+            :page => page }
+          @update_table_partial = 'reminders/simple_table_update'
+          @user = current_user
+          @reminders = Reminder.from_idea_by_user(idea_id, current_user).paginate(:page => page, :per_page => @@items_per_page)
+        end  
+      }
+    end
   end
   
   def remind_me_too_user_profile

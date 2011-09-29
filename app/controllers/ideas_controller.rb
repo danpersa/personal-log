@@ -47,7 +47,7 @@ class IdeasController < ApplicationController
   def show
     # the idea is searched in interceptor
     @user = current_user
-    @reminders = Reminder.from_idea_by_user(@idea, current_user)
+    @reminders = Reminder.from_idea_by_user(@idea, current_user).paginate(:page => params[:page], :per_page => @@items_per_page)
     redirect_to users_idea_path(@idea) and return if @reminders.empty?
   end
   

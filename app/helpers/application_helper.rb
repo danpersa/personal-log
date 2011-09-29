@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  @@items_per_page = 5
+  @@items_per_page = 10
 
   # return a title on a per-page basis
   def title
@@ -144,6 +144,6 @@ module ApplicationHelper
   end
 
   def init_reminders_table_of user
-    @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).paginate(:per_page => @@items_per_page, :page => @page)
+    @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).paginate(:page => @page, :per_page => @@items_per_page)
   end
 end

@@ -1,1 +1,1 @@
-<%= render 'reminders/table_update' %>
+<%= render  @update_table_partial.nil? ? 'reminders/table_update' : @update_table_partial %>

@@ -5,7 +5,7 @@ class IdeaListsController < ApplicationController
   
   respond_to :html, :js
   
-  @@items_per_page = 5
+  @@items_per_page = 10
   
   def index
     @user = current_user

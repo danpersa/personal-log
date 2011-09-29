@@ -3,6 +3,7 @@ Feature: 4.4 - The user shares another users's idea using the remind me too butt
   I want to use another users's idea
   So that other users can inspire me
 
+  @javascript
   Scenario: The user successfully shares another user's idea from the home page
     Given a logged user with email "brandon@example.com"
     And "brandon@example.com" has a display name of "TheUser"
