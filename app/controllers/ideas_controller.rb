@@ -5,7 +5,7 @@ class IdeasController < ApplicationController
   before_filter :store_location, :only => [:show, :users]
   before_filter :store_current_page, :only => [:show, :users]
 
-  @@items_per_page = 3
+  @@items_per_page = 10
   
   def create
   	@idea  = current_user.ideas.build(params[:idea])
@@ -72,7 +72,17 @@ class IdeasController < ApplicationController
     end
     respond_to do |format|
        format.html { redirect_back_or root_path }
-       format.js
+       format.js {
+         # we parse the current page path and extract the user on which profile page we are on
+         path_hash = url_to_hash(current_page)
+         user_id = path_hash[:id]
+         page = path_hash[:page]
+         @table_params = { :controller => "users",
+                           :action => "ideas",
+                           :id => user_id,
+                           :page => page }
+         @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => page, :per_page => @@items_per_page)
+       }
      end
   end
 

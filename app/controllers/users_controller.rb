@@ -9,6 +9,8 @@ class UsersController < ApplicationController
   before_filter :admin_or_correct_user, :only => :destroy
   before_filter :not_authenticate, :only => [:change_reseted_password]
 
+  @@items_per_page = 10
+  
   def index
     @user = current_user
     @title = "All users"
@@ -121,9 +123,10 @@ class UsersController < ApplicationController
   
   # page displaying the ideas of the current user
   def ideas
-    @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page])
+    @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page], :per_page => @@items_per_page)
     # we store the location so we can be redirected here after idea delete
     store_location
+    store_current_page
   end
 
   private 
