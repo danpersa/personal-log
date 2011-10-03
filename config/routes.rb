@@ -27,6 +27,26 @@ PersonalLog::Application.routes.draw do
   
   resources :reminders, :only => [:index, :create, :destroy]
   resources :relationships, :only => [:create, :destroy]
+  
+  match '/good-idea/:id',      :to => 'good_ideas#create',
+                               :constraints => { :id => /[0-9]+/ },
+                               :via => :post,
+                               :as => 'good_idea_create'
+  
+  resources :good_ideas,
+            :path => 'good-ideas',
+            :only => [:destroy],
+            :as => 'good_ideas'
+  
+  match '/done-idea/:id',      :to => 'done_ideas#create',
+                               :constraints => { :id => /[0-9]+/ },
+                               :via => :post,
+                               :as => 'done_idea_create'
+  
+  resources :done_ideas,
+            :path => 'done-ideas',
+            :only => [:destroy],
+            :as => 'done_ideas'
   resources :reset_passwords,
             :path => 'reset-password',
             :only => [:new, :create],

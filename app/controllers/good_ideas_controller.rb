@@ -1,8 +1,8 @@
-class GoodIdeaController < ApplicationController
+class GoodIdeasController < ApplicationController
   before_filter :authenticate
   
   def create
-    @idea = Idea.find(params[:good_idea][:idea_id])
+    @idea = Idea.find(params[:id])
     current_user.mark_as_good!(@idea)
     respond_to do |format|
       format.js
@@ -10,7 +10,7 @@ class GoodIdeaController < ApplicationController
   end
 
   def destroy
-    @idea = GoodIdea.find(params[:id]).idea
+    @idea = Idea.find(params[:id])
     current_user.unmark_as_good!(@idea)
     respond_to do |format|
       format.js

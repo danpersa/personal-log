@@ -138,7 +138,7 @@ module ApplicationHelper
       logger.info "@users_with_public_or_own_reminders_for_idea_count[idea] "
       logger.info @users_with_public_or_own_reminders_for_idea_count[idea]
 
-      @newest_public_or_own_reminder_for_idea[idea] = Reminder.newest_public_or_own_reminder_for_idea(idea, current_user).first
+      @newest_public_or_own_reminder_for_idea[idea] = Reminder.newest_public_or_own_reminder_for_idea(idea, current_user).first      
     end
     @user = current_user
   end
