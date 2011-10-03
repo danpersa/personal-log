@@ -20,8 +20,7 @@
     <span class="timestamp">
       Posted <%= time_ago_in_words(newest_reminder_for_idea.created_at) %> ago
     </span>
-
-    <span class="item-toolbar">
+    <span class="item-toolbar" id="item_toolbar_<%= feed.id %>">
       <%= render :partial => 'ideas/item_toolbar', :locals => {:idea => feed} %>
     </span>
   </td>

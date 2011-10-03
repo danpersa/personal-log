@@ -6,7 +6,7 @@
     </span>
     <% if signed_in? %>
     <span class="item-toolbar">
-      <%= render :partial => 'ideas/item_toolbar', :locals => {:idea => reminder.idea} %>
+      <%= render :partial => 'reminders/item_toolbar', :locals => {:idea => reminder.idea} %>
     </span>
     <% end %>
   </td>
