@@ -1,13 +1,13 @@
 /*
-*=require blueprint/src/reset
-*=require blueprint/src/grid
-*=require blueprint/src/typography
+*xxx=require blueprint/src/reset
+*xxx=require blueprint/src/grid
+*xxx=require blueprint/src/typography
 *=require jquery-ui-1-8-11-custom
 *=require token-input-facebook
 *=require jquery-ui-selectmenu
-*=require generic_form
+*xxx=require generic_form
 *=require_self
-*= require alerts
+*xxx= require alerts
 *= require tipTip.css
 *----=---xxrequire_tree .
 */
@@ -16,13 +16,6 @@
 .invisible { visibility: hidden; }
 
 /* General */
-.container {
-  width: 710px;
-}
-
-body {
-  background: #cff;
-}
 
 header {
   padding-top: 20px;
@@ -31,16 +24,6 @@ header {
 header img {
   padding: 1em;
   background: #fff;
-}
-
-section {
-  margin-top: 1em;
-  padding: 20px;
-  background: #fff;
-}
-
-section h1 {
-  font-size: 200%;
 }
 
 footer {
@@ -54,26 +37,6 @@ footer {
 footer nav {
   float: none;
 }
-
-b {
-  font-weight: bold;
-}
-
-/* Links */
-a {
-  color: #09c;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #069;
-  text-decoration: underline;
-}
-
-a:visited {
-  color: #069;
-}
-
 
 /* Navigation */
 nav {
@@ -110,126 +73,56 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Round corners */
-.round {
-  -moz-border-radius:    10px;
-  -webkit-border-radius: 10px;
-  border-radius:         10px;
-}
-
-/* Main table column */
-td.main {
-  width: 70%;
-  padding: 1em;
-}
-
-/* User info column */
-td.sidebar {
-  width: 30%;
-  padding: 1em;
-  vertical-align: top;
-  background: #ffc;
-}
-
-td.sidebar div.sidebar-user-info {
-  font-size: 80%;
-}
-
-td.sidebar div.sidebar-user-info-item {
-  margin-bottom: 5px;
-}
-
-td.sidebar div.user_info img {
-  padding-right: 0.1em;
-}
-
-td.sidebar div.user_info a {
-  text-decoration: none;
-}
-
-td.sidebar div.user_info span.user_name {
-  vertical-align: top;
-}
-
-td.sidebar div.user_info div.ideas {
-  font-size: 80%;
-  width: 100%;
-  text-align: center;
-}
-
-/* General table with some items */
-table.items {
-  margin-top: 1em;
-}
-
-table.items tr {
-  height: 65px;
-}
-
-table.items tr td.gravatar {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  width: 50px;
-}
-
-table.items tr td.item {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  padding-top: 10px;
-}
-
-table.items tr td.item span.timestamp {
-  display: block;
-  font-size: 85%;
-  color: #666;
-}
-
-table.items tr td.item span.item-toolbar {
-  font-size: 75%;
-}
-
-table.items tr td.item div.icon-button {
-  width: 17px;
-}
 
 /* fix for captcha */
 #recaptcha_instructions_image {
   font-size: 110%;
 }
 
-/* horizontal sidebar */
-div.sidebar {
-  width: 96%;
-  padding: 1em;
-  vertical-align: top;
-  background: #ffc;
-}
+ /* Override some defaults */
+  html, body {
+    background-color: #eee;
+  }
+  body {
+    padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+  }
+  .container > footer p {
+    text-align: center; /* center align it with the container */
+  }
+  .container {
+    width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+  }
 
-div.sidebar div.sidebar-user-info {
-  font-size: 80%;
-}
+  /* The white background content wrapper */
+  .content {
+    background-color: #fff;
+    padding: 20px;
+    margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+    -webkit-border-radius: 0 0 6px 6px;
+       -moz-border-radius: 0 0 6px 6px;
+            border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+       -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+            box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  }
 
-div.sidebar div.sidebar-user-info-item {
-  margin-bottom: 5px;
-}
+  /* Page header tweaks */
+  .page-header {
+    background-color: #f5f5f5;
+    padding: 20px 20px 10px;
+    margin: -20px -20px 20px;
+  }
 
-div.sidebar div.user_info img {
-  padding-right: 0.1em;
-}
+  /* Give a quick and non-cross-browser friendly divider */
+  .content .span4 {
+    margin-left: 0;
+    padding-left: 19px;
+    border-left: 1px solid #eee;
+  }
 
-div.sidebar div.user_info a {
-  text-decoration: none;
-}
-
-div.sidebar div.user_info span.user_name {
-  vertical-align: top;
-}
-
-div.sidebar div.user_info div.ideas {
-  font-size: 80%;
-  width: 100%;
-  text-align: center;
-}
+  .topbar .btn {
+    border: 0;
+  }
 
 @import "reminders_index.css.scss";
 @import "pages_home.css.scss";

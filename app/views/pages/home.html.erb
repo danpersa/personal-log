@@ -1,19 +1,12 @@
 <% if signed_in? %>
-  <table class="front" summary="For signed-in users">
-    <tr>
-      <td class="main">
-        <h1 class="idea">Remind me to</h1>
-        <%= render 'shared/idea_form' %>
-        <div id="table-div">
-          <%= render 'feeds/table' %>
-        </div>
-      </td>
-      <td class="sidebar round">
-        <%= render 'shared/sidebar' %>
-      </td>
-    </tr>
-  </table>
+  <%= render 'shared/idea_form' %>
+  <%= render 'feeds/table' %>
+
   <%= render 'shared/remind_me_too_dialog' %>
+
+  <% content_for :sidebar do %>
+    <%= render 'shared/sidebar' %>  
+  <% end %>
 <% else %>
 
   <table class="front">
@@ -81,10 +74,10 @@
     </tr>
   </table>
 
-<!--  <p>Do you have an idea that <b>can change your life</b>, but right now you don't have the time to implement it?</p>
-  <p>If you don't store your idea, in time will fade away, will vanish!</p>
-  <p>You have to keep track of this kind of ideas and <b>remind</b> them when the time is right!</p>
-  <p><b>Remind me to live</b> will make your life better, by recalling all the <b>catchy ideas</b>, on the right time!</p>
-  <p>Share your ideas with friends and family, start improving your life right now!</p> -->
+  <!--  <p>Do you have an idea that <b>can change your life</b>, but right now you don't have the time to implement it?</p>
+    <p>If you don't store your idea, in time will fade away, will vanish!</p>
+    <p>You have to keep track of this kind of ideas and <b>remind</b> them when the time is right!</p>
+    <p><b>Remind me to live</b> will make your life better, by recalling all the <b>catchy ideas</b>, on the right time!</p>
+    <p>Share your ideas with friends and family, start improving your life right now!</p> -->
   <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
 <% end %>

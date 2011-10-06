@@ -4,35 +4,68 @@
 <!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-  <title><%= title %></title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <title><%= title %></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS: implied media="all" -->
-  <%= render 'layouts/stylesheets' %>
+    <!-- CSS: implied media="all" -->
+    <%= render 'layouts/stylesheets' %>
 
-  <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <%= javascript_include_tag "modernizr-1-7-min" %>
-</head>
-<body class="body <%= params[:controller].parameterize %> <%= params[:controller].parameterize %>_<%= params[:action].parameterize %>">
-  <div class="container">
-    <%= render 'layouts/header' %>
-    <section id="main-section" class="round">
-        <% flash.each do |key, value| %>
-          <div class="flash <%= key %>"><%= value %></div>
-        <% end %>
-        <%= content_for?(:content) ? yield(:content) : yield %>
-    </section>
-    <%= render 'layouts/footer' %>
-    <%= debug(params) if Rails.env.development? %>
-  </div>
-  <!-- JavaScript at the bottom for fast page loading -->
-  <%= render 'layouts/javascripts' %>
-</body>
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <%= javascript_include_tag "modernizr-1-7-min" %>
+  </head>
+  <body class="body <%= params[:controller].parameterize %> <%= params[:controller].parameterize %>_<%= params[:action].parameterize %>">
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="#">remind me to live</a>
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <form action="" class="pull-right">
+            <input class="input-small" type="text" placeholder="Username">
+            <input class="input-small" type="password" placeholder="Password">
+            <button class="btn" type="submit">Sign in</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <div class="page-header">
+          <%= render 'layouts/header' %>
+        </div>
+        <div class="row">
+          <div class="span10">
+            <% flash.each do |key, value| %>
+              <div class="flash <%= key %>"><%= value %></div>
+            <% end %>
+            <%= content_for?(:content) ? yield(:content) : yield %>
+          </div>
+          <div class="span4">
+            <% if content_for?(:sidebar) %>
+              <%= yield :sidebar %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <%= render 'layouts/footer' %>
+        <%= debug(params) if Rails.env.development? %>
+      </footer>
+    </div>
+    <!-- JavaScript at the bottom for fast page loading -->
+    <%= render 'layouts/javascripts' %>
+  </body>
 </html>

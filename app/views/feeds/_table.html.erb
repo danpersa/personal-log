@@ -1,15 +1,22 @@
-<table class="items" summary="User ideas">
-  <%= render :partial => 'feeds/feed', :collection => @feed_items %>
-</table>
-<div class="pagination">
-  <% if @has_prev_page %>
-    <a class="previous_page" rel="prev" href="?page=<%= @page - 1 %>">&#8592; Previous</a>
-  <% else %>
-    <span class="previous_page disabled">&#8592; Previous</span>
-  <% end %>
-  <% if @has_next_page %>
-    <a class="next_page" rel="next" href=".?page=<%= @page + 1 %>">Next &#8594;</a>
-  <% else %>
-    <span class="next_page disabled">Next &#8594;</span>
-  <% end %>
+<%= render :partial => 'feeds/feed', :collection => @feed_items %>
+
+<div class="span10">
+  <div class="pagination">
+    <ul>
+      <% if @has_prev_page %>
+        <li class="prev">
+          <a rel="prev" href="?page=<%= @page - 1 %>">&larr; Previous</a>
+        </li>
+      <% else %>
+        <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+      <% end %>
+      <% if @has_next_page %>
+        <li class="next">
+          <a rel="next" href=".?page=<%= @page + 1 %>">Next &rarr;</a>
+        </li>
+      <% else %>
+        <li class="next disabled"><a href="#">Next &rarr;</a></li>
+      <% end %>
+    </ul>
+  </div>
 </div>

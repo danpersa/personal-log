@@ -1,27 +1,36 @@
-<tr class="show-close-button" id="feed_<%=feed.id%>">
+<div class="show-close-button span10" id="feed_<%=feed.id%>">
   <% users_for_idea = @users_with_public_or_own_reminders_for_idea[feed] %>
   <% users_for_idea_count = @users_with_public_or_own_reminders_for_idea_count[feed] %>
   <% newest_reminder_for_idea = @newest_public_or_own_reminder_for_idea[feed] %>
 
-  <td class="gravatar">
-    <%= link_to gravatar_for(users_for_idea.first), users_for_idea.first %>
-  </td>
-  <td class="item">
-
-    <% users_for_idea.each do |user| %>
-      <span class="user">
-        <%= link_to user.display_name, user %><% if user == users_for_idea.first and user != users_for_idea.last %><%= pluralize_without_numbers(users_for_idea_count - 2, ",", " and") %><% end %>
-      </span>
-    <% end %>
-    <% if users_for_idea_count > 2 %>and <a href="<%= users_idea_path feed %>"><%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %></a><% end %>
-
-    <span class="content"><%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <%= feed.content %></span>
-
-    <span class="timestamp">
-      Posted <%= time_ago_in_words(newest_reminder_for_idea.created_at) %> ago
-    </span>
-    <span class="item-toolbar" id="item_toolbar_<%= feed.id %>">
-      <%= render :partial => 'ideas/item_toolbar', :locals => {:idea => feed} %>
-    </span>
-  </td>
-</tr>
+  <div class="row">
+    <div class="gravatar span1">
+      <%= link_to gravatar_for(users_for_idea.first), users_for_idea.first %>
+    </div>
+    <div class="span9">
+      <div class="row">
+        <div class="span9">
+          <% users_for_idea.each do |user| %>
+            <span class="user">
+              <%= link_to user.display_name, user %><% if user == users_for_idea.first and user != users_for_idea.last %><%= pluralize_without_numbers(users_for_idea_count - 2, ",", " and") %><% end %>
+            </span>
+          <% end %>
+          <% if users_for_idea_count > 2 %>and <a href="<%= users_idea_path feed %>"><%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %></a><% end %>
+          <%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <%= feed.content %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span9 timestamp">
+          Posted <%= time_ago_in_words(newest_reminder_for_idea.created_at) %> ago
+        </div>
+      </div>
+      <div class="row">
+        <div class="span9">
+          <span class="item-toolbar" id="item_toolbar_<%= feed.id %>">
+            <%= render :partial => 'ideas/item_toolbar', :locals => {:idea => feed} %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

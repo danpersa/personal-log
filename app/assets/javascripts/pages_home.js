@@ -1,7 +1,5 @@
 $( function() {
 
-  $("#new_reminder_post").button();
-
 
   initHoverIcons();
 
