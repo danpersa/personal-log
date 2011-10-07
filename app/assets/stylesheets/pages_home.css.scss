@@ -130,19 +130,20 @@
    -webkit-transform: rotateZ(-2deg);
   }
 
-  .timestamp {
-    display: block;
-    font-size: 85%;
-    color: #666;
-  }
-
-  .feed-toolbar {
-    font-size: 75%;
-  }
   
   .feed-row {
     border-bottom: 1px solid #eee;
     padding-top: 10px;
+
+    .timestamp {
+      display: block;
+      font-size: 85%;
+      color: #666;
+    }
+
+    .feed-toolbar {
+      font-size: 75%;
+    }
   }
     
 }

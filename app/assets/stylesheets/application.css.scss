@@ -124,5 +124,27 @@ nav ul li a:hover {
     border: 0;
   }
 
+  .sidebar {
+    .profile-info {
+      font-size: 80%;
+    }
+
+    .user-info {
+      .ideas-count {
+        text-align:center;
+      }
+    }
+
+    .stats {
+      .following {
+        text-align:center;
+      }
+      .followers {
+        text-align:center;
+      }
+    }
+  }
+  
+
 @import "reminders_index.css.scss";
 @import "pages_home.css.scss";

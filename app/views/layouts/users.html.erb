@@ -1,15 +1,4 @@
 <% content_for :content do%>
-  <table class="main" summary="Profile information">
-    <tr>
-      <td class="main">
-        <%= yield %>
-      </td>
-      <% if content_for?(:sidebar) %>
-      <td class="sidebar round">
-        <%= yield :sidebar %>
-      </td>
-      <% end %>
-    </tr>
-  </table>
+  <%= yield %>
 <% end %>
 <%= render :file => 'layouts/application' %>
