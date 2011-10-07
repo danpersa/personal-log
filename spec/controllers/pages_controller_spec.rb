@@ -40,7 +40,7 @@ describe PagesController do
         end
         visit root_path
         page.should have_selector("div.pagination")
-        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_selector("li.disabled", :text => "Previous")
         page.should have_link("Next")
       end
     end

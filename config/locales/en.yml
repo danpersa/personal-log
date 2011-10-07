@@ -9,3 +9,8 @@ en:
   time:
     formats:
       default: "%m/%d/%Y"
+  views:
+    pagination:
+      previous: "&lt; Previous"
+      next: "Next &gt;"
+      truncate: "..."

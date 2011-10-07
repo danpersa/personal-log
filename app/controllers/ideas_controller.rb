@@ -47,15 +47,14 @@ class IdeasController < ApplicationController
   def show
     # the idea is searched in interceptor
     @user = current_user
-    @reminders = Reminder.from_idea_by_user(@idea, current_user).paginate(:page => params[:page], :per_page => @@items_per_page)
+    @reminders = Reminder.from_idea_by_user(@idea, current_user).page(params[:page]).per(@@items_per_page)
     redirect_to users_idea_path(@idea) and return if @reminders.empty?
   end
   
   def users
     # the idea is searched in interceptor
     @user = current_user
-    @users = @idea.public_users(current_user).includes(:profile).paginate(:page => params[:page],
-                                                                          :per_page => @@items_per_page).all
+    @users = @idea.public_users(current_user).includes(:profile).page(params[:page]).per(@@items_per_page)
   end
 
   def destroy
@@ -81,7 +80,7 @@ class IdeasController < ApplicationController
                            :action => "ideas",
                            :id => user_id,
                            :page => page }
-         @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => page, :per_page => @@items_per_page)
+         @ideas = Idea.owned_by(@user).includes(:user).page(page).per(@@items_per_page)
        }
      end
   end

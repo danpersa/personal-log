@@ -1,5 +1,5 @@
-<%= will_paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>
+<%= paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>
 <table class="items" id="reminders" summary="Simple reminders">
   <%= render :partial => 'reminders/simple_reminder', :collection => @reminders %>
 </table>
-<%= will_paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>
+<%= paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>

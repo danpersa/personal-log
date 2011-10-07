@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def index
     @user = current_user
     @title = "All users"
-    @users = User.paginate(:page => params[:page])
+    @users = User.page(params[:page])
   end
 
   def show
@@ -85,14 +85,14 @@ class UsersController < ApplicationController
   def following
     # the user is searched in the existing_user before interceptor
     @title = "Following"
-    @users = @user.following.paginate(:page => params[:page])
+    @users = @user.following.page(params[:page])
     render 'show_follow'
   end
 
   def followers
     # the user is searched in the existing_user before interceptor
     @title = "Followers"
-    @users = @user.followers.paginate(:page => params[:page])
+    @users = @user.followers.page(params[:page])
     render 'show_follow'
   end
   
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
   
   # page displaying the ideas of the current user
   def ideas
-    @ideas = Idea.owned_by(@user).includes(:user).paginate(:page => params[:page], :per_page => @@items_per_page)
+    @ideas = Idea.owned_by(@user).includes(:user).page(params[:page]).per(@@items_per_page)
     # we store the location so we can be redirected here after idea delete
     store_location
     store_current_page
