@@ -42,7 +42,7 @@ class RemindersController < ApplicationController
               unless shared_idea
                 logger.debug "idea shared by current user"
                 @user = current_user
-                @users = @idea.public_users(current_user).includes(:profile).paginate(:page => page, :per_page => @@items_per_page).all
+                @users = @idea.public_users(current_user).includes(:profile).page(page).per(@@items_per_page).all
                 @table_params = { :controller => "ideas",
                   :action => "users",
                   :id => @idea.id,
@@ -100,7 +100,7 @@ class RemindersController < ApplicationController
                 :page => page }
               @update_table_partial = 'reminders/simple_table_update'
               @user = current_user
-              @reminders = Reminder.from_idea_by_user(idea_id, current_user).paginate(:page => page, :per_page => @@items_per_page)
+              @reminders = Reminder.from_idea_by_user(idea_id, current_user).page(page).per(@@items_per_page)
             }
           end
         end
@@ -138,7 +138,7 @@ class RemindersController < ApplicationController
             :page => page }
           @update_table_partial = 'reminders/simple_table_update'
           @user = current_user
-          @reminders = Reminder.from_idea_by_user(idea_id, current_user).paginate(:page => page, :per_page => @@items_per_page)
+          @reminders = Reminder.from_idea_by_user(idea_id, current_user).page(page).per(@@items_per_page)
         end  
       }
     end

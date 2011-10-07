@@ -1,5 +1,5 @@
-<%= will_paginate @ideas, :params => @table_params.nil? ? {} : @table_params %>
+<%= paginate @ideas, :params => @table_params.nil? ? {} : @table_params %>
 <table class="items" summary="User ideas" id="ideas">
   <%= render @ideas %>
 </table>
-<%= will_paginate @ideas, :params => @table_params.nil? ? {} : @table_params %>
+<%= paginate @ideas, :params => @table_params.nil? ? {} : @table_params %>

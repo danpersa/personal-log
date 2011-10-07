@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem "rails", "3.1.0"
 gem 'jquery-rails'
 gem 'gravatar_image_tag'
-gem "will_paginate", "~> 3.0.2"
+gem "kaminari"
 gem "transitions", :require => ["transitions", "active_record/transitions"]
 gem 'table_builder', '0.0.3', :git => 'https://github.com/jchunky/table_builder.git'
 

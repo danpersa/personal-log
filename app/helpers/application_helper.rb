@@ -144,6 +144,6 @@ module ApplicationHelper
   end
 
   def init_reminders_table_of user
-    @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).paginate(:page => @page, :per_page => @@items_per_page)
+    @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).page(@page).per(@@items_per_page)
   end
 end

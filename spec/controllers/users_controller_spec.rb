@@ -46,7 +46,7 @@ describe UsersController do
         end
         visit users_path
         page.should have_selector("div.pagination")
-        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_selector("li.disabled", :text => "Previous")
         page.should have_link("2")
         page.should have_link("Next")
       end
@@ -124,7 +124,7 @@ describe UsersController do
         end
         visit user_path(@user)
         page.should have_selector("div.pagination")
-        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_selector("li.disabled", :text => "Previous")
         page.should have_link("2")
         page.should have_link("Next")
     end
@@ -537,7 +537,7 @@ describe UsersController do
         end
         visit user_path(@user) + "/ideas"
         page.should have_selector("div.pagination")
-        page.should have_selector("span.disabled", :text => "Previous")
+        page.should have_selector("li.disabled", :text => "Previous")
         page.should have_link("Next")
       end
     end
