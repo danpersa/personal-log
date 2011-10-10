@@ -1,23 +1,22 @@
-<tr class="show-close-button" id="idea_<%= idea.id %>">
-  <td class="item">
-    <span class="content"><%= idea.content %></span>
-    <span class="timestamp">
-      Created <%= time_ago_in_words(idea.created_at) %> ago.
-    </span>
-  </td>
-  <% if current_user?(idea.user) %>
-  <td class="item">
-    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "destroy", idea, :method => :delete,
-                                     :confirm => "You sure?",
-                                     :title => "Remove idea",
-                                     :class => "ui-icon ui-icon-close" ,
-                                     :remote => true %>
+<div class="show-close-button row idea-row" id="idea_<%= idea.id %>">
+  <div class="row">
+    <div class="span8"><%= idea.content %></div>
+    <div class="span1">
+      <% if current_user?(idea.user) %>
+        <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: left;">
+          <%= link_to "destroy", idea, :method => :delete,
+            :confirm => "You sure?",
+            :title => "Remove idea",
+            :class => "ui-icon ui-icon-close" ,
+            :remote => true %>
+        </div>
+        <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+          <%= link_to "show", idea, :method => :get, :class => "ui-icon ui-icon-search" %>
+        </div>
+      <% end %>
     </div>
-    <br/><br/>
-    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "show", idea, :method => :get, :class => "ui-icon ui-icon-search" %>
-    </div>
-  </td>
-  <% end %>
-</tr>
+  </div>
+  <div class="row">
+    <div class="span9 timestamp">Created <%= time_ago_in_words(idea.created_at) %> ago</div>
+  </div>
+</div>

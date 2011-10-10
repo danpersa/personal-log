@@ -143,27 +143,74 @@ nav ul li a:hover {
     }
   }
 
-  .sidebar {
-    .profile-info {
-      font-size: 80%;
-    }
+.sidebar {
+  .profile-info {
+    font-size: 80%;
+  }
 
-    .user-info {
-      .ideas-count {
-        text-align:center;
-      }
-    }
-
-    .stats {
-      .following {
-        text-align:center;
-      }
-      .followers {
-        text-align:center;
-      }
+  .user-info {
+    .ideas-count {
+      text-align:center;
     }
   }
+
+  .stats {
+    .following {
+      text-align:center;
+    }
+    .followers {
+      text-align:center;
+    }
+  }
+}
   
+.reminder-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  .timestamp {
+    display: block;
+    font-size: 85%;
+    color: #666;
+  }
+
+  .toolbar {
+    font-size: 75%;
+  }
+}
+
+.idea-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  .timestamp {
+    display: block;
+    font-size: 85%;
+    color: #666;
+  }
+
+  .toolbar {
+    font-size: 75%;
+  }
+}
+
+.user-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  .timestamp {
+    display: block;
+    font-size: 85%;
+    color: #666;
+  }
+
+  .toolbar {
+    font-size: 75%;
+  }
+}
 
 @import "reminders_index.css.scss";
 @import "pages_home.css.scss";

@@ -3,9 +3,7 @@
     <div class="container">
       <h3><%= link_to "remind me to live", root_path, :class => "brand" %></h3>
       <ul class="nav">
-        <li class="active">
-          <%= link_to "Home", root_path %>
-        </li>
+        <li><%= link_to "Home", root_path %></li>
         <% if signed_in? %>
           <li><%= link_to "Profile", current_user %></li>
           <li><%= link_to "My ideas", ideas_user_path(current_user) %></li>
@@ -16,9 +14,6 @@
           <li><%= link_to "Help", help_path %></li>
         <% end %>
       </ul>
-
-
-      
       <% if signed_in? %>
         <ul class="nav secondary-nav">
           <li class="menu">

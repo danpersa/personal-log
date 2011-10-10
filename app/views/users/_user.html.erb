@@ -1,21 +1,20 @@
-<tr class="show-close-button" id="reminder_<%= user.id %>">
+<div class="show-close-button row user-row" id="user_<%= user.id %>">
   
-  <td class="gravatar">
+  <div class="gravatar span1">
     <%= link_to gravatar_for(user), user %>
-  </td>
-  <td class="item">
+  </div>
+  <div class="span7">
     <%= link_to user.display_name, user %>
-  </td>
-  
-  <% if signed_in? and current_user.admin? %>
-  <td class="item">
-    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-        <%= link_to "delete", user, :method => :delete,
-                                        :confirm => "You sure?",
-                                        :title => "Remove user",
-                                        :class => "ui-icon ui-icon-close",
-                                        :remote => true %>
-    </div>
-  </td>
-  <% end %>
-</tr>
+  </div>
+  <div class="span1">
+    <% if signed_in? and current_user.admin? %>
+      <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+          <%= link_to "delete", user, :method => :delete,
+                                      :confirm => "You sure?",
+                                      :title => "Remove user",
+                                      :class => "ui-icon ui-icon-close",
+                                      :remote => true %>
+      </div>
+    <% end %>
+  </div>
+</div>

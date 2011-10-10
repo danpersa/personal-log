@@ -53,7 +53,7 @@ function initHoverIcons() {
   }
   );
 
-  $('tr.show-close-button').hover( function() {
+  $('div.show-close-button').hover( function() {
     $(this).find("div.icon-button").removeClass('invisible');
   }, function() {
     $(this).find("div.icon-button").addClass('invisible');
