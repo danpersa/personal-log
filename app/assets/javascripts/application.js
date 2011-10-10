@@ -13,6 +13,8 @@
 $( function() {
 
   //$("button, input:submit").button();
+  
+  $('#topbar').dropdown()
 });
 
 function addNotification(message, styleClass) {

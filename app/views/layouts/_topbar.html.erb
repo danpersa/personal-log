@@ -1,0 +1,46 @@
+<div class="topbar" data-dropdown="dropdown">
+  <div class="fill">
+    <div class="container">
+      <h3><%= link_to "remind me to live", root_path, :class => "brand" %></h3>
+      <ul class="nav">
+        <li class="active">
+          <%= link_to "Home", root_path %>
+        </li>
+        <% if signed_in? %>
+          <li><%= link_to "Profile", current_user %></li>
+          <li><%= link_to "My ideas", ideas_user_path(current_user) %></li>
+          <li><%= link_to "Users", users_path %></li>
+        <% else %>
+          <li><%= link_to "About",  about_path %></li>
+          <li><%= link_to "Contact", contact_path %></li>
+          <li><%= link_to "Help", help_path %></li>
+        <% end %>
+      </ul>
+
+
+      
+      <% if signed_in? %>
+        <ul class="nav secondary-nav">
+          <li class="menu">
+            <a href="#" class="menu user-menu">
+              <span class="gravatar"><%= gravatar_for current_user, :size => 30 %></span>
+              <span class="display-name"><%= current_user.display_name %></span>
+            </a>
+            <ul class="menu-dropdown">
+              <li><%= link_to "Settings", user_profile_path(current_user) %></li>
+              <li><%= link_to "About",  about_path %></li>
+              <li><%= link_to "Contact", contact_path %></li>
+              <li><%= link_to "Help", help_path %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+            </ul>
+          </li>
+        </ul>
+      <% else %>
+        <ul class="nav secondary-nav">
+          <li><%= link_to "Sign in", signin_path %></li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</div>
