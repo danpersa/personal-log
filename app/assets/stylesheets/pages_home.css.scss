@@ -133,7 +133,15 @@
   
   .feed-row {
     border-bottom: 1px solid #eee;
-    padding-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .gravatar {
+      float: left;
+      margin-right: 5px;
+    }
 
     .timestamp {
       display: block;

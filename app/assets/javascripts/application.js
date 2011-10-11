@@ -3,7 +3,6 @@
 //= require plugins
 //= require jquery-ui-1-8-11-custom-min
 //= require jquery-tokeninput
-//= require jquery-ui-selectmenu
 //= require jquery-tipTip
 //= require_self
 //-----= xxrequire_tree .
