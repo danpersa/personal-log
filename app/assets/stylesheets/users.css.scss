@@ -1,0 +1,25 @@
+.users {
+
+  .user-row {
+    border-bottom: 1px solid #eee;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .gravatar {
+      float: left;
+      margin-right: 5px;
+    }
+ 
+    .timestamp {
+      display: block;
+      font-size: 85%;
+      color: #666;
+    }
+
+    .feed-toolbar {
+      font-size: 75%;
+    }
+  }
+}

@@ -1,9 +1,9 @@
-<div class="span9">
+<div class="pagination-container">
   <%= paginate @users, :params => @table_params.nil? ? {} : @table_params %>
 </div>
-<div class="span9">
+<div class="items-container">
   <%= render @users %>
 </div>
-<div class="span9">
+<div class="pagination-container">
   <%= paginate @users, :params => @table_params.nil? ? {} : @table_params %>
 </div>

@@ -1,9 +1,8 @@
 <div class="show-close-button row user-row" id="user_<%= user.id %>">
-  
-  <div class="gravatar span1">
+  <div class="gravatar">
     <%= link_to gravatar_for(user), user %>
   </div>
-  <div class="span7">
+  <div class="span8">
     <%= link_to user.display_name, user %>
   </div>
   <div class="span1">
