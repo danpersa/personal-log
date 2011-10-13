@@ -1,11 +1,11 @@
 <div class="show-close-button row user-row" id="user_<%= user.id %>">
-  <div class="gravatar">
+  <div class="avatar">
     <%= link_to gravatar_for(user), user %>
   </div>
-  <div class="span8">
+  <div class="row-content">
     <%= link_to user.display_name, user %>
   </div>
-  <div class="span1">
+  <div class="buttons">
     <% if signed_in? and current_user.admin? %>
       <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
           <%= link_to "delete", user, :method => :delete,

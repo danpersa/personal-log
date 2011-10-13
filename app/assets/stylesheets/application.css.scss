@@ -107,18 +107,39 @@ body {
    margin-left: 0px;
 }
 
+form{
+  margin-bottom: 0px;
+}
+
 .main-content {
   background-color: #fff;
   width: 580px;
   min-height: 500px;
   display: inline;
   float: left;
-}  
+}
 
 .head-container {
+  min-height: 75px;
+
   .title-container {
     padding-top: 20px;
     padding-left: 20px;
+    float: left;
+
+    .gravatar {
+      vertical-align: middle;
+    }
+
+    .display-name {
+      vertical-align: middle;
+    }
+  }
+
+  .toolbar-container {
+    float: right;
+    padding-top: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -126,13 +147,22 @@ body {
   .title-container {
     padding-left: 20px;
   }
+
+  .text {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .toolbar {
+    padding-left: 20px;
+    font-size: 85%;
+  }
 }
 
 .toolbar-container {
   .toolbar-row {
-    padding-left: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
@@ -236,14 +266,23 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 
-  .timestamp {
-    display: block;
-    font-size: 85%;
-    color: #666;
+  .row-content {
+    width:520px;
+    float: left;
+
+    .timestamp {
+      font-size: 85%;
+      color: #666;
+    }
+
+    .toolbar {
+      font-size: 85%;
+    }
   }
 
-  .toolbar {
-    font-size: 75%;
+  .buttons {
+    width: 20px;
+    float: left;
   }
 }
 
@@ -254,14 +293,23 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 
-  .timestamp {
-    display: block;
-    font-size: 85%;
-    color: #666;
+  .row-content {
+    width:520px;
+    float: left;
+
+    .timestamp {
+      font-size: 85%;
+      color: #666;
+    }
+
+    .toolbar {
+      font-size: 85%;
+    }
   }
 
-  .toolbar {
-    font-size: 75%;
+  .buttons {
+    width: 20px;
+    float: left;
   }
 }
 

@@ -1,6 +1,7 @@
-<div class="sidebar round">
+<div>
   <%= render 'shared/sidebar_horizontal' %>
 </div>
+
 <div id="calendar">
   <h2 id="month">
     <%= link_to "<", :month => (@date.beginning_of_month - 1).strftime("%Y-%m") %>

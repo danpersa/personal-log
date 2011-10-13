@@ -1,14 +1,19 @@
-<h3 class="idea">The following persons want to remind to</h1>
-<span class="title"><%= @idea.content %></span>
-
-<div id="toolbar-div">
-  <%= render 'ideas/users_for_ideas_toolbar' %>
+<div class="head-container">
+  <div class="row">
+    <div class="title-container">
+      <h3>The following persons want to remind to</h3>
+    </div>
+  </div>
 </div>
 
-
-<div id="table-div">
-  <%= render 'users/table' %>
+<div class="text-container">
+  <div class="text"><%= @idea.content %></div>
+  <div class="toolbar" id="toolbar-div">
+    <%= render 'ideas/users_for_ideas_toolbar' %>
+  </div>
 </div>
+
+<%= render 'users/table' %>
 
 <%= render 'shared/remind_me_too_dialog' %>
 

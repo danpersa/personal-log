@@ -1,9 +1,6 @@
-<div class="span9">
-  <%= paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>
-</div>
-<div class="span9">
+<div class="items-container">
   <%= render :partial => 'reminders/simple_reminder', :collection => @reminders %>
 </div>
-<div class="span9">
+<div class="pagination-container">
   <%= paginate @reminders, :params => @table_params.nil? ? {} : @table_params %>
 </div>

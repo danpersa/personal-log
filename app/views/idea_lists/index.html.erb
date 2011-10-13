@@ -4,12 +4,13 @@
   </div>
 </div>
 
-
 <div class="toolbar-container">
   <div class="toolbar-row">
-    <%= link_to "Create new idea list", new_idea_list_path, 
-                :remote => true, 
-                :class => "btn small primary" %>
+    <div class="well">
+      <%= link_to "Create new idea list", new_idea_list_path, 
+            :remote => true, 
+            :class => "btn small primary" %>
+    </div>
   </div>
 </div>
 <%= render 'table' %>

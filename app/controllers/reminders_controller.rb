@@ -9,6 +9,7 @@ class RemindersController < ApplicationController
   
   def index
     @user = current_user
+    @hide_sidebar = true
     @reminders = current_user.reminders.includes(:idea).all
     @date = params[:month] ? Date.parse(params[:month].gsub('-', '/')) : Date.today
   end

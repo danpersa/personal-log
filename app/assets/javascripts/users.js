@@ -4,7 +4,6 @@ $( function() {
 // TODO find out why!
 //  initAjaxPagination();
 
-  $("button, input:submit").button();
 
   initHoverIcons();
   

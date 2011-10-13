@@ -1,19 +1,17 @@
-<div class="show-close-button row reminder-row" id="reminder_<%= simple_reminder.id %>">
-  <div class="row">
-    <div class="span8"><%= simple_reminder.reminder_date %></div>
-    <div class="span1">
-      <% if current_user?(simple_reminder.user) %>
-        <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
-          <%= link_to "delete", simple_reminder, :method => :delete,
-            :confirm => "You sure?",
-            :title => "Remove simple_reminder",
-            :class => "ui-icon ui-icon-close",
-            :remote => true %>
-        </div>
-      <% end %>
-    </div>
+<div class="show-close-button row reminder-row" id="simple_reminder_<%= simple_reminder.id %>">
+  <div class="row-content">
+    <div>on <%= simple_reminder.reminder_date %></div>
+    <div class="timestamp">Posted <%= time_ago_in_words(simple_reminder.created_at) %> ago as <%= simple_reminder.privacy.name %></div>
   </div>
-  <div class="row">
-    <div class="timestamp  span9">Posted <%= time_ago_in_words(simple_reminder.created_at) %> ago as <%= simple_reminder.privacy.name %></div>
+  <div class="buttons">
+    <% if current_user?(simple_reminder.user) %>
+      <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+        <%= link_to "delete", simple_reminder, :method => :delete,
+                                               :confirm => "You sure?",
+                                               :title => "Remove reminder",
+                                               :class => "ui-icon ui-icon-close",
+                                               :remote => true %>
+      </div>
+    <% end %>
   </div>
 </div>

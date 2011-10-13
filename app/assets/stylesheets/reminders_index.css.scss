@@ -1,6 +1,13 @@
 .reminders_index {
 
+  .main-content {
+    width: 940px;
+  }
+
   #calendar {
+    padding-left: 20px;
+    padding-right: 20px;
+
     table {
       border-collapse: collapse;
       width: 100%;

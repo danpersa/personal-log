@@ -1,25 +1,37 @@
-<h1 class="idea">Remind me to</h1>
-<div class="title"><%= @idea.content %></div>
-<div class="span9">
-  <span class="idea-toolbar">
-    <%= link_to "Create new reminder", remind_me_too_path(:idea_id => @idea.id), :remote => true %> 
-  </span>  · 
-  <span class="idea-toolbar">
-    <%= link_to "Users sharing this idea", users_idea_path(@idea) %> 
-  </span>
-</div>
-<div class="span9">on</div>
-<div class="span9" id="table-div">
-  <%= render 'reminders/simple_table' %>
+<div class="head-container">
+  <div class="row">
+    <div class="title-container">
+      <h1>Remind me to</h1>
+    </div>
+  </div>
 </div>
 
-<div class="span9">
-  The idea is part of the following lists:  
-  <%= form_for @idea do |f| %>
-    <%= f.text_field :idea_list_tokens, "data-pre" => @idea.idea_lists.map(&:attributes).to_json %>
-    <br/>
-    <%= f.submit "Update lists" %>
-  <% end %>
+<div class="text-container">
+  <div class="text"><%= @idea.content %></div>
+  <div class="toolbar">
+    <span class="idea-toolbar">
+      <%= link_to "Create new reminder", remind_me_too_path(:idea_id => @idea.id), :remote => true %> 
+    </span>  · 
+    <span class="idea-toolbar">
+      <%= link_to "Users sharing this idea", users_idea_path(@idea) %> 
+    </span>
+  </div>
+</div>
+
+<%= render 'reminders/simple_table' %>
+
+<br/>
+<div class="text-container">
+  <div class="text">
+    <div class="well">
+      The idea is part of the following lists:
+      <%= form_for @idea do |f| %>
+        <%= f.text_field :idea_list_tokens, "data-pre" => @idea.idea_lists.map(&:attributes).to_json %>
+        <br/>
+        <%= f.submit "Update lists" %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <%= render 'shared/remind_me_too_dialog' %>

@@ -1,8 +1,13 @@
 <div class="head-container">
-  <div class="title-container">
-    <h1>
-      <%= gravatar_for(@user) %>
-      <span id="profile-display-name"><%= @user.display_name %></span>
-    </h1>
+  <div class="row">
+    <div class="title-container">
+      <h1>
+        <span class="avatar"><%= gravatar_for(@user) %></span>
+        <span id="display-name"><%= @user.display_name %></span>
+      </h1>
+    </div>
+    <div class="toolbar-container">
+      <%= render 'users/follow_form' if signed_in? %>
+    </div>
   </div>
 </div>

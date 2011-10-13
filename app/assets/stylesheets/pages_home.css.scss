@@ -138,19 +138,28 @@
     padding-left: 20px;
     padding-right: 20px;
 
-    .gravatar {
+    .avatar {
       float: left;
       margin-right: 10px;
     }
 
-    .timestamp {
-      display: block;
-      font-size: 85%;
-      color: #666;
+    .row-content {
+      width:460px;
+      float: left;
+
+      .timestamp {
+        font-size: 85%;
+        color: #666;
+      }
+
+      .toolbar {
+        font-size: 85%;
+      }
     }
 
-    .feed-toolbar {
-      font-size: 75%;
+    .buttons {
+      width: 20px;
+      float: left;
     }
   }
     

@@ -1,25 +1,27 @@
+.user-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  .avatar {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .row-content {
+    width:460px;
+    float: left;
+  }
+
+  .buttons {
+    width: 20px;
+    float: left;
+  }
+}
+
 .users {
 
-  .user-row {
-    border-bottom: 1px solid #eee;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
 
-    .gravatar {
-      float: left;
-      margin-right: 10px;
-    }
- 
-    .timestamp {
-      display: block;
-      font-size: 85%;
-      color: #666;
-    }
-
-    .toolbar {
-      font-size: 75%;
-    }
-  }
 }

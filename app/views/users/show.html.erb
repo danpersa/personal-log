@@ -1,6 +1,5 @@
 <%= render 'users/gravatar_head' %>
 
-<%= render 'follow_form' if signed_in? %>
 <% unless @reminders.empty? %>
   <%= render 'reminders/wants_to_remind' %>
 <% end %>

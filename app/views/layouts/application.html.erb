@@ -34,11 +34,13 @@
             <% end %>
             <%= content_for?(:content) ? yield(:content) : yield %>
           </div>
-          <div class="sidebar">
-            <% if content_for?(:sidebar) %>
-              <%= yield :sidebar %>
-            <% end %>
-          </div>
+          <% if @hide_sidebar.nil? or @hide_sidebar == false %>
+            <div class="sidebar">
+              <% if content_for?(:sidebar) %>
+                <%= yield :sidebar %>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
 
