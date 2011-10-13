@@ -1,14 +1,11 @@
-<h1>
-  <%= gravatar_for(@user) %>
-  <span id="profile-display-name"><%= @user.display_name %></span>
-</h1>
+<%= render 'users/gravatar_head' %>
+
 <%= render 'follow_form' if signed_in? %>
 <% unless @reminders.empty? %>
-  <h3 class="idea">...wants to remind to...</h3>
-  <div id="table-div">
-    <%= render 'reminders/table' %>
-  </div>
+  <%= render 'reminders/wants_to_remind' %>
 <% end %>
+
+<%= render 'reminders/table' %>
 
 <%= render 'shared/remind_me_too_dialog' %>
 

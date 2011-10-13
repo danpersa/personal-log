@@ -1,14 +1,14 @@
-<h1>
-  <%= gravatar_for(@user) %>
-  <span id="profile-display-name"><%= @user.display_name %></span>
-</h1>
+<%= render 'users/gravatar_head' %>
 
 <% unless @ideas.empty? %>
-  <h3 class="idea">...has the next ideas in <%= @idea_list.name %>...</h3>
-  <div id="table-div">
-    <%= render 'ideas/table' %>
+  <div class="text-container">
+    <div class="title-container">
+      <h3 class="idea">...has the next ideas in <%= @idea_list.name %>...</h3>
+    </div>
   </div>
 <% end %>
+  
+<%= render 'ideas/table' %>
 
 <% content_for :sidebar do %>
   <%= render 'shared/sidebar' %>

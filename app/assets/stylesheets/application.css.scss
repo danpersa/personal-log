@@ -117,18 +117,33 @@ body {
 
 .head-container {
   .title-container {
-    padding: 10px;
+    padding-top: 20px;
+    padding-left: 20px;
+  }
+}
+
+.text-container {
+  .title-container {
+    padding-left: 20px;
+  }
+}
+
+.toolbar-container {
+  .toolbar-row {
+    padding-left: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
   }
 }
 
 .tabs-container {
   width: 560px;
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 .pagination-container {
   width: 560px;
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 
@@ -167,11 +182,11 @@ body {
 }
 
 .sidebar {
-  padding-left: 9px;
-  padding-right: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 340px;
+  padding-left: 19px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 320px;
   border-left: 1px solid #ddd;
   float: right;
 
@@ -216,8 +231,10 @@ body {
   
 .reminder-row {
   border-bottom: 1px solid #eee;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 
   .timestamp {
     display: block;
@@ -232,8 +249,10 @@ body {
 
 .idea-row {
   border-bottom: 1px solid #eee;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 
   .timestamp {
     display: block;
@@ -249,3 +268,4 @@ body {
 @import "reminders_index.css.scss";
 @import "pages_home.css.scss";
 @import "users.css.scss";
+@import "idea_lists.css.scss";

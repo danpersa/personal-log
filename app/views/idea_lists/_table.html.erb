@@ -1,5 +1,9 @@
-<%= paginate @idea_lists, :params => { :controller => "idea_lists", :action => "index" } %>
-<table class="items" id="idea-list">
+<div class="pagination-container">
+  <%= paginate @idea_lists, :params => @table_params.nil? ? {} : @table_params %>
+</div>
+<div class="items-container">
   <%= render @idea_lists %>
-</table>
-<%= paginate @idea_lists, :params => { :controller => "idea_lists", :action => "index" } %>
+</div>
+<div class="pagination-container">
+  <%= paginate @idea_lists, :params => @table_params.nil? ? {} : @table_params %>
+</div>

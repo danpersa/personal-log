@@ -1,11 +1,18 @@
-<h1>My idea lists</h1>
-
-<%= link_to "Create new idea list", new_idea_list_path, :remote => true %>
-<p/>
-
-<div id="table-div">
-  <%= render 'table' %>
+<div class="head-container">
+  <div class="title-container">
+    <h1>My idea lists</h1>
+  </div>
 </div>
+
+
+<div class="toolbar-container">
+  <div class="toolbar-row">
+    <%= link_to "Create new idea list", new_idea_list_path, 
+                :remote => true, 
+                :class => "btn small primary" %>
+  </div>
+</div>
+<%= render 'table' %>
 
 <div id="idea_list_dialog" title="Edit idea list" ></div>
 

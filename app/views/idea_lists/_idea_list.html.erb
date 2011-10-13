@@ -1,16 +1,17 @@
-<tr id="idea-list-<%=idea_list.id%>" class="show-close-button">
-  <td class="item"><%= link_to idea_list.name, idea_list %></td>
-  <td class="item">
-    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+<div class="show-close-button row idea-list-row" id="idea-list-<%=idea_list.id%>">
+  <div class="row">
+    <div class="span8"><%= link_to idea_list.name, idea_list %></div>
+    <div class="span1">
+      <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "destroy", idea_list, :method => :delete,
-                                          :remote => true,
-                                          :class => "ui-icon ui-icon-close"%>
-    </div>
-    <br/><br/>
-    <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
+          :remote => true,
+          :class => "ui-icon ui-icon-close"%>
+      </div>
+      <div class="hover ui-state-default ui-corner-all icon-button invisible" style="float: right;">
         <%= link_to "edit", edit_idea_list_path(idea_list), :remote => true,
-                                                            :title => "Edit #{idea_list.name}",
-                                                            :class => "ui-icon ui-icon-search"%>
+          :title => "Edit #{idea_list.name}",
+          :class => "ui-icon ui-icon-search"%>
+      </div>
     </div>
-  </td>
-</tr>
+  </div>
+</div>
