@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  layout "main"
   
   include ApplicationHelper
   
@@ -8,11 +9,12 @@ class PagesController < ApplicationController
       store_current_page
       store_location
       init_feeds_table
+      render :layout => "application"
     end
   end
 
   def contact
-    @title = 'Contact'
+    @title = 'Contact'  
   end
 
   def about

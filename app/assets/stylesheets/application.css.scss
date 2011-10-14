@@ -211,6 +211,65 @@ form{
   }
 }
 
+.sidebar-horizontal {
+  background-color: #E5ECF9;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid #ddd;
+  height: 100px;
+
+  .first-column {
+    width: 300px;
+    float: left;
+
+    .stats {
+      text-align:center;
+      height: 40px;
+      width: 300px;
+      float: left;
+
+      .following {
+        margin-left: 50px;
+        float: left;
+      }
+      .followers {
+        margin-right: 50px;
+        float: right;
+      }
+    }
+
+    .user-info {
+      margin-bottom: 20px;
+
+
+      .gravatar {
+        vertical-align: middle;
+      }
+ 
+      .display-name {
+        font-size: 16px;
+        vertical-align: middle;
+      }
+
+      .ideas-count {
+        text-align:center;
+      }
+    }
+  }
+
+  .profile-info {
+    font-size: 80%;
+    float: left;
+  }
+
+  .quick-links {
+    float: right;
+  }
+
+}
+
 .sidebar {
   padding-left: 19px;
   padding-right: 20px;
@@ -240,8 +299,6 @@ form{
     .ideas-count {
       text-align:center;
     }
-
-    
   }
 
   .stats {

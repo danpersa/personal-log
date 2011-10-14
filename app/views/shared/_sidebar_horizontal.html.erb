@@ -1,33 +1,9 @@
+<div class="sidebar-horizontal">
+  <div class="first-column">
+    <%= render 'shared/user_info' %>
 
-<table>
-  <tr>
-    <td>
-      <%= render 'shared/user_info' %>
-      <%= render 'shared/stats' %>
-    </td>
-    <td>
-      <div class="sidebar-user-info">
-        <% unless @user.profile.nil? %>
-          <% unless @user.profile.email.empty? %>
-          <div class="sidebar-user-info-item">
-            <strong>Email:</strong> <%= @user.profile.email %>
-          </div>
-          <% end %>
-          <% unless @user.profile.location.empty? %>
-          <div class="sidebar-user-info-item">
-            <strong>Location:</strong> <%= @user.profile.location %>
-          </div>
-          <% end %>
-          <% unless @user.profile.website.empty? %>
-          <div class="sidebar-user-info-item">
-            <strong>Website:</strong> <%= @user.profile.website %>
-          </div>
-          <% end %>
-        <% end %>
-      </div>
-    </td>
-    <td>
-      <%= render 'shared/quick_links_menu' %>
-    </td>
-  </tr>
-</table>
+    <%= render 'shared/stats' %>
+  </div>
+  <%= render 'shared/profile_info' %>
+  <%= render 'shared/quick_links_menu' %>
+</div>

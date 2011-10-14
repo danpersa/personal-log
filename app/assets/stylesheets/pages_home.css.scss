@@ -1,5 +1,28 @@
 
 .pages_home {
+
+  .hero-unit {
+    .logo {
+      font-style: normal;
+      font-size: 65px;
+      color: #1FB3D8;
+      margin-bottom: 40px;
+    }
+
+    .text {
+      margin-bottom: 20px;
+      .inline-logo {
+        color: #1FB3D8;
+        font-size: 23px;
+      }
+      .bold {
+        font-weight:bold;
+      }
+    }
+
+  }
+
+
   /* Sign up button */
   a.signup_button {
     margin-left: auto;
