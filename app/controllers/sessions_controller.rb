@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   
-  layout "main"
+  layout "one_column"
   
   def new
     @title = "Sign in"

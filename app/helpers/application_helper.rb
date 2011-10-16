@@ -146,4 +146,14 @@ module ApplicationHelper
   def init_reminders_table_of user
     @reminders = user.reminders_for_logged_user(current_user).includes(:privacy).page(@page).per(@@items_per_page)
   end
+
+  def display_all_error_messages(object, method)
+    list_items = object.errors[method].map { |msg| content_tag(:li, msg) }
+    content_tag(:ul, list_items.join.html_safe)
+  end
+
+  def display_first_error_message(object, method)
+    list_items = object.errors[method].map { |msg| msg }
+    list_items.first.html_safe
+  end
 end

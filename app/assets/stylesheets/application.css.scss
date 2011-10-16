@@ -113,9 +113,24 @@ form{
   margin-bottom: 0px;
 }
 
+.centered-form {
+  width: 500px;
+  margin-left: 200px;
+  margin-top: 30px;
+}
+
+
 .main-content {
   background-color: #fff;
   width: 580px;
+  min-height: 500px;
+  display: inline;
+  float: left;
+}
+
+.main-content-column {
+  background-color: #fff;
+  width: 940px;
   min-height: 500px;
   display: inline;
   float: left;

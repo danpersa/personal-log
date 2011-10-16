@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @title = "Sign up"
-    render :layout => "main"
+    render :layout => "one_column"
   end
 
   def create
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
       @title = "Sign up"
       # we trigger the validation manually
       @user.valid?
-      render :new
+      render :layout => "one_column", :template => 'users/new'
       return
     end
     
