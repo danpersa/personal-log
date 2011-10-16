@@ -12,5 +12,6 @@ webrat.log
 nbproject/
 nbproject/*
 .sass-cache/
+.idea/
 public/assets
 public/assets/*
