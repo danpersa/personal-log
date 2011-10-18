@@ -20,11 +20,10 @@ module RecaptchaHelper
                :error_code => responce.body.split("\n")[1] }
 
     if result[:error_code] == "incorrect-captcha-sol"
-      flash[:alert] = "The CAPTCHA solution was incorrect. Please re-try"
       return false
     elsif result[:error_code] == 'success'
       return true
-    elsif
+    else
       flash[:alert] = "There has been a unexpected error with the application. Please contact the administrator. error code: #{result[:error_code]}"
       return false
     end

@@ -39,6 +39,7 @@ class UsersController < ApplicationController
       @title = "Sign up"
       # we trigger the validation manually
       @user.valid?
+      @user.errors[:recaptcha] = "The CAPTCHA solution was incorrect. Please re-try"
       render :layout => "one_column", :template => 'users/new'
       return
     end

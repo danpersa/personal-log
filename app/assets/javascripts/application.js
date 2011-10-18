@@ -13,7 +13,10 @@ $( function() {
 
   //$("button, input:submit").button();
   
-  $('#topbar').dropdown()
+  $('#topbar').dropdown();
+  
+//  $(".alert-message").alert();
+//  $(".alert-message").alert('close');
 });
 
 function addNotification(message, styleClass) {

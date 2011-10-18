@@ -1,4 +1,5 @@
 <div class="signin-form">
+  <%= render :partial => "layouts/flash", :locals => {:flash => flash} %>
   <%= twitter_bootstrap_form_for(:session, :url => sessions_path) do |f| %>
     <%= f.inputs 'Sign in' do %>
       <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => :true %>

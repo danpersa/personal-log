@@ -1,4 +1,5 @@
 <div class="signup-form">
+  <%= render :partial => "layouts/flash", :locals => {:flash => flash} %>
   <%= twitter_bootstrap_form_for @user do |f| %>
     <%= f.inputs 'New user details' do %>
       <%= f.text_field :name, :autofocus => :true, :placeholder => "Username" %>
@@ -6,8 +7,12 @@
       <%= f.password_field :password %>
       <%= f.password_field :password_confirmation %>
     <% end %>
-    <div class="clearfix captcha-container">
+  
+    <div class="clearfix captcha-container <% unless @user.errors[:recaptcha].empty? %>error<% end %> ">
       <%= render '/shared/recaptcha' %>
+      <div class="input">
+        <span class="help-inline error"><%= display_all_error_messages @user, :recaptcha %></span>
+      </div>
     </div>
     <%= f.actions do %>
       <%= f.submit "Create new account", :class => "btn large primary"%>

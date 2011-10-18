@@ -148,8 +148,8 @@ module ApplicationHelper
   end
 
   def display_all_error_messages(object, method)
-    list_items = object.errors[method].map { |msg| content_tag(:li, msg) }
-    content_tag(:ul, list_items.join.html_safe)
+    list_items = object.errors[method].map { |msg| msg }
+    list_items.join(',').html_safe
   end
 
   def display_first_error_message(object, method)
