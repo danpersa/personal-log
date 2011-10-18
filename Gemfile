@@ -6,6 +6,10 @@ gem 'gravatar_image_tag'
 gem "kaminari"
 gem "transitions", :require => ["transitions", "active_record/transitions"]
 gem 'table_builder', '0.0.3', :git => 'https://github.com/jchunky/table_builder.git'
+gem "dynamic_form"
+gem "simple_form"
+gem 'twitter_bootstrap_form_for', :git => 'https://github.com/stouset/twitter_bootstrap_form_for.git'
+
 
 gem "rake"
 

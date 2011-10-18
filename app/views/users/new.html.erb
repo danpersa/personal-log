@@ -1,48 +1,16 @@
-<div class="centered-form">
-  <%= form_for(@user, :html => {:class => "generic_form"}) do |f| %>
-      <%= render 'shared/error_messages', :object => f.object %>
-      <fieldset>
-        <legend>New user details</legend>
-        <div class="clearfix">
-          <%= f.label :name %>
-          <div class="input">
-            <%= f.text_field :name, :autofocus => :true, :placeholder => "Username", :class => "xlarge" %>
-            <span class="help-inline"><%= display_first_error_message @user, :name %></span>
-          </div>
-        </div>
-        <div class="clearfix">
-          <%= f.label :email %>
-          <div class="input">
-            <%= f.email_field :email, :placeholder => "email@domain.com", :class => "xlarge" %>
-          </div>
-          <div>
-            <%= display_all_error_messages @user, :email %>
-          </div>
-
-        </div>
-        <div class="clearfix">
-          <%= f.label :password %>
-          <div class="input">
-            <%= f.password_field :password, :class => "xlarge" %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <%= f.label :password_confirmation, "Confirmation" %>
-          <div class="input">
-            <%= f.password_field :password_confirmation, :class => "xlarge" %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="input">
-            <%= render '/shared/recaptcha' %>
-          </div>
-
-        </div>
-        <div class="clearfix">
-          <div class="input">
-            <%= f.submit "Create new account", :class => "btn large primary" %>
-          </div>
-        </div>
-      </fieldset>
+<div class="signup-form">
+  <%= twitter_bootstrap_form_for @user do |f| %>
+    <%= f.inputs 'New user details' do %>
+      <%= f.text_field :name, :autofocus => :true, :placeholder => "Username" %>
+      <%= f.email_field :email, :placeholder => "email@domain.com" %>
+      <%= f.password_field :password %>
+      <%= f.password_field :password_confirmation %>
+    <% end %>
+    <div class="clearfix captcha-container">
+      <%= render '/shared/recaptcha' %>
+    </div>
+    <%= f.actions do %>
+      <%= f.submit "Create new account", :class => "btn large primary"%>
+    <% end %>
   <% end %>
 </div>

@@ -1,27 +1,16 @@
-<div class="centered-form">
-  <%= form_for(:session, :url => sessions_path, :html => {:class => "generic_form"}) do |f| %>
-      <fieldset>
-        <legend>Sign in</legend>
-        <div class="clearfix">
-          <%= f.label :email %>
-          <div class="input">
-            <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => :true, :class => "xlarge" %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <%= f.label :password %>
-          <div class="input">
-            <%= f.password_field :password, :class => "xlarge" %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="input">
-            <%= f.submit "Sign in", :class => "btn large primary" %>
-          </div>
-        </div>
-      </fieldset>
+<div class="signin-form">
+  <%= twitter_bootstrap_form_for(:session, :url => sessions_path) do |f| %>
+    <%= f.inputs 'Sign in' do %>
+      <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => :true %>
+      <%= f.password_field :password %>
+    <% end %>
+
+    <%= f.actions do %>
+      <%= f.submit "Sign in", :class => "btn large primary" %>
+      <br/><br/>
+      <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+      <p>Forget your password? <%= link_to "Reset password!", reset_passwords_path %></p>
+    <% end %>
   <% end %>
-  <p>New user? <%= link_to "Sign up now!", signup_path %></p>
-  <p>Forget your password? <%= link_to "Reset password!", reset_passwords_path %></p>
 </div>
 

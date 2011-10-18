@@ -113,10 +113,31 @@ form{
   margin-bottom: 0px;
 }
 
-.centered-form {
-  width: 500px;
+.signup-form {
+  width: 550px;
   margin-left: 200px;
-  margin-top: 30px;
+  padding-top: 20px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+
+  .captcha-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+.signin-form {
+  width: 550px;
+  margin-left: 200px;
+  padding-top: 20px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+.actions {
+  margin-bottom: 0px;
 }
 
 

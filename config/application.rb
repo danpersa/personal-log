@@ -59,3 +59,16 @@ module PersonalLog
     config.recaptcha[:ssl_api_service_url] = "https://www.google.com/recaptcha/api/verify"
   end
 end
+
+
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  if html_tag.include? "label"
+    %(#{html_tag}).html_safe
+  elsif instance.error_message.kind_of?(Array)
+    %(#{html_tag}<span class="help-inline">&nbsp;
+      #{instance.error_message.join(',')}</span>).html_safe
+  else
+    %(<div class="input error">#{html_tag}<span class="help-inline">&nbsp;
+      #{instance.error_message}</span></div>).html_safe
+  end
+end
