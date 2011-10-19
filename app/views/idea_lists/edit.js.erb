@@ -1,20 +1,5 @@
-$("#idea_list_dialog").html("<%= escape_javascript(render(:partial => "form"))%>");
-$("#idea_list_dialog").dialog({
-    autoOpen: false,
-    height: 270,
-    width: 460,
-    modal: true,
-    resizable: false,
-    buttons: {
-      "Edit an idea list": function() {
-        $("#edit_idea_list_<%=@idea_list.id%>").submit();
-      },
-      Cancel: function() {
-        $(this).dialog("close");
-      }
-    },
-    close: function() {
-      $(this).dialog("destroy");
-    }
-  });
-$("#idea_list_dialog").dialog("open");
+<%= render 'form_update' %>
+var dialog_selector = "#idea_list_dialog";
+var form_selector = "#edit_idea_list_<%=@idea_list.id%>";
+<%= render 'shared/dialog' %>
+

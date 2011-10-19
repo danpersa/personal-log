@@ -42,6 +42,7 @@ class IdeaListsController < ApplicationController
     @user = current_user
     @idea_list = IdeaList.new
     @title = "Create idea list"
+    @submit_button_name = "Create idea list"
     respond_with_remote_form
   end
 
@@ -76,6 +77,7 @@ class IdeaListsController < ApplicationController
   def edit
     @user = current_user
     @title = "Update idea list"
+    @submit_button_name = "Update idea list"
     respond_with_remote_form
   end
 

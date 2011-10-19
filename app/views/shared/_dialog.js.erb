@@ -1,0 +1,21 @@
+$(dialog_selector).attr("title", "<%= escape_javascript(@title) %>");
+$(dialog_selector).html("<%= escape_javascript(render(:partial => "form"))%>");
+$(dialog_selector).dialog({
+    autoOpen: false,
+    height: 220,
+    width: 550,
+    modal: true,
+    resizable: false,
+    buttons: {
+        "<%= submit_button_name %>": function() {
+            $(form_selector).submit();
+        },
+        Cancel: function() {
+            $(this).dialog("close");
+        }
+    },
+    close: function() {
+        $(this).dialog("destroy");
+    }
+});
+$(dialog_selector).dialog("open");

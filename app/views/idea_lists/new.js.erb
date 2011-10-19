@@ -1,20 +1,4 @@
 <%= render 'form_update' %>
-$("#idea_list_dialog").dialog({
-    autoOpen: false,
-    height: 220,
-    width: 550,
-    modal: true,
-    resizable: false,
-    buttons: {
-      "Create": function() {
-        $("#new_idea_list").submit();
-      },
-      Cancel: function() {
-        $(this).dialog("close");
-      }
-    },
-    close: function() {
-      $(this).dialog("destroy");
-    }
-  });
-$("#idea_list_dialog").dialog("open");
+var dialog_selector = "#idea_list_dialog";
+var form_selector = "#new_idea_list";
+<%= render 'shared/dialog' %>
