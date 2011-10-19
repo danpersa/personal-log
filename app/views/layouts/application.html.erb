@@ -5,9 +5,7 @@
     </div>
     <div class="row">
       <div class="main-content">
-        <% flash.each do |key, value| %>
-          <div class="flash <%= key %>"><%= value %></div>
-        <% end %>
+        <%= render :partial => "layouts/flash", :locals => {:flash => flash} %>
         <%= content_for?(:content) ? yield(:content) : yield %>
       </div>
       <% if @hide_sidebar.nil? or @hide_sidebar == false %>

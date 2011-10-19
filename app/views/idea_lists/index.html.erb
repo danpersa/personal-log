@@ -8,12 +8,15 @@
   <div class="toolbar-row">
     <div class="well">
       <%= link_to "Create new idea list", new_idea_list_path, 
-            :remote => true, 
-            :class => "btn small primary" %>
+        :remote => true, 
+        :class => "btn small primary" %>
     </div>
   </div>
 </div>
-<%= render 'table' %>
+
+<div id="table-div">
+  <%= render 'table' %>
+</div>
 
 <div id="idea_list_dialog" title="Edit idea list" ></div>
 

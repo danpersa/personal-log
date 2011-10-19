@@ -1,17 +1,12 @@
-<%= form_for(@idea_list, :remote => remote?, :html => { :class => "generic_form"}) do |f| %>
-  <fieldset>
-    <legend>Idea list details</legend>
-    <ol>
-      <li>
-        <%= f.label :name, "Name" %>
-        <%= f.text_field :name, :autofocus => :true  %>
-        <%= errors_for_field(@idea_list, :name) %>
-      </li>
-    </ol>
-  </fieldset>
-  <% unless hide_buttons? %>
-  <fieldset>
-    <%= f.submit %>
-  </fieldset>
+<div class="<% if ajax_form? %>ajax-form-container<% else %>form-container<%  end %> ">
+  <%= twitter_bootstrap_form_for(@idea_list, :remote => remote?) do |f| %>
+    <%= f.inputs 'Idea list details' do %>
+      <%= f.text_field :name, :autofocus => :true  %>
+    <% end %>
+    <% unless hide_buttons? %>
+      <%= f.actions do %>
+        <%= f.submit %>
+      <% end %>
+    <% end %>
   <% end %>
-<% end %>
+</div>

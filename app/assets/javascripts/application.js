@@ -20,13 +20,13 @@ $( function() {
 });
 
 function addNotification(message, styleClass) {
-  $("#main-section").prepend(
-    '<div class="flash ' + styleClass + '">' + message + '</div>'
+  $("#flash-container").append(
+    '<div class="alert-message ' + styleClass + ' fade in" data-alert="alert"><a class="close" href="#">x</a>' + message + '</div>'
   );
   
-  setTimeout(function() {
-    $(".flash:first").fadeOut();
-  }, 3000);
+//  setTimeout(function() {
+//    $(".flash:first").fadeOut();
+//  }, 3000);
 }
 
 function addNotificationNotice(message) {

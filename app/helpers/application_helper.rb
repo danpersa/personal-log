@@ -69,6 +69,13 @@ module ApplicationHelper
     end 
     false
   end
+  
+  def ajax_form?
+    if (@ajax_form == true)
+      return true
+    end 
+    return false
+  end
 
   def submit_button_name
     if (@submit_button_name.blank?)
@@ -79,10 +86,13 @@ module ApplicationHelper
 
   def respond_with_remote_form
     respond_to do |format|
-      format.html
+      format.html {
+        render :layout => 'layouts/one_column'
+      }
       format.js {
         @hide_buttons = true
-        @remote = true 
+        @remote = true
+        @ajax_form = true
       }
     end
   end

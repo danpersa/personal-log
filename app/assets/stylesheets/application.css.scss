@@ -116,7 +116,7 @@ form{
 .signup-form {
   width: 550px;
   margin-left: 200px;
-  padding-top: 20px;
+  padding-top: 10px;
   border-bottom: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -129,26 +129,38 @@ form{
 
 .signin-form {
   width: 550px;
+  padding-top: 10px;
   margin-left: 200px;
-  padding-top: 20px;
   border-bottom: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
 
+.ajax-form-container {
+  padding-top: 20px;
+}
+
+.form-container {
+  width: 550px;
+  margin-left: 200px;
+  padding-top: 10px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+
 .actions {
   margin-bottom: 0px;
 }
 
-.flash-container {
-  padding-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+.alert-message {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-.alert-message {
-  margin-bottom: 0px;
-}
 .main-content {
   background-color: #fff;
   width: 580px;
