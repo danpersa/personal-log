@@ -1,35 +1,43 @@
-<h1>Settings</h1>
-<%= form_for(@user, :html => { :class => "generic_form"}) do |f| %>
-<%= render 'shared/error_messages', :object => f.object %>
-<fieldset>
-  <legend>Username and email</legend>
-  <ol>
-    <li>
-      <%= f.label :name %>
-      <%= f.text_field :name, :placeholder => "Name" %>
-    </li>
-    <li>
-      <%= f.label :email %>
-      <%= f.email_field :email, :placeholder => "example@domain.com" %>
-    </li>
-</fieldset>
-<fieldset>
-  <%= f.submit "Update" %>
-</fieldset>
+<div class="head-container">
+  <div class="row">
+    <div class="title-container">
+      <h1>Settings</h1>
+    </div>
+  </div>
+</div>
+
+<%= twitter_bootstrap_form_for(@user) do |f| %>
+  <%= f.inputs 'Username and email' do %>
+    <%= f.text_field :name, :placeholder => "Name" %>
+    <%= f.email_field :email, :placeholder => "example@domain.com" %>
+    <div class="clearfix">
+      <label><%= gravatar_for @user %></label>
+      <div class="input">
+        <div class="row">
+          <br /><br />
+          <a href="http://gravatar.com/emails">change</a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.submit "Update" %>
+  <% end %>
 <% end %>
-<div>
-  <%= gravatar_for @user %>
-  <a href="http://gravatar.com/emails">change</a>
+
+<div class="text-container">
+  <div class="text">
+    <div class="row">
+      <%= link_to "Delete your account", user_path(current_user), 
+        :method => :delete,
+        :confirm => "Once you delete your account, there is no going back. Please be certain. Are you really sure?",
+        :title => "Delete your account", %>
+    </div>
+    <span class="label important">Important</span> This will delete all your account information, all your reminders, all your private ideas and all your public ideas that weren't shared with others.
+    The public ideas that have been shared with other users will live in the Community</p> 
+  </div>
 </div>
 
 <% content_for :sidebar do %>
   <%= render 'shared/settings_menu' %>
 <% end %>
-
-<%= link_to "Delete your account", user_path(current_user), 
-                                  :method => :delete,
-                                  :confirm => "Once you delete your account, there is no going back. Please be certain. Are you really sure?",
-                                  :title => "Delete your account", %>
-                                  
-<p>Warning! This will delete all your account information, all your reminders, all your private ideas and all your public ideas that weren't shared with others.
-  The public ideas that have been shared with other users will live in the Community</p> 
