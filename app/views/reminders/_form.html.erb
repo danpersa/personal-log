@@ -1,26 +1,17 @@
-<%= form_tag({:controller => :reminders,  :action => :create}, {:remote => remote?, :class => "generic_form", :id => "new_reminder"}) do %>
-  <%= render 'shared/error_messages', :object => @reminder %>
-  <fieldset>
-    <%= hidden_field :idea, :id %>
-    <legend>Remind me to</legend>
-    <ol>
-      <li>
-        <span class="title"><%= @idea.content %></span>
-      </li>
-      <li>
-        <%= label_tag :reminder_reminder_date, "on" %>
-        <%= text_field :reminder, :reminder_date, :placeholder => "Reminder date" %>
-        <%= errors_for_field(@reminder, :reminder_date) %>
-      </li>
-      <li>
-        <%= label_tag :reminder_privacy_id, "as" %>
-        <%= collection_select(:reminder, :privacy_id, Privacy.all, :id, :name) %>
-      </li>
-  </ol>
-  </fieldset>
+<%= twitter_bootstrap_form_for @reminder, :remote => remote? do |reminder| %>
+  <span class="title"><%= @idea.content %></span>
+  <%= reminder.inputs 'Remind me to' do %>
+    <%= fields_for @idea do |idea| %>
+      <%= idea.hidden_field :id %>
+    <% end %>
+    <%= reminder.text_field :reminder_date, :placeholder => 'Reminder date' %>
+    
+    <%= reminder.collection_select :privacy_id, 'Privacy', Privacy.all, :id, :name %>
+  
+  <% end %>
   <% unless hide_buttons? %>
-  <fieldset>
-    <%= submit_tag submit_button_name %>
-  </fieldset>
+    <%= reminder.actions do %>
+      <%= reminder.submit submit_button_name %>
+    <% end %>
   <% end %>
 <% end %>

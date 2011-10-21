@@ -1,15 +1,10 @@
-<h1>Reset password</h1>
-<%= form_for(@reset_password, :html => { :class => "generic_form"}) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
-  <fieldset>
-    <ol>
-      <li>
-        <%= f.label :email %>
-        <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => "true" %>
-      </li>
-    </ol>
-  </fieldset>
-  <fieldset>
-    <%= f.submit "Reset password" %>
-  </fieldset>
-<% end %>
+<div class="<% if ajax_form? %>ajax-form-container<% else %>form-container<%  end %> ">
+  <%= twitter_bootstrap_form_for @reset_password do |f| %>
+    <%= f.inputs 'Reset password' do %>
+      <%= f.email_field :email, :placeholder => "example@domain.com", :autofocus => "true" %>
+    <% end %>
+    <%= f.actions do %>
+      <%= f.submit "Reset password" %>
+    <% end %>
+  <% end %>
+</div>

@@ -1,21 +1,12 @@
-<h1>Change password</h1>
-<%= form_for(@change_reseted_password, :html => { :class => "generic_form"}) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
-  <fieldset>
-    <legend>Change password</legend>
-    <%= f.hidden_field :password_reset_code %>
-    <ol>
-      <li>
-        <%= f.label :password, "New password" %>
-        <%= f.password_field :password, :autofocus => :true %>
-      </li>
-      <li>
-        <%= f.label :password_confirmation, "Confirmation" %>
-        <%= f.password_field :password_confirmation %>
-      </li>
-    </ol>
-  </fieldset>
-  <fieldset>
-    <%= f.submit "Change password" %>
-  </fieldset>
-<% end %>
+<div class="<% if ajax_form? %>ajax-form-container<% else %>form-container<%  end %> ">
+  <%= twitter_bootstrap_form_for @change_reseted_password do |f| %>
+    <%= f.inputs 'Change password' do %>
+      <%= f.hidden_field :password_reset_code %>
+      <%= f.password_field :password, "New password", :autofocus => :true %>
+      <%= f.password_field :password_confirmation, "Confirmation" %>
+    <% end %>
+    <%= f.actions do %>
+      <%= f.submit "Change password" %>
+    <% end %>
+  <% end %>
+</div>

@@ -19,7 +19,7 @@ class ResetPassword
   
   def email_must_belong_to_an_user
     errors.add(:email, "cannot be found in the database") if
-      User.find_by_email(self.email) == nil
+      (not self.email.blank?) and User.find_by_email(self.email) == nil
   end
                     
   def persisted?

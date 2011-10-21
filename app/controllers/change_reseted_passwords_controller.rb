@@ -1,4 +1,7 @@
 class ChangeResetedPasswordsController < ApplicationController
+  
+  layout 'one_column'
+  
   before_filter :not_authenticate
   
   def edit

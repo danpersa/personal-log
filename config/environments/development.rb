@@ -35,13 +35,13 @@ PersonalLog::Application.configure do
   config.action_mailer.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
-  :domain               => "wappa.be",
-  :user_name            => "dan.persa@wappa.be",
-  :password             => "Wcrxz70698",
+  # :domain               => "wappa.be",
+  :user_name            => "dan.persa@gmail.com",
+  :password             => "xxxx",
   :authentication       => "plain",
 #  :enable_starttls_auto => true
   }
   
   # uncomment when generating sample data using rake db:populate
-  config.action_mailer.delivery_method = :test
+  # config.action_mailer.delivery_method = :test
 end
