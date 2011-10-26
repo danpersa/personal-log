@@ -29,7 +29,7 @@ class RemindersController < ApplicationController
         format.html { redirect_back_or root_path }
       else
         format.html {
-          render :remind_me_too
+          render :layout => 'layouts/one_column', :template => 'reminders/remind_me_too'
         }
       end
       format.js {

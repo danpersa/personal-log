@@ -1,17 +1,17 @@
-<%= twitter_bootstrap_form_for @reminder, :remote => remote? do |reminder| %>
-  <span class="title"><%= @idea.content %></span>
-  <%= reminder.inputs 'Remind me to' do %>
-    <%= fields_for @idea do |idea| %>
-      <%= idea.hidden_field :id %>
+<div class="<% if ajax_form? %>ajax-form-container<% else %>form-container<%  end %> ">
+  <%= twitter_bootstrap_form_for @reminder, :remote => remote? do |reminder| %>
+    <span class="title"></span>
+    <%= reminder.inputs 'Remind me to ' + @idea.content do %>
+      <%= fields_for @idea do |idea| %>
+        <%= idea.hidden_field :id %>
+      <% end %>
+      <%= reminder.text_field :reminder_date, :placeholder => 'Reminder date' %>
+      <%= reminder.collection_select :privacy_id, 'Privacy', Privacy.all, :id, :name %>
     <% end %>
-    <%= reminder.text_field :reminder_date, :placeholder => 'Reminder date' %>
-    
-    <%= reminder.collection_select :privacy_id, 'Privacy', Privacy.all, :id, :name %>
-  
-  <% end %>
-  <% unless hide_buttons? %>
-    <%= reminder.actions do %>
-      <%= reminder.submit submit_button_name %>
+    <% unless hide_buttons? %>
+      <%= reminder.actions do %>
+        <%= reminder.submit submit_button_name %>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</div>
