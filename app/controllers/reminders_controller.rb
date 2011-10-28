@@ -14,6 +14,33 @@ class RemindersController < ApplicationController
     @date = params[:month] ? Date.parse(params[:month].gsub('-', '/')) : Date.today
   end
   
+  def create_reminder_and_idea
+    @idea  = current_user.ideas.build(params[:new_reminder][:idea])
+    params[:new_reminder].delete :idea
+    @reminder = current_user.reminders.build(params[:new_reminder])
+    
+    Idea.transaction do
+  	  if @idea.valid?
+  	    @idea.save!
+  	    @reminder.idea = @idea  	    
+  	    if @reminder.save!
+    	    flash[:success] = "Idea with reminder successfully created!"
+          redirect_to root_path
+          return
+        end
+      else
+        @reminder.valid?
+      end
+    end
+  
+    init_feeds_table
+    render :layout => "application", :template => 'pages/home'
+    
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid => detail
+    init_feeds_table
+    render :layout => "application", :template => 'pages/home'
+  end
+  
   def create
     @idea = Idea.find_by_id(params[:idea][:id])
     # if the idea is not public and the logged user is not the owner of the idea, we can't create reminders
@@ -27,23 +54,18 @@ class RemindersController < ApplicationController
       if @reminder.save
         flash[:success] = "Reminder successfully created!"
         format.html { redirect_back_or root_path }
-      else
-        format.html {
-          render :layout => 'layouts/one_column', :template => 'reminders/remind_me_too'
-        }
-      end
-      format.js {
-        logger.debug "current page: " + current_page
-        # we are on the users sharing an idea page
-        if current_page.include? "ideas" and current_page.include? "users"
+        format.js {
+          respond_with_remote_form
+          logger.debug "current page: " + current_page
           respond_with(@reminder, :layout => !request.xhr?) do |format|
-            format.js {
+            # we are on the users sharing an idea page
+            if current_page.include? "ideas" and current_page.include? "users"
               path_hash = url_to_hash(current_page)
               page = path_hash[:page]
               unless shared_idea
                 logger.debug "idea shared by current user"
                 @user = current_user
-                @users = @idea.public_users(current_user).includes(:profile).page(page).per(@@items_per_page).all
+                @users = @idea.public_users(current_user).includes(:profile).page(page).per(@@items_per_page)
                 @table_params = { :controller => "ideas",
                   :action => "users",
                   :id => @idea.id,
@@ -53,12 +75,8 @@ class RemindersController < ApplicationController
                 logger.debug "idea not shared by current user"
                 @update_table = false
               end
-            }
-          end
-          # we are on the profile page of an user
-        elsif current_page.include? "users"
-          respond_with(@reminder, :layout => !request.xhr?) do |format|
-            format.js {
+              # we are on the profile page of an user
+            elsif current_page.include? "users"
               # we parse the current page path and extract the user on which profile page we are on
               path_hash = url_to_hash(current_page)
               user_id = path_hash[:id]
@@ -74,22 +92,15 @@ class RemindersController < ApplicationController
               else
                 @update_table = false
               end
-            }
-          end
-          # we are on the home page
-        elsif current_page == "/" or current_page.include? '/?page='
-          respond_with(@reminder, :layout => !request.xhr?) do |format|
-            format.js {
+              # we are on the home page
+            elsif current_page == "/" or current_page.include? '/?page='
+              logger.debug 'we are on the home page'
               @update_table_partial = 'feeds/table_update'
               path_hash = url_to_hash(current_page)
               params[:page] = path_hash[:page]
               init_feeds_table
-            }
-          end
-          # we are on the reminders for an idea page
-        elsif current_page.include? "ideas"
-          respond_with(@reminder, :layout => !request.xhr?) do |format|
-            format.js {
+              # we are on the reminders for an idea page
+            elsif current_page.include? "ideas"
               logger.debug 'we are on the reminders for an idea page'
               path_hash = url_to_hash(current_page)
               idea_id = path_hash[:id]
@@ -102,10 +113,19 @@ class RemindersController < ApplicationController
               @update_table_partial = 'reminders/simple_table_update'
               @user = current_user
               @reminders = Reminder.from_idea_by_user(idea_id, current_user).page(page).per(@@items_per_page)
-            }
+            end
           end
-        end
-      }
+        }
+      else
+        format.html {
+          render :layout => 'layouts/one_column', :template => 'reminders/remind_me_too'
+        }
+        format.js {
+          respond_with_remote_form
+          logger.debug "current page: " + current_page
+          respond_with(@reminder, :layout => !request.xhr?)
+        }
+      end
     end
   end
   
@@ -157,6 +177,7 @@ class RemindersController < ApplicationController
   end
   
   def remind_me_too
+    @dialog_height = "260"
     @idea = Idea.find_by_id(params[:idea_id])
     if redirect_unless_public_idea @idea
       return

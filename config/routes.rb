@@ -26,6 +26,10 @@ PersonalLog::Application.routes.draw do
   end
   
   resources :reminders, :only => [:index, :create, :destroy]
+  match '/',  :to => 'reminders#create_reminder_and_idea',
+                               :via => :post,
+                               :as => 'create_reminder_and_idea'
+  
   resources :relationships, :only => [:create, :destroy]
   
   match '/good-idea/:id',      :to => 'good_ideas#create',

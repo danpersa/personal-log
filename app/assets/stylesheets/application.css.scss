@@ -149,6 +149,15 @@ form{
   border-right: 1px solid #ddd;
 }
 
+.form-container-two-columns {
+  width: 540px;
+  margin-left: 20px;
+  padding-top: 10px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
 
 .actions {
   margin-bottom: 0px;
@@ -429,6 +438,7 @@ form{
 }
 
 @import "reminders_index.css.scss";
+@import "reminders_create_reminder_and_idea.css.scss";
 @import "pages_home.css.scss";
 @import "users.css.scss";
 @import "idea_lists.css.scss";

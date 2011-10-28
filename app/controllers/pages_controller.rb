@@ -8,6 +8,8 @@ class PagesController < ApplicationController
     if signed_in?
       store_current_page
       store_location
+      @idea = Idea.new
+      @reminder = Reminder.new
       init_feeds_table
       render :layout => "application"
     end

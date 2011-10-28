@@ -71,10 +71,17 @@ module ApplicationHelper
   end
   
   def ajax_form?
-    if (@ajax_form == true)
+    if @ajax_form == true
       return true
     end 
     return false
+  end
+  
+  def dialog_height
+    if @dialog_height.nil?
+      return "220";
+    end
+    return @dialog_height
   end
 
   def submit_button_name
@@ -135,8 +142,6 @@ module ApplicationHelper
   def init_feeds_table
     @feed_items = pagination(current_user.feed, @@items_per_page)
     # other variables
-    @idea = Idea.new
-    @reminder = Reminder.new
     @users_with_public_or_own_reminders_for_idea = {}
     @users_with_public_or_own_reminders_for_idea_count = {}
     @newest_public_or_own_reminder_for_idea = {}

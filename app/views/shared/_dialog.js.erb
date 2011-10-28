@@ -2,7 +2,7 @@ $(dialog_selector).attr("title", "<%= escape_javascript(@title) %>");
 $(dialog_selector).html("<%= escape_javascript(render(:partial => "form"))%>");
 $(dialog_selector).dialog({
     autoOpen: false,
-    height: 220,
+    height: <%= escape_javascript(dialog_height) %>,
     width: 550,
     modal: true,
     resizable: false,

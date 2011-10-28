@@ -1,37 +1,18 @@
 <div class="head-container">
-  <%= form_tag({:controller => :ideas, :action => :create}, {:class => "new_idea"}) do %>
-    <%= render 'shared/error_messages', :object => @idea %>
-    <%= render 'shared/error_messages', :object => @reminder %>
-    <div class="modal" style="position: relative; top: auto; left: auto; margin: 10px; z-index: 1">
-      <div class="modal-header">
-        <h3>Remind me to</h3>
-
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="span9">
-            <%= text_field :idea, :content, :class => "span9", "x-webkit-speech" => :true %>
-          </div>
-        </div>
-        <br/>
-        <div class="row">
-          <div class="span1 offset1"><h3>on</h3></div>
-
-          <div class="span3">
-            <%= text_field :new_reminder, :reminder_date, :class => "span3" %>
-          </div>
-
-          <div class="span1"><h3>as</h3></div>
-
-          <div class="span3">
-            <%= collection_select :new_reminder, :privacy_id, Privacy.all, :id, :name, {}, {:class => "span3"} %>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <%= submit_tag "Post", :id => "new_reminder_post", :class => "btn primary" %>
-      </div>
-    </div>
-  <% end %>
+  <div class="<% if ajax_form? %>ajax-form-container<% else %>form-container-two-columns<%  end %> ">
+    <%= twitter_bootstrap_form_for(@reminder, {:as => 'new_reminder', :url => create_reminder_and_idea_path, :remote => remote?, :html => {:id => 'main_new_reminder', :class => 'main_new_reminder'}}) do |reminder| %>
+      <%= reminder.inputs 'Remind me' do %>
+        <%= reminder.fields_for @idea do |idea| %>
+          <%= idea.text_field :content, 'to', :placeholder => 'eg: dream more!'%>
+        <% end %>
+        <%= reminder.text_field :reminder_date, 'on', :placeholder => 'reminder date' %>
+        <%= reminder.collection_select :privacy_id, 'as', Privacy.all, :id, :name %>
+      <% end %>
+      <% unless hide_buttons? %>
+        <%= reminder.actions do %>
+          <%= reminder.submit submit_button_name, :id => "new_reminder_post" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
 </div>
-
