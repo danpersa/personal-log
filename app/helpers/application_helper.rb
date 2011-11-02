@@ -77,6 +77,13 @@ module ApplicationHelper
     return false
   end
   
+  def reminders_form_url
+    if @reminders_form_url.nil?
+      return reminders_path
+    end
+    @reminders_form_url
+  end
+  
   def dialog_height
     if @dialog_height.nil?
       return "220";

@@ -1,5 +1,5 @@
 <div class="<% if ajax_form? %>ajax-form-container<% else %>form-container<%  end %> ">
-  <%= twitter_bootstrap_form_for @reminder, :remote => remote? do |reminder| %>
+  <%= twitter_bootstrap_form_for @reminder, :url => reminders_form_url, :remote => remote? do |reminder| %>
     <%= reminder.inputs 'Remind me to ' + @idea.content do %>
       <%= fields_for @idea do |idea| %>
         <%= idea.hidden_field :id %>

@@ -1,5 +1,5 @@
 class RemindersController < ApplicationController
-  before_filter :authenticate, :only => [:index, :create, :destroy, :remind_me_too]
+  before_filter :authenticate
   before_filter :authorized_user, :only => :destroy
   before_filter :correct_user, :only => [:edit, :update]
   
@@ -39,6 +39,10 @@ class RemindersController < ApplicationController
   rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid => detail
     init_feeds_table
     render :layout => "application", :template => 'pages/home'
+  end
+  
+  def create_from_users_sharing_idea
+    @idea = Idea.find_by_id(params[:idea][:id])
   end
   
   def create
@@ -165,17 +169,6 @@ class RemindersController < ApplicationController
     end
   end
   
-  def remind_me_too_user_profile
-    @idea = Idea.find_by_id(params[:idea_id])
-    if redirect_unless_public_idea @idea
-      return
-    end
-    @title = "Remind me too"
-    @reminder = Reminder.new
-    @submit_button_name = "Create reminder"
-    respond_with_remote_form
-  end
-  
   def remind_me_too
     @dialog_height = "260"
     @idea = Idea.find_by_id(params[:idea_id])
@@ -192,6 +185,18 @@ class RemindersController < ApplicationController
     @reminder = Reminder.new
     @submit_button_name = "Create reminder"
     respond_with_remote_form
+    render :remind_me_too
+  end
+  
+  def remind_me_too_from_location
+    location = params[:location]
+    logger.info "location: " + location
+    if location == '1'
+      @reminders_form_url = create_from_users_sharing_idea_path
+    elsif location == '2'
+      
+    end
+    remind_me_too
   end
   
   private

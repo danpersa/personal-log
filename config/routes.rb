@@ -26,9 +26,17 @@ PersonalLog::Application.routes.draw do
   end
   
   resources :reminders, :only => [:index, :create, :destroy]
-  match '/',  :to => 'reminders#create_reminder_and_idea',
+  
+  match '/',                   :to => 'reminders#create_reminder_and_idea',
                                :via => :post,
                                :as => 'create_reminder_and_idea'
+                             
+  match '/reminders/create-from-users-sharing-idea',
+                               :to => 'reminders#create_from_users_sharing_idea',
+                               :via => :post,
+                               :as => 'create_from_users_sharing_idea'                             
+                             
+  
   
   resources :relationships, :only => [:create, :destroy]
   
@@ -97,6 +105,10 @@ PersonalLog::Application.routes.draw do
   match '/remind-me-too/:idea_id',      :to => 'reminders#remind_me_too',
                                         :constraints => { :idea_id => /[0-9]+/ },
                                         :as => 'remind_me_too'
+                                      
+  match '/remind-me-too/:idea_id/:location',     :to => 'reminders#remind_me_too_from_location',
+                                                 :constraints => { :idea_id => /[0-9]+/, :location => /[0-9]+/ },
+                                                 :as => 'remind_me_too_from_location'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
