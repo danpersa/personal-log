@@ -1,0 +1,26 @@
+.topbar {
+  .btn {
+    border: 0;
+  }
+
+  .brand {
+    color: #1FB3D8;
+
+    &:hover {
+      color: #1FB3D8;
+    }
+  }
+
+  .user-menu {
+    padding-top: 6px;
+    padding-bottom: 4px;
+
+    .gravatar {
+      vertical-align: middle;
+    }
+ 
+    .display-name {
+      vertical-align: middle;
+    }
+  }
+}

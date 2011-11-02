@@ -25,3 +25,24 @@
 
 
 }
+
+.users_new, .users_create {
+  .signup-form {
+    width: 550px;
+    margin-left: 200px;
+    padding-top: 10px;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+
+    .captcha-container {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+
+  /* fix for captcha */
+  #recaptcha_instructions_image {
+    font-size: 110%;
+  }
+}

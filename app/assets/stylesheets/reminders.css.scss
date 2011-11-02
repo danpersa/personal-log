@@ -1,0 +1,26 @@
+.reminder-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  .row-content {
+    width:520px;
+    float: left;
+
+    .timestamp {
+      font-size: 85%;
+      color: #666;
+    }
+
+    .toolbar {
+      font-size: 85%;
+    }
+  }
+
+  .buttons {
+    width: 20px;
+    float: left;
+  }
+}
