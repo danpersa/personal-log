@@ -45,6 +45,19 @@ class RemindersController < ApplicationController
     @idea = Idea.find_by_id(params[:idea][:id])
   end
   
+  def create_from_user_profile
+    
+  end
+  
+  def create_from_home_page
+    
+  end
+  
+  def create_from_reminders_for_idea
+    
+  end
+  
+  
   def create
     @idea = Idea.find_by_id(params[:idea][:id])
     # if the idea is not public and the logged user is not the owner of the idea, we can't create reminders
@@ -184,17 +197,20 @@ class RemindersController < ApplicationController
     end  
     @reminder = Reminder.new
     @submit_button_name = "Create reminder"
-    respond_with_remote_form
-    render :remind_me_too
+    respond_with_remote_form 'reminders/remind_me_too'
   end
   
   def remind_me_too_from_location
     location = params[:location]
-    logger.info "location: " + location
-    if location == '1'
-      @reminders_form_url = create_from_users_sharing_idea_path
-    elsif location == '2'
-      
+    case location
+    when USERS_SHARING_IDEA_LOCATION
+      @reminders_form_url = create_reminder_from_users_sharing_idea_path
+    when USER_PROFILE_LOCATION
+      @reminders_form_url = create_reminder_from_user_profile_path
+    when HOME_PAGE_LOCATION
+      @reminders_form_url = create_reminder_from_home_page_path
+    when REMINDERS_FOR_IDEA_LOCATION
+      @reminders_form_url = create_reminder_from_reminders_for_idea_path
     end
     remind_me_too
   end

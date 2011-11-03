@@ -10,7 +10,7 @@ PersonalLog::Application.routes.draw do
   end
 
   resources :sessions, :only => [:new, :create, :destroy]
-  
+
   resources :ideas, :only => [:show, :create, :update, :destroy] do
     member do
       # the list of users that shares the idea
@@ -24,37 +24,51 @@ PersonalLog::Application.routes.draw do
       post :add_idea, :path => 'add-idea'
     end
   end
-  
+
   resources :reminders, :only => [:index, :create, :destroy]
-  
+
   match '/',                   :to => 'reminders#create_reminder_and_idea',
                                :via => :post,
                                :as => 'create_reminder_and_idea'
-                             
+
   match '/reminders/create-from-users-sharing-idea',
                                :to => 'reminders#create_from_users_sharing_idea',
                                :via => :post,
-                               :as => 'create_from_users_sharing_idea'                             
+                               :as => 'create_reminder_from_users_sharing_idea'
+
+  match '/reminders/create-from-user-profile',
+                               :to => 'reminders#create_from_user_profile',
+                               :via => :post,
+                               :as => 'create_reminder_from_user_profile'
                              
-  
-  
+  match '/reminders/create-from-home-page',
+                               :to => 'reminders#create_from_home_page',
+                               :via => :post,
+                               :as => 'create_reminder_from_home_page'
+                             
+  match '/reminders/create-from-reminders-for-idea',
+                               :to => 'reminders#create_from_reminders_for_idea',
+                               :via => :post,
+                               :as => 'create_reminder_from_reminders_for_idea'
+
+
   resources :relationships, :only => [:create, :destroy]
-  
+
   match '/good-idea/:id',      :to => 'good_ideas#create',
                                :constraints => { :id => /[0-9]+/ },
                                :via => :post,
                                :as => 'good_idea_create'
-  
+
   resources :good_ideas,
             :path => 'good-ideas',
             :only => [:destroy],
             :as => 'good_ideas'
-  
+
   match '/done-idea/:id',      :to => 'done_ideas#create',
                                :constraints => { :id => /[0-9]+/ },
                                :via => :post,
                                :as => 'done_idea_create'
-  
+
   resources :done_ideas,
             :path => 'done-ideas',
             :only => [:destroy],
@@ -64,35 +78,35 @@ PersonalLog::Application.routes.draw do
             :only => [:new, :create],
             # the new path is the same as the create path
             :path_names => {:new => ''}
-            
+
   resources :change_reseted_passwords,
             :path => 'change-reseted-password',
             :only => [:edit, :create],
             # the edit path is the same as the create path
             :path_names => {:edit => ''}
-            
+
   resources :change_passwords,
             :path => 'change-password',
             :only => [:new, :create],
             # the new path is the same as the create path
             :path_names => {:new => ''}
-      
+
   root                                  :to => 'pages#home'
   match '/signup',                      :to => 'users#new'
   match '/activate',                    :to => 'users#activate'
-  
+
   #match '/change-reseted-password',            :to => 'users#change_reseted_password',
   #                                     :as => 'change_reseted_password'
-                                        
-  
-  #match '/change-reseted-password/:password_reset_code',   
+
+
+  #match '/change-reseted-password/:password_reset_code',
   #                                      :to => 'users#change_reseted_password',
   #                                      :constraints => {:password_reset_code => /[A-Za-z0-9]+/},
   #                                      :via => :get
-  
+
   #match '/change-reseted-password',             :to => 'errors#routing',
   #                                      :via => 'get'
-  
+
   match '/signin',                      :to => 'sessions#new'
   match '/signout',                     :to => 'sessions#destroy'
 
@@ -101,11 +115,11 @@ PersonalLog::Application.routes.draw do
   match '/help',                        :to => 'pages#help'
   match '/reset-password-mail-sent',    :to => 'pages#reset_password_mail_sent',
                                         :as => 'reset_password_mail_sent'
-  
+
   match '/remind-me-too/:idea_id',      :to => 'reminders#remind_me_too',
                                         :constraints => { :idea_id => /[0-9]+/ },
                                         :as => 'remind_me_too'
-                                      
+
   match '/remind-me-too/:idea_id/:location',     :to => 'reminders#remind_me_too_from_location',
                                                  :constraints => { :idea_id => /[0-9]+/, :location => /[0-9]+/ },
                                                  :as => 'remind_me_too_from_location'

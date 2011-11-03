@@ -84,6 +84,13 @@ module ApplicationHelper
     @reminders_form_url
   end
   
+  def remind_me_too_location
+    if @remind_me_too_location.nil?
+      return '0'
+    end
+    @remind_me_too_location
+  end
+  
   def dialog_height
     if @dialog_height.nil?
       return "220";
@@ -98,15 +105,22 @@ module ApplicationHelper
     @submit_button_name
   end
 
-  def respond_with_remote_form
+  def respond_with_remote_form template=nil
     respond_to do |format|
       format.html {
-        render :layout => 'layouts/one_column'
+        if template.nil?
+          render :layout => 'layouts/one_column'
+        else
+          render :layout => 'layouts/one_column', :template => template
+        end
       }
       format.js {
         @hide_buttons = true
         @remote = true
         @ajax_form = true
+        unless template.nil?
+          render :template => template
+        end
       }
     end
   end

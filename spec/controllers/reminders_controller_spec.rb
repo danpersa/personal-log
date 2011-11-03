@@ -37,6 +37,24 @@ describe RemindersController do
     
     it_should_behave_like "deny access unless signed in" do
       let(:request_action) do
+        post :create_from_user_profile
+      end
+    end
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        post :create_from_home_page
+      end
+    end
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
+        post :create_from_reminders_for_idea
+      end
+    end
+    
+    it_should_behave_like "deny access unless signed in" do
+      let(:request_action) do
         get :index
       end
     end

@@ -1,5 +1,5 @@
 <% unless idea.shared_by?(current_user) %>
-  <%= link_to "Remind me too", remind_me_too_path(:idea_id => idea.id), :remote => true %> ·
+  <%= link_to "Remind me too", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %> ·
 <% else %>
-  <%= link_to "Create new reminder", remind_me_too_path(:idea_id => idea.id), :remote => true %> ·
+  <%= link_to "Create new reminder", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %> ·
 <% end %>

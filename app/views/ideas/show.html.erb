@@ -8,13 +8,8 @@
 
 <div class="text-container">
   <div class="text"><%= @idea.content %></div>
-  <div class="toolbar">
-    <span class="idea-toolbar">
-      <%= link_to "Create new reminder", remind_me_too_path(:idea_id => @idea.id), :remote => true %> 
-    </span>  · 
-    <span class="idea-toolbar">
-      <%= link_to "Users sharing this idea", users_idea_path(@idea) %> 
-    </span>
+  <div class="toolbar" id="toolbar-div">
+    <%= render 'ideas/reminders_for_ideas_toolbar' %>
   </div>
 </div>
 <div id="table-div">

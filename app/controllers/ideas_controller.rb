@@ -48,6 +48,7 @@ class IdeasController < ApplicationController
   def show
     # the idea is searched in interceptor
     @user = current_user
+    @remind_me_too_location = REMINDERS_FOR_IDEA_LOCATION
     @reminders = Reminder.from_idea_by_user(@idea, current_user).page(params[:page]).per(@@items_per_page)
     redirect_to users_idea_path(@idea) and return if @reminders.empty?
   end
@@ -55,6 +56,7 @@ class IdeasController < ApplicationController
   def users
     # the idea is searched in interceptor
     @user = current_user
+    @remind_me_too_location = USERS_SHARING_IDEA_LOCATION
     @users = @idea.public_users(current_user).includes(:profile).page(params[:page]).per(@@items_per_page)
   end
 

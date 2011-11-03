@@ -9,6 +9,7 @@ class PagesController < ApplicationController
       store_current_page
       store_location
       @idea = Idea.new
+      @remind_me_too_location = HOME_PAGE_LOCATION
       @reminder = Reminder.new
       init_feeds_table
       render :layout => "application"

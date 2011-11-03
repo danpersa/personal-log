@@ -1,0 +1,6 @@
+<span class="idea-toolbar">
+  <%= link_to "Create new reminder", remind_me_too_from_location_path(:idea_id => @idea.id, :location => remind_me_too_location), :remote => true %> 
+</span>  · 
+<span class="idea-toolbar">
+  <%= link_to "Users sharing this idea", users_idea_path(@idea) %> 
+</span>

@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     # we store the location so we can be redirected here after reminder delete
     store_location
     store_current_page
+    @remind_me_too_location = USER_PROFILE_LOCATION
     @title = @user.name
   end
 
