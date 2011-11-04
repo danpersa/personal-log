@@ -66,4 +66,5 @@ group :test do
   gem "guard-rspec"
   gem "libnotify"
   gem "rb-inotify"
+  gem 'simplecov'
 end

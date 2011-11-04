@@ -78,6 +78,8 @@ module ApplicationHelper
   end
   
   def reminders_form_url
+    logger.debug "reminders form url : "
+    logger.debug @reminders_form_url
     if @reminders_form_url.nil?
       return reminders_path
     end
