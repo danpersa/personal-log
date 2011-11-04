@@ -15,3 +15,5 @@ nbproject/*
 .idea/
 public/assets
 public/assets/*
+coverage
+coverage/*
