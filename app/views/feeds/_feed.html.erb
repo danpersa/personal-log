@@ -15,7 +15,7 @@
         </span>
       <% end %>
       <% if users_for_idea_count > 2 %>and <a href="<%= users_idea_path feed %>"><%= users_for_idea_count - 2 %> other <%= pluralize_without_numbers(users_for_idea_count - 2, "person", "people") %></a><% end %>
-      <%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <%= feed.content %>
+      <%= pluralize_without_numbers(users_for_idea_count, "wants", "want") %> to remind to <span><%= feed.content %></span>
     </div>
 
     <div class="timestamp">

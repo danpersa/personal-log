@@ -18,9 +18,9 @@ describe "Ideas Request" do
       it "should not make a new idea" do
         lambda do
           visit root_path
-          fill_in 'idea_content', :with => ""
+          fill_in 'new_reminder_idea_content', :with => ""
           click_button "Post"
-          page.should have_css("div#error_explanation")
+          page.should have_css("span.help-inline", :text => "can't be blank")
         end.should_not change(Idea, :count)
       end
     end
@@ -32,11 +32,11 @@ describe "Ideas Request" do
         reminder_date = "01/02/2020"
         lambda do
           visit root_path
-          fill_in 'idea_content', :with => content
+          fill_in 'new_reminder_idea_content', :with => content
           fill_in 'new_reminder_reminder_date', :with => reminder_date
           select "public", :from => "new_reminder_privacy_id"
           click_button "Post"
-          page.should have_css("span.content", :text => content)
+          page.should have_css("span", :text => content)
         end.should change(Idea, :count).by(1)
       end
     end

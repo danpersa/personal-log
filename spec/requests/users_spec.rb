@@ -9,12 +9,12 @@ describe "Users Request" do
       it "should not make a new user" do
         lambda do
           visit signup_path
-          fill_in "Name",         :with => ""
-          fill_in "Email",        :with => ""
-          fill_in "Password",     :with => ""
-          fill_in "Confirmation", :with => ""
-          click_button "Sign up"
-          page.should have_css("div#error_explanation")
+          fill_in "Name",                  :with => ""
+          fill_in "Email",                 :with => ""
+          fill_in "Password",              :with => ""
+          fill_in "Password confirmation", :with => ""
+          click_button "Create new account"
+          page.should have_css("span.help-inline")
         end.should_not change(User, :count)
       end
     end
@@ -28,13 +28,13 @@ describe "Users Request" do
       
       it "should create an user that is not activated" do
         visit signup_path
-        fill_in "Name",         :with => @attr[:name]
-        fill_in "Email",        :with => @attr[:email]
-        fill_in "Password",     :with => @attr[:password]
-        fill_in "Confirmation", :with => @attr[:password_confirmation]
-        click_button "Sign up"
+        fill_in "Name",                  :with => @attr[:name]
+        fill_in "Email",                 :with => @attr[:email]
+        fill_in "Password",              :with => @attr[:password]
+        fill_in "Password confirmation", :with => @attr[:password_confirmation]
+        click_button "Create new account"
         page.should_not have_link "Sign out"
-        page.should have_css("div.flash.success", :text => "email")
+        page.should have_css("div.alert-message.success", :text => "email")
         user = User.find_by_email @attr[:email]
         user.should_not be_activated
       end
@@ -50,7 +50,7 @@ describe "Users Request" do
         fill_in "Email",    :with => ""
         fill_in "Password", :with => ""
         click_button "Sign in"
-        page.should have_css("div.flash.error", :text => "Invalid")
+        page.should have_css("div.alert-message.error", :text => "Invalid")
       end
       
       it "should not sign in a user that is not activated" do
@@ -59,7 +59,7 @@ describe "Users Request" do
         fill_in "Email",    :with => user.email
         fill_in "Password", :with => user.password
         click_button "Sign in"
-        page.should have_css("div.flash.notice", :text => "activate")
+        page.should have_css("div.alert-message.notice", :text => "activate")
         page.should_not have_link "Sign out"
       end
       
@@ -93,8 +93,8 @@ describe "Users Request" do
       fill_in "Name",         :with => @attr[:name]
       fill_in "Email",        :with => @attr[:email]
       fill_in "Password",     :with => @attr[:password]
-      fill_in "Confirmation", :with => @attr[:password_confirmation]
-      click_button "Sign up"
+      fill_in "Password confirmation", :with => @attr[:password_confirmation]
+      click_button "Create new account"
       page.should_not have_link "Sign out"
       
       user = User.find_by_email @attr[:email]
