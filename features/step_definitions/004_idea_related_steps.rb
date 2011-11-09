@@ -59,6 +59,6 @@ end
 Then /^I should see "([^"]*)"'s ideas content trimmed$/ do |email|
   user = User.find_by_email(email)
   user.ideas.each do |idea|
-    page.should have_content(idea.content.truncate(15))
+    page.should have_content(idea.content.truncate(22))
   end
 end

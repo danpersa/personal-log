@@ -8,4 +8,4 @@ Feature: 3.2 - The guest accesses the home page
     When I go to the home page
     Then I should see "Sign up now!"
     And I should see "Sign in"
-    And I should see "WE NEED AN IDEA!"
+    And I should see "can change your life"

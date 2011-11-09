@@ -6,14 +6,18 @@
       <%= f.email_field :email, :placeholder => "email@domain.com" %>
       <%= f.password_field :password %>
       <%= f.password_field :password_confirmation %>
-    <% end %>
-  
-    <div class="clearfix captcha-container <% unless @user.errors[:recaptcha].empty? %>error<% end %> ">
-      <%= render '/shared/recaptcha' %>
-      <div class="input">
-        <span class="help-inline error"><%= display_all_error_messages @user, :recaptcha %></span>
+      <% if PersonalLog::Application.config.recaptcha[:enable] %>
+      <div class="clearfix <% unless @user.errors[:recaptcha].empty? %>error<% end %> ">
+        <label>Captcha</label>
+        <div class="captcha-container">
+          <span ><%= render '/shared/recaptcha' %></span>
+          <span class="help-inline error"><%= display_all_error_messages @user, :recaptcha %></span>
+        </div>
       </div>
-    </div>
+      <% end %>
+    <% end %>
+
+
     <%= f.actions do %>
       <%= f.submit "Create new account", :class => "btn large primary"%>
     <% end %>

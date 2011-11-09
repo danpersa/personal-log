@@ -7,11 +7,11 @@ Feature: 1.1 - The user signes up
     And recaptcha is disabled
     And I am on the sign up page
     When I fill in the following:
-     | Name               | dan            |
-     | Email              | dan@yahoo.com  |
-     | Password           | password       |
-     | Confirmation       | password       |
-    And I press "Sign up"
+     | Name                        | dan            |
+     | Email                       | dan@yahoo.com  |
+     | Password                    | password       |
+     | Password confirmation       | password       |
+    And I press "Create new account"
     Then I should see "Please follow the steps from the email we sent you to activate your account!"
     And I should see "Sign in"
     And I should have 1 user
@@ -20,11 +20,11 @@ Feature: 1.1 - The user signes up
     Given recaptcha is enabled
     And I am on the sign up page
     When I fill in the following:
-     | Name               | dan            |
-     | Email              | dan@yahoo.com  |
-     | Password           | pad            |
-     | Confirmation       | pad            |
-    And I press "Sign up"
-    Then I should see "Password is too short"
-    And I should see "Sign up"
+     | Name                        | dan            |
+     | Email                       | dan@yahoo.com  |
+     | Password                    | pad            |
+     | Password confirmation       | pad            |
+    And I press "Create new account"
+    Then I should see "is too short"
+    And I should see "New user details"
     And I should have 0 users

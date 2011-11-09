@@ -7,9 +7,9 @@ Feature: 1.5 - The user changes the password
     Given a logged user with email "brandon@example.com"
     When I go to the change password page
     And I fill in the following:
-     | Old password       | foobar  |
-     | New password       | qwerty  |
-     | Confirmation       | qwerty  |
+     | Old password                | foobar  |
+     | New password                | qwerty  |
+     | Password confirmation       | qwerty  |
     And I press "Change password"
     Then I should see "Your password was successfully changed!"
     And "brandon@example.com"'s password should be "qwerty"

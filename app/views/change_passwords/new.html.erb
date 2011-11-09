@@ -10,9 +10,9 @@
   <%= f.inputs 'Change the old password with a new one' do %>
 
     <%= f.password_field :old_password, :autofocus => "true", :required => :true %>
-    <%= f.password_field :password, "New Password", :required => :true %>
+    <%= f.password_field :password, "New password", :required => :true %>
 
-    <%= f.password_field :password_confirmation, "Confirmation", :required => :true %>
+    <%= f.password_field :password_confirmation, "Password confirmation", :required => :true %>
   <% end %>
   <%= f.actions do %>
     <%= f.submit "Change password" %>

@@ -12,7 +12,7 @@
     <%= render 'shared/sidebar' %>  
   <% end %>
 <% else %>
-
+  <%= render :partial => "layouts/flash", :locals => {:flash => flash} %>
   <div class="hero-unit">
     <div class="logo">remind me to live</div>
     <div class="text">

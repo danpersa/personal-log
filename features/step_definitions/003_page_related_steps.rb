@@ -5,7 +5,7 @@ end
 Given /^"([^"]*)" has and idea list of name "([^"]*)"$/ do |email, idea_list_name|
   And %{I am on the new idea list page}
   And %{I fill in "Name" with "#{idea_list_name}"}
-  And %{I press "Create Idea list"}  
+  And %{I press "Create idea list"}  
 end
 
 Given /^"([^"]*)" has a display name of "([^"]*)"$/ do |email, display_name|
