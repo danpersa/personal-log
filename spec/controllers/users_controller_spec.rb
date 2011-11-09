@@ -36,7 +36,7 @@ describe UsersController do
       it "should have an element for each user" do
         visit users_path
         @users[0..2].each do |user|
-          page.should have_selector("td", :text => user.name)
+          page.should have_selector("a", :text => user.name)
         end
       end
 
@@ -89,7 +89,7 @@ describe UsersController do
 
     it "should have a profile image" do
       visit user_path(@user)
-      page.should have_selector("h1>img")
+      page.should have_selector("h1>span>img")
     end
     
     it "should show the user's reminders" do
@@ -100,8 +100,8 @@ describe UsersController do
       reminder2 = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @privacy)
       
       visit user_path(@user)
-      page.should have_selector("span.content", :text => idea1.content)
-      page.should have_selector("span.content", :text => idea2.content)
+      page.should have_selector("div", :text => idea1.content)
+      page.should have_selector("div", :text => idea2.content)
     end
     
     it "should not show private reminders" do
@@ -113,8 +113,8 @@ describe UsersController do
       private_reminder = Factory(:reminder, :user => @user, :idea => idea2, :created_at => 2.day.ago, :privacy => @private_privacy)
       
       visit user_path(@user)
-      page.should have_selector("span.content", :text => idea1.content)
-      page.should_not have_selector("span.content", :text => idea2.content)
+      page.should have_selector("div", :text => idea1.content)
+      page.should_not have_selector("div", :text => idea2.content)
     end
     
     it "should paginate" do
@@ -142,16 +142,16 @@ describe UsersController do
       it "should show own private posts" do
         test_web_sign_in(@user)
         visit user_path(@user)
-        page.should have_selector("span.content", :text => @idea1.content)
-        page.should have_selector("span.content", :text => @idea2.content)
+        page.should have_selector("div", :text => @idea1.content)
+        page.should have_selector("div", :text => @idea2.content)
       end
       
       it "should not show other user's private posts" do
         other_user = Factory(:user, :email => Factory.next(:email))
         test_web_sign_in(other_user)
         visit user_path(@user)
-        page.should have_selector("span.content", :text => @idea1.content)
-        page.should_not have_selector("span.content", :text => @idea2.content)
+        page.should have_selector("div", :text => @idea1.content)
+        page.should_not have_selector("div", :text => @idea2.content)
       end
     end
   end
@@ -523,7 +523,7 @@ describe UsersController do
         end
         visit user_path(@user) + "/ideas"
         ideas.each do |idea|
-          page.should have_selector("span", :text => idea.content)
+          page.should have_selector("div", :text => idea.content)
         end
       end
       

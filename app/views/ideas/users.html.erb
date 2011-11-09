@@ -1,13 +1,12 @@
 <div class="head-container">
   <div class="row">
     <div class="title-container">
-      <h3>The following persons want to remind to</h3>
+      <h3>The following persons want to remind to <%= @idea.content %></h3>
     </div>
   </div>
 </div>
 
 <div class="text-container">
-  <div class="text"><%= @idea.content %></div>
   <div class="toolbar" id="toolbar-div">
     <%= render 'ideas/users_for_ideas_toolbar' %>
   </div>

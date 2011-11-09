@@ -23,7 +23,7 @@ describe "Remind me too Request" do
           fill_in :reminder_reminder_date, :with => ""
           select "public", :from => "reminder_privacy_id"
           click_button "Create reminder"
-          page.should have_css("div#error_explanation")
+          page.should have_css("span.help-inline")
         end.should_not change(Reminder, :count)
       end
       
@@ -34,7 +34,7 @@ describe "Remind me too Request" do
         @idea.user = user
         @idea.save!
         visit remind_me_too_path(:idea_id => @idea.id )
-        page.should have_css("div.flash.error", :text => "You want to remind")
+        page.should have_css("div.alert-message.error", :text => "You want to remind")
       end
     end
 
@@ -57,7 +57,7 @@ describe "Remind me too Request" do
         select "public", :from => "reminder_privacy_id"
         click_button "Create reminder"
         #save_and_open_page
-        page.should have_css("div.flash.success", :text => "Reminder")
+        page.should have_css("div.alert-message.success", :text => "Reminder")
       end
     end
   end

@@ -174,12 +174,16 @@ describe IdeaListsController do
         end
       end
       
-      it "have an element containing the user's display name" do
+      it "has an element containing the user's display name" do
         page.should have_selector("span", :text => @user.display_name)
       end
       
-      it "have an element containing the user's ideas" do
-        page.should have_selector("span", :text => @idea.content)
+      it "has an element containing the name of the list" do
+        page.should have_selector("h3", :text => @idea_list.name)
+      end
+      
+      it "has an element containing the user's ideas" do
+        page.should have_selector("div", :text => @idea.content)
       end
     end
   end

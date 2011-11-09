@@ -79,7 +79,7 @@ describe IdeasController do
         Factory(:reminder, :user => @user, :idea => @idea, :privacy => @public_privacy)
         test_web_sign_in(@user)
         visit idea_path(@idea)
-        page.should have_selector('span.title', :text => @idea.content)
+        page.should have_selector('div > h3', :text => @idea.content)
       end
       
       it "should have a 'create new reminder' link if the current user alredy shares the idea" do
@@ -122,7 +122,7 @@ describe IdeasController do
         test_web_sign_in(@user)
         visit idea_path(@idea)
         reminders[0..2].each do |reminder|
-          page.should have_selector('span.content', :text => reminder.reminder_date.to_s)
+          page.should have_selector('div', :text => reminder.reminder_date.to_s)
         end
       end
     end
@@ -167,17 +167,17 @@ describe IdeasController do
        
       it "should create an idea" do
         lambda do
-          post :create, :idea => @attr, :new_reminder => @reminder_attr
+          post :create, :idea => @attr, :idea_reminder => @reminder_attr
         end.should change(Idea, :count).by(1)
       end
     
       it "should redirect to the home page" do
-        post :create, :idea => @attr, :new_reminder => @reminder_attr
+        post :create, :idea => @attr, :idea_reminder => @reminder_attr
         response.should redirect_to(root_path)
       end
  
       it "should have a flash message" do
-        post :create, :idea => @attr, :new_reminder => @reminder_attr
+        post :create, :idea => @attr, :idea_reminder => @reminder_attr
         flash[:success].should =~ /idea created/i
       end
     end
@@ -349,7 +349,7 @@ describe IdeasController do
       it "should show the idea" do
         test_web_sign_in(@user)
         visit idea_path(@idea) + '/users'
-        page.should have_selector('span.title', :text => @idea.content)
+        page.should have_selector('div > h3', :text => @idea.content)
       end
       
       it "should have a 'remind me too' link if the current user doesn't share the idea" do
@@ -389,7 +389,7 @@ describe IdeasController do
         test_web_sign_in(@user)
         visit idea_path(@idea) + '/users'
         @users[0..2].each do |user|
-          page.should have_selector('td', :text => user.name)
+          page.should have_selector('a', :text => user.name)
         end
       end
     end
