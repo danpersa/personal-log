@@ -1,18 +1,12 @@
 <% unless idea.shared_by?(current_user) %>
-  <%= link_to "Remind me too", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %> ·
+  <%= link_to "Remind me too", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %>
 <% else %>
-  <%= link_to "Create new reminder", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %> ·
-<% end %>
-  
-<% if current_user.marked_as_good?(idea) %>
-  <b><%= link_to "Good idea!", good_idea_path(:id => idea.id), :method => :delete, :remote => true %></b>
-<% else %>
-  <%= link_to "Good idea", good_idea_create_path(:id => idea.id), :method => :post, :remote => true %>
-<% end %>
-(<%= idea.good_ideas.count %>) · 
-<% if current_user.marked_as_done?(idea) %>
-  <b><%= link_to "I did this!", done_idea_path(:id => idea.id), :method => :delete, :remote => true %></b>
-<% else %>
-  <%= link_to "I did this", done_idea_create_path(:id => idea.id), :method => :post, :remote => true %>
-<% end %>
-(<%=  idea.done_ideas.count %>) · 
+  <%= link_to "Create new reminder", remind_me_too_from_location_path(:idea_id => idea.id, :location => remind_me_too_location), :remote => true %>
+<% end %> ·
+
+<span id="good_idea_<%= idea.id %>">
+    <%= render :partial => 'good_ideas/feed_toolbar_link', :locals => {:idea => idea} %>
+</span> ·
+<span id="done_idea_<%= idea.id %>">
+    <%= render :partial => 'done_ideas/feed_toolbar_link', :locals => {:idea => idea} %>
+</span>

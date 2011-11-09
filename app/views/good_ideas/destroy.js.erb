@@ -1,1 +1,1 @@
-$('#item_toolbar_<%= @idea.id %>').html('<%= escape_javascript(render :partial => 'feeds/item_toolbar', :locals => {:idea => @idea}) %>');
+$('#good_idea_<%= @idea.id %>').html('<%= escape_javascript(render :partial => 'good_ideas/feed_toolbar_link', :locals => {:idea => @idea}) %>');
